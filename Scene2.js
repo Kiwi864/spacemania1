@@ -272,6 +272,7 @@ var config = {
                 if (this.bulletsadder === 2){
                    this.bullets += 1; 
                    this.bulletsadder = 0; 
+                    console.log("bullet add");
                 }
                // this.bullets += 1;
             //enemy.setTexture("explosion");
