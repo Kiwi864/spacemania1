@@ -2,10 +2,7 @@
 var config = {
     width: 256,
     height: 272,
-    fps:{
-       target: 30,
-        forceSetTimeOut: true
-    }
+    
 }
     
     var gameSettings = {
