@@ -268,11 +268,8 @@ var config = {
                 globalScoreFormated = this.zeroPad(this.score, 6);
                 this.scoreLabel.text = "SCORE " + globalScoreFormated;
                 this.explosionSound.play({volume: 0.25});
-                this.bulletsadder += 1;
-                if (this.bulletsadder === 2){
+                if (Phaser.Math.RND.between(0, 1) === 1){
                    this.bullets += 1; 
-                   this.bulletsadder = 0; 
-                    console.log("bullet add");
                 }
                // this.bullets += 1;
             //enemy.setTexture("explosion");
