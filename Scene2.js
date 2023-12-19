@@ -2,7 +2,10 @@
 var config = {
     width: 256,
     height: 272,
+    fps:{
+       target: 60 
     }
+}
     
     var gameSettings = {
         playerSpeed: 200,
