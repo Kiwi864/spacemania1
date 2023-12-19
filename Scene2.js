@@ -2,7 +2,11 @@
 var config = {
     width: 256,
     height: 272,
+    fps:{
+       target: 30,
+        forceSetTimeOut: true
     }
+}
     
     var gameSettings = {
         playerSpeed: 200,
@@ -36,7 +40,7 @@ var config = {
     class Scene2 extends Phaser.Scene {
         constructor(){
             super("playGame");
-             this.physics.world.setFPS(60);
+             
             this.gameConfig = config;
             this.bullets = 5;
             this.lives = 3;
