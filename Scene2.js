@@ -35,8 +35,8 @@ var config = {
     }
     class Scene2 extends Phaser.Scene {
         constructor(){
-            this.physics.world.setFPS(60);
             super("playGame");
+             this.physics.world.setFPS(60);
             this.gameConfig = config;
             this.bullets = 5;
             this.lives = 3;
