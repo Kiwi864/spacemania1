@@ -14,7 +14,12 @@ window.onload = function(){
             arcade:{
                 debug: false
             }
-        }
+           
+        },
+        fps:{
+            target: 30,
+             forceSetTimeOut: true
+         }
     }
     var game = new Phaser.Game(config);
 }
