@@ -41,6 +41,7 @@ var config = {
             this.lives = 3;
             this.nesmrtelnost = 0;
             this.score = 0;
+            this.bulletsadder = 0;
             
         }
         create(){
@@ -267,6 +268,11 @@ var config = {
                 globalScoreFormated = this.zeroPad(this.score, 6);
                 this.scoreLabel.text = "SCORE " + globalScoreFormated;
                 this.explosionSound.play({volume: 0.25});
+                this.bulletsadder += 1;
+                if (this.bulletsadder === 2){
+                   this.bullets += 1; 
+                   this.bulletsadder = 0; 
+                }
                // this.bullets += 1;
             //enemy.setTexture("explosion");
             //enemy.play("explode");
