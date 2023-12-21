@@ -43,7 +43,7 @@ var config = {
             this.nesmrtelnost = 0;
             this.score = 0;
             this.bulletsadder = 0;
-            
+            this.duration = 1500;
         }
         create(){
             this.background = this.add.tileSprite(0,0, config.width, config.height, "background");
@@ -152,7 +152,7 @@ var config = {
                 targets: this.player,
                 y: config.height - 64,
                 ease: 'Power1',
-                duration: 1500,
+                duration: this.duration,
                 repeat: 0,
                 onComplete: function(){
                     this.player.alpha = 1;
