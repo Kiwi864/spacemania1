@@ -118,18 +118,33 @@ var config = {
 
             
         }
-        spawnPowerUp(){
+        spawnPowerUp() {
+            var powerUp = this.physics.add.sprite(16, 20, "power-up"); 
+        
             
-                var powerUp = this.physics.add.sprite(16, 16, "power-up");
-                this.powerUps.add(powerUp);
-                powerUp.setRandomPosition(0,0, config.width, config.height);
-
-                powerUp.type = Phaser.Math.RND.pick(["red", "gray"]);
-                powerUp.play(powerUp.type)
-                powerUp.setVelocity(100, 100);
-                powerUp.setCollideWorldBounds(true);
-                powerUp.setBounce(1);
+            powerUp.setRandomPosition(0, 20, config.width, 272); 
+        
+            this.powerUps.add(powerUp);
+            powerUp.type = Phaser.Math.RND.pick(["red", "gray"]);
+            powerUp.play(powerUp.type);
+        
+          
+            powerUp.setVelocity(100, 100);
+            powerUp.setCollideWorldBounds(true);
+        
+           
+            powerUp.setBounce(function (world) {
+                if (this.y > 272) {
+                    return -1; 
+                } else if (this.y < 20) {
+                    return 1; 
+                } else {
+                    return 1; 
+                }
+            });
+        
             
+            this.add.existing(powerUp);
         }
         pickPowerUp(player, powerUp){
             powerUp.disableBody(true, true);
