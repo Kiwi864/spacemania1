@@ -42,6 +42,10 @@
                 frameWidth: 48,
                 frameHeight: 48
             });
+            this.load.spritesheet("cahracter", "assets/spritesheets/maincharater.png", {
+                frameWidth: 15,
+                frameHeight: 43
+            });
             this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
             this.load.audio("audio_beam", ["assets/sounds/beam.ogg", "assets/sounds/beam.mp3"]);
             this.load.audio("audio_explosion", ["assets/sounds/explosion.ogg", "assets/sounds/explosion.mp3"]);
@@ -111,6 +115,12 @@
         this.anims.create({
             key: "beam_anim",
             frames: this.anims.generateFrameNumbers("beam"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "character_anim",
+            frames: this.anims.generateFrameNumbers("character"),
             frameRate: 20,
             repeat: -1
         });
