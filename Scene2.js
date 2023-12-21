@@ -43,7 +43,7 @@ var config = {
             this.nesmrtelnost = 0;
             this.score = 0;
             this.bulletsadder = 0;
-            this.duration = 1500;
+            
         }
         create(){
             this.background = this.add.tileSprite(0,0, config.width, config.height, "background");
@@ -51,7 +51,7 @@ var config = {
             this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
             this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
             this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
-            this.character = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
+            
             //this.boss = this.add.sprite(config.width / 2 + 10, config.height - 64, "boss");
 
             this.enemies = this.physics.add.group();
@@ -152,7 +152,7 @@ var config = {
                 targets: this.player,
                 y: config.height - 64,
                 ease: 'Power1',
-                duration: this.duration,
+                duration: 1500,
                 repeat: 0,
                 onComplete: function(){
                     this.player.alpha = 1;
