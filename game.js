@@ -17,7 +17,7 @@ window.onload = function(){
            
         },
         fps:{
-            target: 60,
+            target: 30,
              forceSetTimeOut: true
          }
     }
