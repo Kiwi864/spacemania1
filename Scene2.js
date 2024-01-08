@@ -51,7 +51,7 @@ var config = {
             this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
             this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
             this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
-            
+            this.physics.world.setBounds(0, 20, config.width, config.height-20);
             //this.boss = this.add.sprite(config.width / 2 + 10, config.height - 64, "boss");
 
             this.enemies = this.physics.add.group();
@@ -128,8 +128,9 @@ var config = {
                 powerUp.type = Phaser.Math.RND.pick(["red", "gray"]);
                 powerUp.play(powerUp.type)
                 powerUp.setVelocity(100, 100);
-                powerUp.setCollideWorldBounds(true, 0, 20, true);
+                powerUp.setCollideWorldBounds(true);
                 powerUp.setBounce(1);
+            
             
         }
         pickPowerUp(player, powerUp){
