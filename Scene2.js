@@ -51,7 +51,7 @@ var config = {
             this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
             this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
             this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
-          //  this.character = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
+            this.character = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
             this.physics.world.setBounds(0, 20, config.width, config.height-20);
             
 
@@ -62,7 +62,7 @@ var config = {
             this.ship1.play("ship1_anim");
             this.ship2.play("ship2_anim");
             this.ship3.play("ship3_anim");
-           // this.character.play("character_anim")
+            this.character.play("character_anim")
             this.ship1.setInteractive();
             this.ship2.setInteractive();
             this.ship3.setInteractive();
