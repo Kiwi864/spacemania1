@@ -126,7 +126,7 @@ var config = {
                 this.powerUps.add(powerUp);
                 powerUp.setRandomPosition(0,0, config.width, config.height);
 
-                powerUp.type = Phaser.Math.RND.pick(["red", "gray"]);
+                powerUp.type = Phaser.Math.RND.pick(["red", "gray", "gray", "gray"]);
                 powerUp.play(powerUp.type)
                 powerUp.setVelocity(100, 100);
                 powerUp.setCollideWorldBounds(true);
