@@ -126,7 +126,12 @@
             frameRate: 20,
             repeat: -1
         });
-     
+        this.anims.create({
+            key: "character_anim",
+            frames: this.anims.generateFrameNumbers("character"),
+            frameRate: 5,
+            repeat: -1
+        });
     
         //this.intro = this.sound.add("intro", {volume: 0})
     }
