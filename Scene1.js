@@ -42,7 +42,15 @@
                 frameWidth: 48,
                 frameHeight: 48
             });
-            this.load.spritesheet("character", "assets/spritesheets/maincharater.png", {
+            this.load.spritesheet("character", "assets/spritesheets/maincharacter1.png", {
+                frameWidth: 15,
+                frameHeight: 43
+            });
+            this.load.spritesheet("character2", "assets/spritesheets/maincharacter2.png", {
+                frameWidth: 15,
+                frameHeight: 43
+            });
+            this.load.spritesheet("character3", "assets/spritesheets/maincharacter3.png", {
                 frameWidth: 15,
                 frameHeight: 43
             });
@@ -118,14 +126,8 @@
             frameRate: 20,
             repeat: -1
         });
-     /*this.anims.create({
-           key: "character_anim",
-           frames: this.anims.generateFrameNumbers("character"),
-            frameRate: 20,
-            repeat: -1,
-            
-      });
-    */
+     
+    
         //this.intro = this.sound.add("intro", {volume: 0})
     }
 }

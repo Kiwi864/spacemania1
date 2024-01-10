@@ -51,7 +51,7 @@ var config = {
             this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
             this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
             this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
-           // this.character = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
+            this.character = this.add.sprite(config.width/2 + 50, config.height/2, "character1");
             this.physics.world.setBounds(0, 20, config.width, config.height-20);
             
 
@@ -62,7 +62,7 @@ var config = {
             this.ship1.play("ship1_anim");
             this.ship2.play("ship2_anim");
             this.ship3.play("ship3_anim");
-           // this.character.play("character_anim")
+          
             this.ship1.setInteractive();
             this.ship2.setInteractive();
             this.ship3.setInteractive();
@@ -126,7 +126,7 @@ var config = {
                 this.powerUps.add(powerUp);
                 powerUp.setRandomPosition(0,0, config.width, config.height);
 
-                powerUp.type = Phaser.Math.RND.pick(["red", "gray", "gray", "gray"]);
+                powerUp.type = Phaser.Math.RND.pick(["red", "gray", "gray"]);
                 powerUp.play(powerUp.type)
                 powerUp.setVelocity(100, 100);
                 powerUp.setCollideWorldBounds(true);
@@ -171,8 +171,7 @@ var config = {
                     this.lives -= 1;
                 }
                 if(this.player.alpha < 1){
-                    console.log("istenem");
-                    return;
+                    this.lives += 1;
                 }
                 player.disableBody(true,true);
 
@@ -288,7 +287,17 @@ var config = {
             }
             return stringNumber;
         }
-        
+        characterAnimation(character){
+            character.setTexture("character1");
+            delay(50);
+           /* character.setTexture("character2");
+            delay(50);
+            character.setTexture("character1");
+            delay(50);
+            character.setTexture("character3");
+            delay(50);
+         */   return;
+        }
        
        
     }
