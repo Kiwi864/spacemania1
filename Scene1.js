@@ -42,16 +42,20 @@
                 frameWidth: 48,
                 frameHeight: 48
             });
-            this.load.spritesheet("character", "assets/spritesheets/maincharacter1.png", {
-                frameWidth: 15,
+            this.load.spritesheet("character1", "assets/spritesheets/maincharacter1.png", {
+                frameWidth: 21,
                 frameHeight: 43
             });
             this.load.spritesheet("character2", "assets/spritesheets/maincharacter2.png", {
-                frameWidth: 15,
+                frameWidth: 21,
                 frameHeight: 43
             });
             this.load.spritesheet("character3", "assets/spritesheets/maincharacter3.png", {
-                frameWidth: 15,
+                frameWidth: 21,
+                frameHeight: 43
+            });
+            this.load.spritesheet("character4", "assets/spritesheets/maincharacter4.png", {
+                frameWidth: 21,
                 frameHeight: 43
             });
             this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");

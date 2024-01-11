@@ -64,7 +64,7 @@ var config = {
             this.ship1.play("ship1_anim");
             this.ship2.play("ship2_anim");
             this.ship3.play("ship3_anim");
-            this.character.play("character_anim");
+           // this.character.play("character_anim");
             this.ship1.setInteractive();
             this.ship2.setInteractive();
             this.ship3.setInteractive();
@@ -116,6 +116,12 @@ var config = {
             this.timer = this.time.addEvent({
                 delay: 3000,
                 callback: this.spawnPowerUp,
+                callbackScope: this,
+                loop: true
+            });
+            this.time.addEvent({
+                delay: 250,
+                callback: this.CharacterAnimation,
                 callbackScope: this,
                 loop: true
             });
@@ -186,6 +192,7 @@ var config = {
             callbackScope: this,
             loop: false
            });
+           
         }
        
 
@@ -227,7 +234,6 @@ var config = {
                 this.ship2.destroy(true);
                 this.ship3.destroy(true);
             }
-            this.character.setTexture("character2")
         }
                 
                 shootBeam(){
@@ -291,14 +297,25 @@ var config = {
             }
             return stringNumber;
         }
-      /*  CharacterAnimation(){
+        CharacterAnimation(){
             if (this.character.texture.key === "character1"){
                 this.character.setTexture("character2");
+                return;
             }
-                else if (this.character.texture.key === "character2"){
-                    this.character.setTexture("character3");
-                }
-            else (this.character.texture.key === "character3")
-            this.character.setTexture("character1");
-        }*/
+            else if (this.character.texture.key === "character2"){
+                this.character.setTexture("character3");
+                return;
+            }
+            else if (this.character.texture.key === "character3")
+            {
+                this.character.setTexture("character4");
+                return;
+            }
+            if (this.character.texture.key === "character4")
+            {
+                this.character.setTexture("character1");
+                return;
+            }
+             
+        }
     }
