@@ -41,9 +41,6 @@ class Start extends Phaser.Scene {
             this.scene.start("playGame");
             this.sound.stopAll();
         }
-        if (Phaser.Input.Keyboard.JustDown(this.enter)){
-            this.scene.start("controls");
-          
-        }
+        
     }
 }

@@ -51,7 +51,7 @@ var config = {
             this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
             this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
             this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
-            this.character = this.add.sprite(config.width/2 + 50, config.height/2, "character1");
+            //this.character = this.add.sprite(config.width/2 + 50, config.height/2, "character1");
 
             
             this.physics.world.setBounds(0, 20, config.width, config.height-20);
@@ -108,7 +108,7 @@ var config = {
                 rate: 1,
                 detune: 0,
                 seek: 0,
-                loop: false,
+                loop: true,
                 delay: 0
             }
             this.music.play(musicConfig);
@@ -119,12 +119,7 @@ var config = {
                 callbackScope: this,
                 loop: true
             });
-            this.time.addEvent({
-                delay: 250,
-                callback: this.CharacterAnimation,
-                callbackScope: this,
-                loop: true
-            });
+           
             
             
             
@@ -135,7 +130,7 @@ var config = {
                 this.powerUps.add(powerUp);
                 powerUp.setRandomPosition(0,0, config.width, config.height);
 
-                powerUp.type = Phaser.Math.RND.pick(["red", "gray", "gray"]);
+                powerUp.type = Phaser.Math.RND.pick([ "gray", "gray"]);
                 powerUp.play(powerUp.type)
                 powerUp.setVelocity(100, 100);
                 powerUp.setCollideWorldBounds(true);
@@ -297,25 +292,5 @@ var config = {
             }
             return stringNumber;
         }
-        CharacterAnimation(){
-            if (this.character.texture.key === "character1"){
-                this.character.setTexture("character2");
-                return;
-            }
-            else if (this.character.texture.key === "character2"){
-                this.character.setTexture("character3");
-                return;
-            }
-            else if (this.character.texture.key === "character3")
-            {
-                this.character.setTexture("character4");
-                return;
-            }
-            if (this.character.texture.key === "character4")
-            {
-                this.character.setTexture("character1");
-                return;
-            }
-             
-        }
+       
     }

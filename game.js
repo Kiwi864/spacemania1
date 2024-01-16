@@ -7,7 +7,7 @@ window.onload = function(){
         width: 256,
         height: 272,
         backgroundColor: 0x000000,
-        scene: [Scene1, Scene2, Ending, Start, Controls],
+        scene: [Scene1, Scene2, Ending, Start, cutscene],
         pixelArt: true,
         physics: {
             default: "arcade",

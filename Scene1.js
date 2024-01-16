@@ -6,6 +6,7 @@
         
        preload(){
             this.load.image("background", "assets/images/background.png");
+            this.load.image("backgroundcut", "assets/images/backgroundcut.png");
             this.load.spritesheet("ship", "assets/spritesheets/ship.png",{
                 frameWidth: 16,
                 frameHeight: 16
@@ -54,7 +55,7 @@
                 frameWidth: 21,
                 frameHeight: 43
             });
-            this.load.spritesheet("character4", "assets/spritesheets/maincharacter4.png", {
+            this.load.spritesheet("character4", "assets/spritesheets/maincharacter3.png", {
                 frameWidth: 21,
                 frameHeight: 43
             });
@@ -67,6 +68,9 @@
             this.load.audio("music", ["assets/sounds/sci-fi_platformer12.ogg", "assets/sounds/sci-fi_platformer12.mp3"]);
             this.load.audio("game_over", ["assets/sounds/game_over.ogg", "assets/sounds/game_over.mp3"]);
             this.load.audio("intro", ["assets/sounds/intro.ogg", "assets/sounds/intro.mp3"]);
+            this.load.audio("cutsound", ["assets/sounds/cutscene.ogg", "assets/sounds/cutscene.mp3"]);
+            this.load.audio("sirens", ["assets/sounds/sirens.ogg", "assets/sounds/sirens.mp3"]);
+            this.load.audio("emergency", ["assets/sounds/emergency.ogg", "assets/sounds/emergency.mp3"]);
             
         }
 
