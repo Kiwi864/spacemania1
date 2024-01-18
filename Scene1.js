@@ -6,6 +6,7 @@
         
        preload(){
             this.load.image("background", "assets/images/background.png");
+            this.load.image("dialogue", "assets/images/dialogueM.png");
             this.load.image("backgroundcut", "assets/images/backgroundcut.png");
             this.load.spritesheet("ship", "assets/spritesheets/ship.png",{
                 frameWidth: 16,
@@ -58,6 +59,10 @@
             this.load.spritesheet("character4", "assets/spritesheets/maincharacter3.png", {
                 frameWidth: 21,
                 frameHeight: 43
+            });
+            this.load.spritesheet("phone", "assets/spritesheets/phone.png", {
+                frameWidth: 84,
+                frameHeight: 84
             });
             this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
             this.load.audio("audio_beam", ["assets/sounds/beam.ogg", "assets/sounds/beam.mp3"]);
