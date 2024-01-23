@@ -273,7 +273,7 @@ class cutscene extends Phaser.Scene {
                 ++i
             },
             repeat: length - 1,
-            delay: 50,
+            delay: 100,
             onComplete: () => {
                 
                 shakeTween.stop();
@@ -368,6 +368,14 @@ class cutscene extends Phaser.Scene {
             delay: 2500,
             callback: async () => {
                 this.typewriteBitmapText8( "     Kalna Roztoka ");
+               
+            },
+            callbackScope: this,
+        });  
+        this.time.addEvent({
+            delay: 2500,
+            callback: async () => {
+                this.phonedialog8.destroy()
                
             },
             callbackScope: this,
