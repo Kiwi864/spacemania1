@@ -52,6 +52,13 @@ class cutscene extends Phaser.Scene {
             delay: 1000,
             callback: this.dialogueStart,
             callbackScope: this,
+            loop: false,
+            
+        });
+        this.time.addEvent({
+            delay: 12300,
+            callback: this.dialogue2,
+            callbackScope: this,
             loop: true,
             
         });
@@ -89,33 +96,283 @@ class cutscene extends Phaser.Scene {
             }
         });
     }
-    dialogueStart() {
+    delay(ms) {
+        return new Promise(resolve => {
+            this.time.delayedCall(ms, resolve, [], this);
+        });
+    }
+    typewriteBitmapText(text)
+    {
+        this.phonedialog.setText(text)
+    
+        const bounds = this.phonedialog.getTextBounds(false)
+        const wrappedText = bounds['wrappedText'] || text
+    
+        this.phonedialog.setText('')
+    
+        const length = wrappedText.length
+        let i = 0
+        this.time.addEvent({
+            callback: () => {
+                this.phonedialog.text += wrappedText[i]
+                ++i
+            },
+            repeat: length - 1,
+            delay: 50
+        })
+    }
+    typewriteBitmapText2(text)
+    {
+        this.phonedialog2.setText(text)
+    
+        const bounds = this.phonedialog2.getTextBounds(false)
+        const wrappedText = bounds['wrappedText'] || text
+    
+        this.phonedialog2.setText('')
+    
+        const length = wrappedText.length
+        let i = 0
+        this.time.addEvent({
+            callback: () => {
+                this.phonedialog2.text += wrappedText[i]
+                ++i
+            },
+            repeat: length - 1,
+            delay: 50
+        })
+    }
+    typewriteBitmapText3(text)
+    {
+        this.phonedialog3.setText(text)
+    
+        const bounds = this.phonedialog3.getTextBounds(false)
+        const wrappedText = bounds['wrappedText'] || text
+    
+        this.phonedialog3.setText('')
+    
+        const length = wrappedText.length
+        let i = 0
+        this.time.addEvent({
+            callback: () => {
+                this.phonedialog3.text += wrappedText[i]
+                ++i
+            },
+            repeat: length - 1,
+            delay: 50
+        })
+    }
+    typewriteBitmapText4(text)
+    {
+        this.phonedialog4.setText(text)
+    
+        const bounds = this.phonedialog4.getTextBounds(false)
+        const wrappedText = bounds['wrappedText'] || text
+    
+        this.phonedialog4.setText('')
+    
+        const length = wrappedText.length
+        let i = 0
+        this.time.addEvent({
+            callback: () => {
+                this.phonedialog4.text += wrappedText[i]
+                ++i
+            },
+            repeat: length - 1,
+            delay: 50
+        })
+    }
+    typewriteBitmapText5(text)
+    {
+        this.phonedialog5.setText(text)
+    
+        const bounds = this.phonedialog5.getTextBounds(false)
+        const wrappedText = bounds['wrappedText'] || text
+    
+        this.phonedialog5.setText('')
+    
+        const length = wrappedText.length
+        let i = 0
+        this.time.addEvent({
+            callback: () => {
+                this.phonedialog5.text += wrappedText[i]
+                ++i
+            },
+            repeat: length - 1,
+            delay: 50
+        })
+    }
+    typewriteBitmapText6(text)
+    {
+        this.phonedialog6.setText(text)
+    
+        const bounds = this.phonedialog6.getTextBounds(false)
+        const wrappedText = bounds['wrappedText'] || text
+    
+        this.phonedialog6.setText('')
+    
+        const length = wrappedText.length
+        let i = 0
+        this.time.addEvent({
+            callback: () => {
+                this.phonedialog6.text += wrappedText[i]
+                ++i
+            },
+            repeat: length - 1,
+            delay: 50
+        })
+    }
+    typewriteBitmapText7(text)
+    {
+        this.phonedialog7.setText(text)
+    
+        const bounds = this.phonedialog7.getTextBounds(false)
+        const wrappedText = bounds['wrappedText'] || text
+    
+        this.phonedialog7.setText('')
+    
+        const length = wrappedText.length
+        let i = 0
+        this.time.addEvent({
+            callback: () => {
+                this.phonedialog7.text += wrappedText[i]
+                ++i
+            },
+            repeat: length - 1,
+            delay: 50
+        })
+    }
+    typewriteBitmapText8(text)
+    {
+        this.phonedialog8.setText(text)
+    
+        const bounds = this.phonedialog8.getTextBounds(false)
+        const wrappedText = bounds['wrappedText'] || text
+    
+        this.phonedialog8.setText('')
+    
+        const length = wrappedText.length
+        let i = 0
+        const shakeConfig = {
+            duration: 50, 
+            repeat: -1,   
+            ease: 'Power0',
+            yoyo: true
+        };
+    
+        const shakeTween = this.tweens.add({
+            targets: this.phonedialog8,
+            x: '-=2', 
+            y: '-=2',
+            paused: true,
+            ...shakeConfig
+        });
+        this.time.addEvent({
+            callback: () => {
+                shakeTween.play();
+                this.phonedialog8.text += wrappedText[i]
+                ++i
+            },
+            repeat: length - 1,
+            delay: 50,
+            onComplete: () => {
+                
+                shakeTween.stop();
+            }
+        });
+    }
+
+
+    async dialogueStart(){
+        
         this.background.destroy();
         this.character1.destroy();
         this.character2.destroy();
         this.character3.destroy();
         this.character4.destroy();
         this.sound.stopAll();
-    
-        this.time.delayedCall(1000, () => {
-            this.dialog = this.add.tileSprite(0, 170, config.width, 96, "dialogue");
-            this.dialog.setOrigin(0, 0);
-            this.phone = this.add.sprite(40, 220, "phone");
-            this.phonedialog = this.add.bitmapText(82, 176, "pixelFont", "    Good Evening mr ", 19);
-            this.phonedialog2 = this.add.bitmapText(82, 193, "pixelFont", "Sergej Govic. We need to ", 19);
-            this.phonedialog3 = this.add.bitmapText(82, 210, "pixelFont", "inform you that 4 robots ", 19);
-            this.phonedialog4 = this.add.bitmapText(82, 227, "pixelFont", "escaped the facility this ", 19);
-            this.phonedialog5 = this.add.bitmapText(82, 244, "pixelFont", "                evening. ", 19);
-    
-            this.time.delayedCall(5000, () => {
-                this.phonedialog.destroy();
-                this.phonedialog2.destroy();
-                this.phonedialog3.destroy();
-                this.phonedialog4.destroy();
-                this.phonedialog5.destroy();
-                this.phonedialog6 = this.add.bitmapText(82, 193, "pixelFont", "We need you to bring supply", 19);
-                this.phonedialog7 = this.add.bitmapText(82, 210, "pixelFont", "to the station Kalna Roztoka", 19);
-            });
+        await this.delay(1000);
+        this.dialog = this.add.tileSprite(0,170, config.width, 96, "dialogue");
+        this.dialog.setOrigin(0,0);
+        this.phone = this.add.sprite(40, 220, "phone");
+        this.phonedialog = this.add.bitmapText(82,176, "pixelFont", " ", 19);
+        this.phonedialog2 = this.add.bitmapText(82,193, "pixelFont", "", 19);
+        this.phonedialog3 = this.add.bitmapText(82,210, "pixelFont", "", 19);
+        this.phonedialog4 = this.add.bitmapText(82,227, "pixelFont", "", 19);
+        this.phonedialog5 = this.add.bitmapText(82,244, "pixelFont", " ", 19);
+        this.typewriteBitmapText( "    Good Evening mr ");
+        this.time.addEvent({
+            delay: 1000,
+            callback: async () => {
+                await this.typewriteBitmapText2("Sergej Govic. We need to ");
+               
+            },
+            callbackScope: this,
         });
+        this.time.addEvent({
+            delay: 2225,
+            callback: async () => {
+             this.typewriteBitmapText3( "inform you that 4 robots ");
+               
+            },
+            callbackScope: this,
+        });
+        this.time.addEvent({
+            delay: 3500,
+            callback: async () => {
+                await this.typewriteBitmapText4( "escaped the facility this ");
+               
+            },
+            callbackScope: this,
+        });
+       
+        this.time.addEvent({
+            delay: 4000,
+            callback: async () => {
+                await this.typewriteBitmapText5( "                evening. ");
+               
+            },
+            callbackScope: this,
+        });   
+       
+           
+       
+        
+        }   
+    dialogue2(){
+        
+        this.phonedialog.destroy();
+        this.phonedialog2.destroy();
+        this.phonedialog3.destroy();
+        this.phonedialog4.destroy();
+        this.phonedialog5.destroy();
+        this.phonedialog6 = this.add.bitmapText(82,193, "pixelFont", "", 19);
+        this.phonedialog7 = this.add.bitmapText(82,210, "pixelFont", "", 19);
+        this.phonedialog8 = this.add.bitmapText(82,227, "pixelFont2", "", 19);
+        this.time.addEvent({
+            delay: 200,
+            callback: async () => {
+                this.typewriteBitmapText6( "We need you to bring ");
+               
+            },
+            callbackScope: this,
+        });  
+        this.time.addEvent({
+            delay: 1400,
+            callback: async () => {
+                this.typewriteBitmapText7( "suply to the station ");
+               
+            },
+            callbackScope: this,
+        });  
+        this.time.addEvent({
+            delay: 2500,
+            callback: async () => {
+                this.typewriteBitmapText8( "     Kalna Roztoka ");
+               
+            },
+            callbackScope: this,
+        });  
+        
+        
     }
 }
