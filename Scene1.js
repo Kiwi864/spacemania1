@@ -64,6 +64,10 @@
                 frameWidth: 84,
                 frameHeight: 84
             });
+            this.load.spritesheet("admiralcak", "assets/spritesheets/sun.png", {
+                frameWidth: 84,
+                frameHeight: 84
+            });
             this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
             this.load.bitmapFont("pixelFont2", "assets/font/font2.png", "assets/font/font2.xml");
             this.load.audio("audio_beam", ["assets/sounds/beam.ogg", "assets/sounds/beam.mp3"]);

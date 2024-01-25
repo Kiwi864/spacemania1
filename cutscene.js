@@ -7,7 +7,8 @@ class cutscene extends Phaser.Scene {
     constructor(){
         super("cutscene");
         this.gameConfig = config;
-      
+        this.allowTypewrite8 = true;
+        this.dialogik = 1;
     }
     create(){
         this.background = this.add.tileSprite(0,0, config.width, config.height, "backgroundcut");
@@ -58,6 +59,13 @@ class cutscene extends Phaser.Scene {
         this.time.addEvent({
             delay: 12300,
             callback: this.dialogue2,
+            callbackScope: this,
+            loop: true,
+            
+        });
+        this.time.addEvent({
+            delay: 24300,
+            callback: this.dialogue3,
             callbackScope: this,
             loop: true,
             
@@ -241,44 +249,68 @@ class cutscene extends Phaser.Scene {
             delay: 50
         })
     }
-    typewriteBitmapText8(text)
-    {
-        this.phonedialog8.setText(text)
+    typewriteBitmapText8(text) {
+        if (!this.allowTypewrite8) {
+            return;
+        }
     
-        const bounds = this.phonedialog8.getTextBounds(false)
-        const wrappedText = bounds['wrappedText'] || text
+        this.phonedialog8.setText(text);
     
-        this.phonedialog8.setText('')
+        const bounds = this.phonedialog8.getTextBounds(false);
+        const wrappedText = bounds['wrappedText'] || text;
     
-        const length = wrappedText.length
-        let i = 0
+        this.phonedialog8.setText('');
+    
+        const length = wrappedText.length;
+        let i = 0;
         const shakeConfig = {
-            duration: 50, 
-            repeat: -1,   
+            duration: 50,
+            repeat: -1,
             ease: 'Power0',
             yoyo: true
         };
     
         const shakeTween = this.tweens.add({
             targets: this.phonedialog8,
-            x: '-=2', 
+            x: '-=2',
             y: '-=2',
             paused: true,
             ...shakeConfig
         });
+    
         this.time.addEvent({
             callback: () => {
                 shakeTween.play();
-                this.phonedialog8.text += wrappedText[i]
+                this.phonedialog8.text += wrappedText[i];
+                ++i;
+            },
+            repeat: length - 1,
+            delay: 500,
+            onComplete: () => {
+                shakeTween.stop();
+                this.allowTypewrite8 = false;
+            }
+        });
+    }
+    typewriteBitmapText9(text)
+    {
+        this.phonedialog9.setText(text)
+    
+        const bounds = this.phonedialog9.getTextBounds(false)
+        const wrappedText = bounds['wrappedText'] || text
+    
+        this.phonedialog9.setText('')
+    
+        const length = wrappedText.length
+        let i = 0
+        this.time.addEvent({
+            callback: () => {
+                this.phonedialog9.text += wrappedText[i]
                 ++i
             },
             repeat: length - 1,
-            delay: 100,
-            onComplete: () => {
-                
-                shakeTween.stop();
-            }
-        });
+            delay: 50
+        })
     }
 
 
@@ -335,52 +367,65 @@ class cutscene extends Phaser.Scene {
         });   
        
            
-       
+       this.dialogik = 2
         
         }   
     dialogue2(){
-        
-        this.phonedialog.destroy();
-        this.phonedialog2.destroy();
-        this.phonedialog3.destroy();
-        this.phonedialog4.destroy();
-        this.phonedialog5.destroy();
-        this.phonedialog6 = this.add.bitmapText(82,193, "pixelFont", "", 19);
-        this.phonedialog7 = this.add.bitmapText(82,210, "pixelFont", "", 19);
-        this.phonedialog8 = this.add.bitmapText(82,227, "pixelFont2", "", 19);
-        this.time.addEvent({
-            delay: 200,
-            callback: async () => {
-                this.typewriteBitmapText6( "We need you to bring ");
-               
-            },
-            callbackScope: this,
-        });  
-        this.time.addEvent({
-            delay: 1400,
-            callback: async () => {
-                this.typewriteBitmapText7( "suply to the station ");
-               
-            },
-            callbackScope: this,
-        });  
-        this.time.addEvent({
-            delay: 2500,
-            callback: async () => {
-                this.typewriteBitmapText8( "     Kalna Roztoka ");
-               
-            },
-            callbackScope: this,
-        });  
-        this.time.addEvent({
-            delay: 2500,
-            callback: async () => {
-                this.phonedialog8.destroy()
-               
-            },
-            callbackScope: this,
-        });  
-        
-        
+        if(this.dialogik === 2){  
+            this.phonedialog.destroy();
+            this.phonedialog2.destroy();
+            this.phonedialog3.destroy();
+            this.phonedialog4.destroy();
+            this.phonedialog5.destroy();
+            this.phonedialog6 = this.add.bitmapText(82,193, "pixelFont", "", 19);
+            this.phonedialog7 = this.add.bitmapText(82,210, "pixelFont", "", 19);
+            this.phonedialog8 = this.add.bitmapText(82,227, "pixelFont2", "", 19);
+            this.time.addEvent({
+                delay: 200,
+                callback: async () => {
+                    this.typewriteBitmapText6( "We need you to bring ");
+                
+                },
+                callbackScope: this,
+            });  
+            this.time.addEvent({
+                delay: 1400,
+                callback: async () => {
+                    this.typewriteBitmapText7( "suply to the station ");
+                
+                },
+                callbackScope: this,
+            });  
+            this.time.addEvent({
+                delay: 2500,
+                callback: async () => {
+                    this.typewriteBitmapText8( "     Kalna Roztoka ");
+                
+                },
+                callbackScope: this,
+            });  
+            
+            
+            this.dialogik = 3;
+        }
+    }
+    dialogue3(){
+        if(this.dialogik === 3){
+            this.phone.destroy();
+            this.phonedialog6.destroy();
+            this.phonedialog7.destroy();
+            this.phonedialog8.destroy();
+            this.phonedialog9 = this.add.bitmapText(103,210, "pixelFont", "", 19);
+            this.admiral = this.add.sprite(40, 220, "player");
+            this.time.addEvent({
+                delay: 200,
+                callback: async () => {
+                    this.typewriteBitmapText9( "ok ");
+                
+                },
+                callbackScope: this,
+            });
+            this.dialogik = 0;
+        }  
     }
 }
