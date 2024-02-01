@@ -50,22 +50,36 @@ class cutscene extends Phaser.Scene {
             args: [this.characters, 4] 
         });
         this.time.addEvent({
-            delay: 1000,
+            delay: 24000,
             callback: this.dialogueStart,
             callbackScope: this,
             loop: false,
             
         });
         this.time.addEvent({
-            delay: 12300,
+            delay: 35300,
             callback: this.dialogue2,
             callbackScope: this,
             loop: true,
             
         });
         this.time.addEvent({
-            delay: 24300,
+            delay: 47300,
             callback: this.dialogue3,
+            callbackScope: this,
+            loop: true,
+            
+        });
+        this.time.addEvent({
+            delay: 52300,
+            callback: this.dialogue4,
+            callbackScope: this,
+            loop: true,
+            
+        });
+        this.time.addEvent({
+            delay: 57300,
+            callback: this.dialogue5,
             callbackScope: this,
             loop: true,
             
@@ -322,6 +336,17 @@ class cutscene extends Phaser.Scene {
         this.character3.destroy();
         this.character4.destroy();
         this.sound.stopAll();
+        this.dialogus = this.sound.add("dialogb", {volume: 0.25});
+        var musicConfig2 = {
+            mute: false,
+            volume: 0.5,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+        this.dialogus.play(musicConfig2);
         await this.delay(1000);
         this.dialog = this.add.tileSprite(0,170, config.width, 96, "dialogue");
         this.dialog.setOrigin(0,0);
@@ -416,7 +441,7 @@ class cutscene extends Phaser.Scene {
             this.phonedialog7.destroy();
             this.phonedialog8.destroy();
             this.phonedialog9 = this.add.bitmapText(103,210, "pixelFont", "", 19);
-            this.admiral = this.add.sprite(40, 220, "player");
+            this.admiral = this.add.sprite(40, 220, "admiralcak");
             this.time.addEvent({
                 delay: 200,
                 callback: async () => {
@@ -425,7 +450,21 @@ class cutscene extends Phaser.Scene {
                 },
                 callbackScope: this,
             });
-            this.dialogik = 0;
+            this.dialogik = 4;
         }  
+    }
+    dialogue4(){
+        if(this.dialogik === 4){
+            this.admiral.destroy();
+            this.phonedialog9.destroy();
+            this.dialog.destroy();
+            this.gameStart = this.add.bitmapText(20,96, "pixelFont", "SPACE MANIA", 50);
+            this.dialogik = 5;
+        }
+    }
+    dialogue5(){
+        if(this.dialogik === 5){
+            this.scene.start("playGame");
+        }
     }
 }

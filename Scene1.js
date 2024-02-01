@@ -8,6 +8,7 @@
             this.load.image("background", "assets/images/background.png");
             this.load.image("dialogue", "assets/images/dialogueM.png");
             this.load.image("backgroundcut", "assets/images/backgroundcut.png");
+            this.load.image("shopijk", "assets/images/shopbg.png");
             this.load.spritesheet("ship", "assets/spritesheets/ship.png",{
                 frameWidth: 16,
                 frameHeight: 16
@@ -65,9 +66,14 @@
                 frameHeight: 84
             });
             this.load.spritesheet("admiralcak", "assets/spritesheets/sun.png", {
-                frameWidth: 84,
-                frameHeight: 84
+                frameWidth: 54,
+                frameHeight: 54
             });
+            this.load.spritesheet("ammobox", "assets/spritesheets/ammobox.png", {
+                frameWidth: 60,
+                frameHeight: 40
+            });
+            
             this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
             this.load.bitmapFont("pixelFont2", "assets/font/font2.png", "assets/font/font2.xml");
             this.load.audio("audio_beam", ["assets/sounds/beam.ogg", "assets/sounds/beam.mp3"]);
@@ -81,7 +87,8 @@
             this.load.audio("cutsound", ["assets/sounds/cutscene.ogg", "assets/sounds/cutscene.mp3"]);
             this.load.audio("sirens", ["assets/sounds/sirens.ogg", "assets/sounds/sirens.mp3"]);
             this.load.audio("emergency", ["assets/sounds/emergency.ogg", "assets/sounds/emergency.mp3"]);
-            
+            this.load.audio("dialogb", ["assets/sounds/Dramatic_V2.ogg", "assets/sounds/Dramatic_V2.mp3"]);
+            this.load.audio("shopm", ["assets/sounds/shop.ogg", "assets/sounds/shop.mp3"]);
         }
 
 
