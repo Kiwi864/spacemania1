@@ -8,7 +8,8 @@
             this.load.image("background", "assets/images/background.png");
             this.load.image("dialogue", "assets/images/dialogueM.png");
             this.load.image("backgroundcut", "assets/images/backgroundcut.png");
-            this.load.image("shopijk", "assets/images/shopbg.png");
+            this.load.image("shopijk", "assets/images/shopgb.png");
+            this.load.image("shopijk2", "assets/images/shopgb2.png");
             this.load.spritesheet("ship", "assets/spritesheets/ship.png",{
                 frameWidth: 16,
                 frameHeight: 16
@@ -37,10 +38,7 @@
                 frameWidth: 16,
                 frameHeight: 16
             });
-            this.load.spritesheet("shield", "assets/spritesheets/player_shield.png",{
-                frameHeight: 26,
-                frameWidth: 18
-            });
+           
             this.load.spritesheet("boss", "assets/spritesheets/finalenemy.png",{
                 frameWidth: 48,
                 frameHeight: 48
@@ -70,9 +68,22 @@
                 frameHeight: 54
             });
             this.load.spritesheet("ammobox", "assets/spritesheets/ammobox.png", {
+                frameWidth: 84,
+                frameHeight: 64
+            });
+            this.load.spritesheet("lukrat", "assets/spritesheets/idk.png", {
                 frameWidth: 60,
                 frameHeight: 40
             });
+            this.load.spritesheet("shield", "assets/spritesheets/shield.png", {
+                frameWidth: 84,
+                frameHeight: 64
+            });
+            this.load.spritesheet("boost", "assets/spritesheets/boost.png", {
+                frameWidth: 84,
+                frameHeight: 64
+            });
+            
             
             this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
             this.load.bitmapFont("pixelFont2", "assets/font/font2.png", "assets/font/font2.xml");
