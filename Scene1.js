@@ -83,10 +83,16 @@
                 frameWidth: 84,
                 frameHeight: 64
             });
+            this.load.spritesheet("zelezo", "assets/spritesheets/zelezo.png", {
+                frameWidth: 60,
+                frameHeight: 30
+            });
+            
             
             
             this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
             this.load.bitmapFont("pixelFont2", "assets/font/font2.png", "assets/font/font2.xml");
+            this.load.bitmapFont("pixelFont3", "assets/font/font3.png", "assets/font/font3.xml");
             this.load.audio("audio_beam", ["assets/sounds/beam.ogg", "assets/sounds/beam.mp3"]);
             this.load.audio("audio_explosion", ["assets/sounds/explosion.ogg", "assets/sounds/explosion.mp3"]);
             this.load.audio("audio_pickup", ["assets/sounds/pickup.ogg", "assets/sounds/pickup.mp3"]);
