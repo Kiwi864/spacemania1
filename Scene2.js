@@ -38,7 +38,7 @@ var config = {
             super("playGame");
              
             this.gameConfig = config;
-            this.bullets = 5;
+            this.bullets = globalBullets;
             this.lives = 3;
             this.nesmrtelnost = 0;
             this.score = 0;
@@ -122,7 +122,7 @@ var config = {
            
             
             this.time.addEvent({
-                delay: 3000,
+                delay: 300000,
                 callback: this.shop,
                 callbackScope: this,
                 loop: true
@@ -150,7 +150,7 @@ var config = {
             this.lives += 1;
            }
            if (powerUp.type === "gray"){
-            this.bullets += 1;
+               globalBullets += 1;
            }
         }
         resetPlayer(){
@@ -219,7 +219,7 @@ var config = {
              beam.update();
             }
 
-            this.bulletCountLabel.text = "BULLETS: " + this.bullets;
+            this.bulletCountLabel.text = "BULLETS: " + globalBullets;
             this.livesLabel.text = "LIVES: " + this.lives;
             this.scoreLabel.text = "SCORE: " + globalScoreFormated;
 
@@ -237,10 +237,10 @@ var config = {
         }
                 
                 shootBeam(){
-                    if (this.bullets > 0) {
+                    if (globalBullets > 0) {
                     var beam = new Beam(this);
                     this.beamSound.play({volume: 0.25});
-                        this.bullets--;
+                        globalBullets--;
                     }
                     else {
                         this.ammoSound.play({volume: 1});
@@ -283,7 +283,7 @@ var config = {
                 this.scoreLabel.text = "SCORE " + globalScoreFormated;
                 this.explosionSound.play({volume: 0.25});
                 if (Phaser.Math.RND.between(0, 1) === 1){
-                   this.bullets += 1; 
+                   globalBullets += 1; 
                 }
                // this.bullets += 1;
             //enemy.setTexture("explosion");

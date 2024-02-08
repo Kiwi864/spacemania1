@@ -1,4 +1,5 @@
 var globalScoreFormated = "";
+var globalBullets = 5;
 window.onload = function(){
     var gameSettings = {
         playerSpeed: 200,

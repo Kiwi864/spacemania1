@@ -464,6 +464,7 @@ class cutscene extends Phaser.Scene {
     }
     dialogue5(){
         if(this.dialogik === 5){
+            this.sound.stopAll();
             this.scene.start("playGame");
         }
     }

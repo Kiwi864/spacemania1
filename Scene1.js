@@ -88,6 +88,10 @@
                 frameWidth: 60,
                 frameHeight: 30
             });
+            this.load.spritesheet("shieldp", "assets/spritesheets/playershielda.png",{
+                frameWidth: 31,
+                frameHeight: 33
+            });
             
             
             
@@ -160,6 +164,12 @@
         this.anims.create({
             key: "thrust",
             frames: this.anims.generateFrameNumbers("player"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "shieldthrust",
+            frames: this.anims.generateFrameNumbers("shieldp"),
             frameRate: 20,
             repeat: -1
         });

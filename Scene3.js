@@ -38,7 +38,7 @@ var config = {
             super("level2");
              
             this.gameConfig = config;
-            this.bullets = 5;
+           
             this.lives = 3;
             this.nesmrtelnost = 0;
             this.score = 0;
@@ -47,6 +47,8 @@ var config = {
         }
         create(){
             this.background = this.add.tileSprite(0,0, config.width, config.height, "background2");
+            this.TKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
+
             this.background.setOrigin(0,0);
             this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
             this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
@@ -94,7 +96,7 @@ var config = {
             graphics.fillStyle("Black");
             graphics.fillRect(0,0,config.width,20);
             this.scoreLabel = this.add.bitmapText(10,5, "pixelFont", "SCORE: 000000", 16);
-            this.bulletCountLabel = this.add.bitmapText(180,5, "pixelFont", "BULLETS: 5", 16 );
+            this.bulletCountLabel = this.add.bitmapText(180,5, "pixelFont", "BULLETS: ", 16 );
             this.livesLabel = this.add.bitmapText(110,5, "pixelFont", "LIVES: 3", 16 );
             this.beamSound = this.sound.add("audio_beam");
             this.explosionSound = this.sound.add("audio_explosion");
@@ -127,9 +129,10 @@ var config = {
                 callbackScope: this,
                 loop: true
             });
-            
+
+          
         }
-        spawnPowerUp(){
+       /* spawnPowerUp(){
             
                 var powerUp = this.physics.add.sprite(16, 16, "power-up");
                 this.powerUps.add(powerUp);
@@ -142,7 +145,7 @@ var config = {
                 powerUp.setBounce(1);
             
             
-        }
+        }*/
         pickPowerUp(player, powerUp){
             powerUp.disableBody(true, true);
             this.pickupSound.play({volume: 0.25});
@@ -150,7 +153,7 @@ var config = {
             this.lives += 1;
            }
            if (powerUp.type === "gray"){
-            this.bullets += 1;
+           globalBullets += 1;
            }
         }
         resetPlayer(){
@@ -203,6 +206,7 @@ var config = {
             }
         }
         update(){
+            this.bulletCountLabel.text = "BULLETS: " + globalBullets;
             this.moveShip(this.ship1, 2);
             this.moveShip(this.ship2, 3);
             this.moveShip(this.ship3, 4);
@@ -214,12 +218,16 @@ var config = {
                     this.shootBeam();
                 }
             }
+            if (Phaser.Input.Keyboard.JustDown(this.TKey)){
+                this.player.setTexture("shieldp");
+                this.player.play("shieldthrust");
+            }
            for(var i = 0; i < this.projectiles.getChildren().length; i++){
              var beam = this.projectiles.getChildren()[i];
              beam.update();
             }
 
-            this.bulletCountLabel.text = "BULLETS: " + this.bullets;
+            this.bulletCountLabel.text = "BULLETS: " + globalBullets;
             this.livesLabel.text = "LIVES: " + this.lives;
             this.scoreLabel.text = "SCORE: " + globalScoreFormated;
 
@@ -237,10 +245,10 @@ var config = {
         }
                 
                 shootBeam(){
-                    if (this.bullets > 0) {
+                    if (globalBullets > 0) {
                     var beam = new Beam(this);
                     this.beamSound.play({volume: 0.25});
-                        this.bullets--;
+                       globalBullets--;
                     }
                     else {
                         this.ammoSound.play({volume: 1});
@@ -283,7 +291,7 @@ var config = {
                 this.scoreLabel.text = "SCORE " + globalScoreFormated;
                 this.explosionSound.play({volume: 0.25});
                 if (Phaser.Math.RND.between(0, 1) === 1){
-                   this.bullets += 1; 
+                   globalBullets += 1; 
                 }
                // this.bullets += 1;
             //enemy.setTexture("explosion");
