@@ -6,6 +6,7 @@
         
        preload(){
             this.load.image("background", "assets/images/background.png");
+            this.load.image("background2", "assets/images/background2.png");
             this.load.image("dialogue", "assets/images/dialogueM.png");
             this.load.image("backgroundcut", "assets/images/backgroundcut.png");
             this.load.image("shopijk", "assets/images/shopgb.png");

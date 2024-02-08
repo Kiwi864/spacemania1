@@ -46,7 +46,7 @@ var config = {
             
         }
         create(){
-            this.background = this.add.tileSprite(0,0, config.width, config.height, "background");
+            this.background = this.add.tileSprite(0,0, config.width, config.height, "background2");
             this.background.setOrigin(0,0);
             this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
             this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
@@ -203,9 +203,9 @@ var config = {
             }
         }
         update(){
-            this.moveShip(this.ship1, 1);
-            this.moveShip(this.ship2, 2);
-            this.moveShip(this.ship3, 3);
+            this.moveShip(this.ship1, 2);
+            this.moveShip(this.ship2, 3);
+            this.moveShip(this.ship3, 4);
             this.background.tilePositionY -= 0.5;
             this.movePlayerManager();
             if (Phaser.Input.Keyboard.JustDown(this.spacebar)){
@@ -297,13 +297,13 @@ var config = {
             }
             return stringNumber;
         }
-        shop(){
+     /*   shop(){
             console.log("shop")
             this.sound.stopAll()
             this.cameras.main.fadeOut(1000, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
                 this.scene.start("Shop")
             });
-        }
+        }*/
        
     }
