@@ -220,8 +220,8 @@ class Shop extends Phaser.Scene {
             this.a = this.add.bitmapText(165,110, "pixelFont", " COST: 200 points", 14 );
         });
         this.lukrat.on('pointerdown', () => {
-            if(globalScoreFormated >= 15){
-                globalScoreFormated -= 15
+            if(globalScoreFormated >= 200){
+                globalScoreFormated -= 200
                 globalScoreFormated = this.zeroPad(globalScoreFormated, 6);
                 globalBullets += 10;
             }
