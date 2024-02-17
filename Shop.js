@@ -67,6 +67,21 @@ class Shop extends Phaser.Scene {
             if(globalScoreFormated >= 200){
                 globalScoreFormated -= 200
                 globalScoreFormated = this.zeroPad(globalScoreFormated, 6);
+                globalBullets += 10;
+            }
+            else {
+                this.tweens.add({
+                    targets: [this.lukrat, this.ammobox],
+                    x: this.lukrat.x + 5, 
+                    y: this.lukrat.y + 5,
+                    duration: 50, 
+                    yoyo: true,
+                    repeat: 5, 
+                });
+                this.lukrat.setTint(0xff0000); 
+                this.time.delayedCall(500, () => { 
+                    this.lukrat.clearTint();
+                });
             }
         });
 
@@ -101,7 +116,21 @@ class Shop extends Phaser.Scene {
             if(globalScoreFormated >= 300){
                 globalScoreFormated -= 300
                 globalScoreFormated = this.zeroPad(globalScoreFormated, 6);
-                globalBullets += 10;
+               
+            }
+            else {
+                this.tweens.add({
+                    targets: [this.lukrat2, this.shield],
+                    x: this.lukrat2.x + 5, 
+                    y: this.lukrat2.y + 5,
+                    duration: 50, 
+                    yoyo: true,
+                    repeat: 5, 
+                });
+                this.lukrat2.setTint(0xff0000); 
+                this.time.delayedCall(500, () => { 
+                    this.lukrat2.clearTint();
+                });
             }
         });
 
@@ -135,6 +164,21 @@ class Shop extends Phaser.Scene {
             if(globalScoreFormated >= 1000){
                 globalScoreFormated -= 1000
                 globalScoreFormated = this.zeroPad(globalScoreFormated, 6);
+            }  else {
+                this.tweens.add({
+                    targets: [this.lukrat3, this.boost],
+                    x: this.lukrat3.x + 5, 
+                    y: this.lukrat3.y + 5,
+                    x: this.boost.x + 5,
+                    y: this.boost.y + 5, 
+                    duration: 50, 
+                    yoyo: true,
+                    repeat: 5, 
+                });
+                this.lukrat3.setTint(0xff0000); 
+                this.time.delayedCall(500, () => { 
+                    this.lukrat3.clearTint();
+                });
             }
         });
 
@@ -225,6 +269,22 @@ class Shop extends Phaser.Scene {
                 globalScoreFormated = this.zeroPad(globalScoreFormated, 6);
                 globalBullets += 10;
             }
+            else {
+                this.tweens.add({
+                    targets: [this.lukrat, this.ammobox],
+                    x: this.lukrat.x + 5,
+                    y: this.lukrat.y + 5, 
+                    x: this.ammobox.x + 5,
+                    y: this.ammobox.y + 5, 
+                    duration: 50, 
+                    yoyo: true,
+                    repeat: 5, 
+                });
+                this.lukrat.setTint(0xff0000); 
+                this.time.delayedCall(500, () => { 
+                    this.lukrat.clearTint();
+                });
+            }
         });
 
 
@@ -257,7 +317,23 @@ class Shop extends Phaser.Scene {
             if(globalScoreFormated >= 300){
                 globalScoreFormated -= 300
                 globalScoreFormated = this.zeroPad(globalScoreFormated, 6);
-               
+               globalShields += 1;
+            }
+            else {
+                this.tweens.add({
+                    targets: [this.lukrat2, this.shield],
+                    x: this.lukrat2.x + 5, 
+                    y: this.lukrat2.y + 5,
+                    x: this.shield.x + 5, 
+                    y: this.shield.y + 5,
+                    duration: 50, 
+                    yoyo: true,
+                    repeat: 5, 
+                });
+                this.lukrat2.setTint(0xff0000); 
+                this.time.delayedCall(500, () => { 
+                    this.lukrat2.clearTint();
+                });
             }
         });
 
@@ -293,6 +369,22 @@ class Shop extends Phaser.Scene {
                 globalScoreFormated -= 1000
                 globalScoreFormated = this.zeroPad(globalScoreFormated, 6);
                 globalBullets += 10;
+            }
+            else {
+                this.tweens.add({
+                    targets: [this.lukrat3, this.boost],
+                    x: this.lukrat3.x + 5, 
+                    y: this.lukrat3.y + 5,
+                    x: this.boost.x + 5, 
+                    y: this.boost.y + 5,
+                    duration: 50, 
+                    yoyo: true,
+                    repeat: 5, 
+                });
+                this.lukrat3.setTint(0xff0000); 
+                this.time.delayedCall(500, () => { 
+                    this.lukrat3.clearTint();
+                });
             }
         });
 

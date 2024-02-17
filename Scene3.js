@@ -175,7 +175,7 @@ var config = {
             });
         }
         hurtPlayer(player, enemy){
-           
+            if (player.texture.key !== "shieldp") {
                 this.resetShipPos(enemy);
                 this.explosionSound.play({volume: 0.25});
             
@@ -197,7 +197,7 @@ var config = {
            });
            
         }
-       
+    }
 
         moveShip(ship, speed){
             ship.y += speed;
@@ -218,10 +218,13 @@ var config = {
                     this.shootBeam();
                 }
             }
-            if (Phaser.Input.Keyboard.JustDown(this.TKey)){
-                this.player.setTexture("shieldp");
-                this.player.play("shieldthrust");
-                this.time.delayedCall(10000, this.shieldik, [], this);
+            if(globalShields >= 1){            
+                if (Phaser.Input.Keyboard.JustDown(this.TKey)){
+                    globalShields -= 1;
+                    this.player.setTexture("shieldp");
+                    this.player.play("shieldthrust");
+                    this.time.delayedCall(10000, this.shieldik, [], this);
+                }
             }
            for(var i = 0; i < this.projectiles.getChildren().length; i++){
              var beam = this.projectiles.getChildren()[i];
@@ -314,8 +317,37 @@ var config = {
                 this.scene.start("Shop")
             });
         }*/
-       shieldik(){
-        this.player.setTexture("player");
-        this.player.play("thrust");
-       }
+        shieldik() {
+            this.player.play("shieldthrust"); // Play a shield animation if available
+            const flashDuration = 500; // Duration for each flash
+            const totalFlashes = 5; // Number of times to flash
+        
+            // Use a loop to create alternating flashes
+            for (let i = 0; i < totalFlashes; i++) {
+                this.time.addEvent({
+                    delay: flashDuration * i * 2, // Multiply by 2 to alternate
+                    callback: () => {
+                        this.player.setTexture("shieldp"); // Set shield texture
+                    },
+                    callbackScope: this
+                });
+                this.time.addEvent({
+                    delay: flashDuration * (i * 2 + 1), // Multiply by 2 and add 1 to alternate
+                    callback: () => {
+                        this.player.setTexture("player"); // Set normal texture
+                    },
+                    callbackScope: this
+                });
+            }
+        
+            // Set the final texture after all flashes
+            this.time.addEvent({
+                delay: flashDuration * totalFlashes * 2,
+                callback: () => {
+                    this.player.setTexture("player"); // Set normal texture
+                    this.player.play("thrust"); // Play normal animation
+                },
+                callbackScope: this
+            });
+        }
     }
