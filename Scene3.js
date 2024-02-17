@@ -221,6 +221,7 @@ var config = {
             if (Phaser.Input.Keyboard.JustDown(this.TKey)){
                 this.player.setTexture("shieldp");
                 this.player.play("shieldthrust");
+                this.time.delayedCall(10000, this.shieldik, [], this);
             }
            for(var i = 0; i < this.projectiles.getChildren().length; i++){
              var beam = this.projectiles.getChildren()[i];
@@ -313,5 +314,8 @@ var config = {
                 this.scene.start("Shop")
             });
         }*/
-       
+       shieldik(){
+        this.player.setTexture("player");
+        this.player.play("thrust");
+       }
     }
