@@ -465,6 +465,7 @@ class cutscene extends Phaser.Scene {
             this.admiral.destroy();
             this.phonedialog9.destroy();
             this.dialog.destroy();
+            this.skip.destroy();
             this.gameStart = this.add.bitmapText(20,96, "pixelFont", "SPACE MANIA", 50);
             this.dialogik = 5;
         }
