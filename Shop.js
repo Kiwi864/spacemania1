@@ -60,12 +60,11 @@ class Shop extends Phaser.Scene {
             this.amo = this.add.bitmapText(175,50, "pixelFont", "gives you a   ", 14 );
             this.amom = this.add.bitmapText(170,65, "pixelFont", " bonus of 10  ", 14 );
             this.mol = this.add.bitmapText(180,80, "pixelFont", " bullets ", 14 );
-            this.amol = this.add.bitmapText(165,95, "pixelFont", " per each level ", 14 );
-            this.a = this.add.bitmapText(165,110, "pixelFont", " COST: 200 points", 14 );
+            this.a = this.add.bitmapText(165,110, "pixelFont", " COST: 100 points", 14 );
         });
         this.lukrat.on('pointerdown', () => {
-            if(globalScoreFormated >= 200){
-                globalScoreFormated -= 200
+            if(globalScoreFormated >= 100){
+                globalScoreFormated -= 100
                 globalScoreFormated = this.zeroPad(globalScoreFormated, 6);
                 globalBullets += 10;
             }
@@ -260,12 +259,11 @@ class Shop extends Phaser.Scene {
             this.amo = this.add.bitmapText(175,50, "pixelFont", "gives you a   ", 14 );
             this.amom = this.add.bitmapText(170,65, "pixelFont", " bonus of 10  ", 14 );
             this.mol = this.add.bitmapText(180,80, "pixelFont", " bullets ", 14 );
-            this.amol = this.add.bitmapText(165,95, "pixelFont", " per each level ", 14 );
-            this.a = this.add.bitmapText(165,110, "pixelFont", " COST: 200 points", 14 );
+            this.a = this.add.bitmapText(165,110, "pixelFont", " COST: 100 points", 14 );
         });
         this.lukrat.on('pointerdown', () => {
-            if(globalScoreFormated >= 200){
-                globalScoreFormated -= 200
+            if(globalScoreFormated >= 100){
+                globalScoreFormated -= 100
                 globalScoreFormated = this.zeroPad(globalScoreFormated, 6);
                 globalBullets += 10;
             }

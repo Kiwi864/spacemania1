@@ -122,7 +122,7 @@ var config = {
            
             
             this.time.addEvent({
-                delay: 3000,
+                delay: 120000,
                 callback: this.shop,
                 callbackScope: this,
                 loop: true

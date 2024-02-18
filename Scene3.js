@@ -43,7 +43,8 @@ var config = {
             this.nesmrtelnost = 0;
             this.score = 0;
             this.bulletsadder = 0;
-            
+            this.shieldDuration = 10000;
+            this.shieldActive = false;
         }
         create(){
             this.background = this.add.tileSprite(0,0, config.width, config.height, "background2");
@@ -76,8 +77,11 @@ var config = {
             this.projectiles = this.add.group();
             this.powerUps = this.physics.add.group();
             
-
-            
+            this.shieldIndicator = this.add.rectangle(0, config.height - 20, config.width, 20, 0x00ff00);
+            this.shieldIndicator.setOrigin(0, 0);
+            this.shieldIndicator.setDepth(1);
+            this.shieldIndicator.setPosition(0, config.height - 20);
+            this.shieldIndicator.visible = false;
            
             this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 64, "player");
             this.player.play("thrust");
@@ -218,12 +222,24 @@ var config = {
                     this.shootBeam();
                 }
             }
+            if (this.shieldActive) {
+                this.shieldIndicator.visible = true;
+               
+                this.updateShieldIndicator();
+                
+            } 
+            else {
+                this.shieldIndicator.visible = false;
+            
+            }
             if(globalShields >= 1){            
                 if (Phaser.Input.Keyboard.JustDown(this.TKey)){
                     globalShields -= 1;
                     this.player.setTexture("shieldp");
                     this.player.play("shieldthrust");
                     this.time.delayedCall(10000, this.shieldik, [], this);
+                   
+                    this.startShieldTimer();
                 }
             }
            for(var i = 0; i < this.projectiles.getChildren().length; i++){
@@ -246,6 +262,8 @@ var config = {
                 this.ship2.destroy(true);
                 this.ship3.destroy(true);
             }
+           
+           
         }
                 
                 shootBeam(){
@@ -317,35 +335,67 @@ var config = {
                 this.scene.start("Shop")
             });
         }*/
-        shieldik() {
-            this.player.play("shieldthrust"); // Play a shield animation if available
-            const flashDuration = 500; // Duration for each flash
-            const totalFlashes = 5; // Number of times to flash
+        startShieldTimer() {
+            this.shieldStartTime = this.time.now;
+            this.time.addEvent({
+                delay: 0,
+                callback: () => {
+                  
+                    this.shieldActive = true;
+                    this.updateShieldIndicator();
+                },
+                callbackScope: this
+            });
+        }
+        updateShieldIndicator() {
+            if (this.shieldActive) {
+             
+                const remainingTime = Math.max(this.shieldDuration + 5000 - (this.time.now - this.shieldStartTime), 0);
+                const indicatorWidth = config.width * remainingTime / (this.shieldDuration + 5000);
         
-            // Use a loop to create alternating flashes
+              
+                this.shieldIndicator.setSize(indicatorWidth, 20);
+                console.log("Shield Indicator Updated: Remaining Time:", remainingTime);
+                if (remainingTime <= 0) {
+                    this.shieldIndicator.visible = false;
+                }
+            }
+          
+        }
+        shieldik() {
+            this.shieldIndicator.visible = true;
+          
+            this.shieldActive = true;
+         
+            this.updateShieldIndicator();
+            this.player.play("shieldthrust"); 
+            const flashDuration = 500; 
+            const totalFlashes = 5; 
+        
+          
             for (let i = 0; i < totalFlashes; i++) {
                 this.time.addEvent({
-                    delay: flashDuration * i * 2, // Multiply by 2 to alternate
+                    delay: flashDuration * i * 2,
                     callback: () => {
-                        this.player.setTexture("shieldp"); // Set shield texture
+                        this.player.setTexture("shieldp"); 
                     },
                     callbackScope: this
                 });
                 this.time.addEvent({
-                    delay: flashDuration * (i * 2 + 1), // Multiply by 2 and add 1 to alternate
+                    delay: flashDuration * (i * 2 + 1), 
                     callback: () => {
-                        this.player.setTexture("player"); // Set normal texture
+                        this.player.setTexture("player"); 
                     },
                     callbackScope: this
                 });
             }
         
-            // Set the final texture after all flashes
+           
             this.time.addEvent({
                 delay: flashDuration * totalFlashes * 2,
                 callback: () => {
-                    this.player.setTexture("player"); // Set normal texture
-                    this.player.play("thrust"); // Play normal animation
+                    this.player.setTexture("player"); 
+                    this.player.play("thrust"); 
                 },
                 callbackScope: this
             });

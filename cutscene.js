@@ -13,6 +13,8 @@ class cutscene extends Phaser.Scene {
     create(){
         this.background = this.add.tileSprite(0,0, config.width, config.height, "backgroundcut");
         this.background.setOrigin(0,0);
+        this.skip = this.add.bitmapText(146,10, "pixelFont", "PRESS Z TO SKIP ", 19);
+        this.ZKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
         this.character3 = this.add.sprite(-80, 230, "character1");
         this.character1 = this.add.sprite(-100, 220, "character2");
         this.character2 = this.add.sprite(-90, 240, "character3");
@@ -84,6 +86,11 @@ class cutscene extends Phaser.Scene {
             loop: true,
             
         });
+    }
+    update(){
+        if (Phaser.Input.Keyboard.JustDown(this.ZKey)){
+            this.scene.start("playGame");
+        }
     }
     startNextSound(){
         this.nextSound = this.sound.add("sirens");
