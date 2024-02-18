@@ -147,7 +147,7 @@ var config = {
             powerUp.disableBody(true, true);
             this.pickupSound.play({volume: 0.25});
            if (powerUp.type === "red"){
-            this.lives += 1;
+            globalHealth += 1;
            }
            if (powerUp.type === "gray"){
                globalBullets += 1;
@@ -176,11 +176,11 @@ var config = {
                 this.resetShipPos(enemy);
                 this.explosionSound.play({volume: 0.25});
             
-                if(this.lives > 0){
-                    this.lives -= 1;
+                if(globalHealth > 0){
+                    globalHealth -= 1;
                 }
                 if(this.player.alpha < 1){
-                    this.lives += 1;
+                    globalHealth += 1;
                 }
                 player.disableBody(true,true);
 
@@ -220,10 +220,10 @@ var config = {
             }
 
             this.bulletCountLabel.text = "BULLETS: " + globalBullets;
-            this.livesLabel.text = "LIVES: " + this.lives;
+            this.livesLabel.text = "LIVES: " + globalHealth;
             this.scoreLabel.text = "SCORE: " + globalScoreFormated;
 
-            if (this.lives === 0){
+            if (globalHealth === 0){
                 this.sound.stopAll();
                 this.scene.start("koniec");
                 console.log("koniec");

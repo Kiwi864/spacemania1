@@ -15,7 +15,7 @@ class Ending extends Phaser.Scene {
         console.log("ending!!!");
         this.gameOver = this.add.bitmapText(70,96, "pixelFont", "GAME OVER", 30);
         this.finalScoreLabel = this.add.bitmapText(70,126, "pixelFont", "SCORE ", 20);
-        this.resetLabel = this.add.bitmapText(20,156, "pixelFont", "PRESS Z TO START AGAIN", 20);
+        this.resetLabel = this.add.bitmapText(40,156, "pixelFont", "PRESS Z TO START AGAIN", 20);
         this.game_over = this.sound.add("game_over", {volume: 1});
         var musicConfig = {
             mute: false,
@@ -34,6 +34,7 @@ class Ending extends Phaser.Scene {
         this.finalScoreLabel.text = "SCORE: " + globalScoreFormated; 
         if (Phaser.Input.Keyboard.JustDown(this.ZKey)){
             this.scene.start("playGame");
+            globalHealth = 3;
         }
     }
 }
