@@ -35,6 +35,8 @@ class Ending extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(this.ZKey)){
             this.scene.start("playGame");
             globalHealth = 3;
+            globalBullets = 5;
+            globalScoreFormated = "";
         }
     }
 }

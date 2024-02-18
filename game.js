@@ -1,6 +1,6 @@
 var globalScoreFormated = "";
 var globalBullets = 5;
-var globalShields = 1;
+var globalShields = 0;
 var globalHealth = 3;
 window.onload = function(){
     var gameSettings = {

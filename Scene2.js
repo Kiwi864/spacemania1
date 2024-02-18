@@ -43,6 +43,7 @@ var config = {
             this.nesmrtelnost = 0;
             this.score = 0;
             this.bulletsadder = 0;
+            globalScoreFormated = this.zeroPad(this.score, 6);
             
         }
         create(){
