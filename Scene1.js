@@ -11,6 +11,8 @@
             this.load.image("backgroundcut", "assets/images/backgroundcut.png");
             this.load.image("shopijk", "assets/images/shopgb.png");
             this.load.image("shopijk2", "assets/images/shopgb2.png");
+            this.load.image("shop2", "assets/images/secondshop.png");
+            this.load.image("space", "assets/images/Space.png");
             this.load.spritesheet("ship", "assets/spritesheets/ship.png",{
                 frameWidth: 16,
                 frameHeight: 16
@@ -92,6 +94,22 @@
                 frameWidth: 31,
                 frameHeight: 33
             });
+            this.load.spritesheet("textbg", "assets/spritesheets/textbg.png",{
+                frameWidth: 70,
+                frameHeight: 124
+            });
+            this.load.spritesheet("halusky", "assets/spritesheets/halusky.png",{
+                frameWidth: 84,
+                frameHeight: 64
+            });
+            this.load.spritesheet("orol", "assets/spritesheets/orol.png",{
+                frameWidth: 300,
+                frameHeight: 168
+            });
+            this.load.spritesheet("valaska", "assets/spritesheets/valaska.png",{
+                frameWidth: 100,
+                frameHeight: 100
+            });
             
             
             
@@ -111,6 +129,9 @@
             this.load.audio("emergency", ["assets/sounds/emergency.ogg", "assets/sounds/emergency.mp3"]);
             this.load.audio("dialogb", ["assets/sounds/Dramatic_V2.ogg", "assets/sounds/Dramatic_V2.mp3"]);
             this.load.audio("shopm", ["assets/sounds/shop.ogg", "assets/sounds/shop.mp3"]);
+            this.load.audio("china", ["assets/sounds/china.ogg", "assets/sounds/china.mp3"]);
+            this.load.audio("slovak", ["assets/sounds/slovak.ogg", "assets/sounds/slovak.mp3"]);
+            this.load.audio("space", ["assets/sounds/space.ogg", "assets/sounds/space.mp3"]);
         }
 
 

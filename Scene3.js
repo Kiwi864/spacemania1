@@ -45,11 +45,19 @@ var config = {
             this.bulletsadder = 0;
             this.shieldDuration = 10000;
             this.shieldActive = false;
+            this.bgspeed = 0.5;
+            this.speeds1 = 2;
+            this.speeds2 = 3;
+            this.speeds3 = 4;
+            this.speedchange = 0;
+            this.shopTimerDelay = 780000;
+            this.boostDuration = 10000; 
+            this.boostActive = false;
         }
         create(){
             this.background = this.add.tileSprite(0,0, config.width, config.height, "background2");
             this.TKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
-
+            this.FKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
             this.background.setOrigin(0,0);
             this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
             this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
@@ -82,6 +90,10 @@ var config = {
             this.shieldIndicator.setDepth(1);
             this.shieldIndicator.setPosition(0, config.height - 20);
             this.shieldIndicator.visible = false;
+            this.boostIndicator = this.add.rectangle(0, 260, config.width, 20, 0xff0000); 
+            this.boostIndicator.setOrigin(0, 0);
+            this.boostIndicator.setDepth(1);
+            this.boostIndicator.visible = false;
            
             this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 64, "player");
             this.player.play("thrust");
@@ -127,12 +139,7 @@ var config = {
             });
            
             
-            this.time.addEvent({
-                delay: 3000,
-                callback: this.shop,
-                callbackScope: this,
-                loop: true
-            });
+           
 
           
         }
@@ -178,43 +185,23 @@ var config = {
                 callbackScope: this
             });
         }
-        hurtPlayer(player, enemy){
-            if (player.texture.key !== "shieldp") {
-                this.resetShipPos(enemy);
-                this.explosionSound.play({volume: 0.25});
-            
-                if(this.lives > 0){
-                    this.lives -= 1;
-                }
-                if(this.player.alpha < 1){
-                    this.lives += 1;
-                }
-                player.disableBody(true,true);
-
-           var explosion = new Explosion(this, player.x, player.y);
-           this.resetPlayer();
-           this.time.addEvent({
-            delay: 1000,
-            callback: this.resetPlayer,
-            callbackScope: this,
-            loop: false
-           });
-           
-        }
-    }
+       
 
         moveShip(ship, speed){
             ship.y += speed;
             if (ship.y > config.height){
                 this.resetShipPos(ship);
             }
+           
         }
         update(){
+           
+            this.background.tilePositionY -= this.bgspeed;
             this.bulletCountLabel.text = "BULLETS: " + globalBullets;
-            this.moveShip(this.ship1, 2);
-            this.moveShip(this.ship2, 3);
-            this.moveShip(this.ship3, 4);
-            this.background.tilePositionY -= 0.5;
+            this.moveShip(this.ship1, this.speeds1);
+            this.moveShip(this.ship2, this.speeds2);
+            this.moveShip(this.ship3, this.speeds3);
+         
             this.movePlayerManager();
             if (Phaser.Input.Keyboard.JustDown(this.spacebar)){
                 if(this.player.active){
@@ -222,6 +209,27 @@ var config = {
                     this.shootBeam();
                 }
             }
+            console.log(this.bgspeed);
+            if (globalBoost >= 1){
+                if(this.bgspeed == 0.5){
+                    if(Phaser.Input.Keyboard.JustDown(this.FKey)){
+                        this.bgspeed = 5;
+                        this.speeds1 = 6.5;
+                        this.speeds2 = 7.5;
+                        this.speeds3 = 8.5;
+                        this.speedchange = 0; 
+                        globalBoost -= 1;
+                        this.time.addEvent({
+                            delay: 10000,
+                            callback: this.speedbg,
+                            callbackScope: this,
+                            loop: false
+                        });
+                        this.startBoostTimer();
+                    }
+                }
+            }
+           
             if (this.shieldActive) {
                 this.shieldIndicator.visible = true;
                
@@ -232,14 +240,23 @@ var config = {
                 this.shieldIndicator.visible = false;
             
             }
-            if(globalShields >= 1){            
-                if (Phaser.Input.Keyboard.JustDown(this.TKey)){
-                    globalShields -= 1;
-                    this.player.setTexture("shieldp");
-                    this.player.play("shieldthrust");
-                    this.time.delayedCall(10000, this.shieldik, [], this);
-                   
-                    this.startShieldTimer();
+            if (this.boostActive) {
+                this.boostIndicator.visible = true;
+                this.updateBoostIndicator();
+            } else {
+                this.boostIndicator.visible = false;
+            }
+
+            if(this.bgspeed == 0.5){
+                if(globalShields >= 1){            
+                    if (Phaser.Input.Keyboard.JustDown(this.TKey)){
+                        globalShields -= 1;
+                        this.player.setTexture("shieldp");
+                        this.player.play("shieldthrust");
+                        this.time.delayedCall(10000, this.shieldik, [], this);
+                    
+                        this.startShieldTimer();
+                    }
                 }
             }
            for(var i = 0; i < this.projectiles.getChildren().length; i++){
@@ -262,36 +279,170 @@ var config = {
                 this.ship2.destroy(true);
                 this.ship3.destroy(true);
             }
-           
+            if (this.bgspeed == 5 && this.ship1.y > this.player.y) {
+                
+                this.hitEnemy1(this.player, this.ship1);
+            }
+            if (this.bgspeed == 5 && this.ship2.y > this.player.y) {
+                
+                this.hitEnemy1(this.player, this.ship2);
+            }
+            if (this.bgspeed == 5 && this.ship3.y > this.player.y) {
+                
+                this.hitEnemy1(this.player, this.ship3);
+            }
+           if(this.shopTimerDelay == 0){
+             this.sound.stopAll();
+             this.scene.start("Shop2");
+           }
+        }
+        hurtPlayer(player, enemy){
+            console.log("collision");
+            if(this.bgspeed == 0.5){
+                if(this.player.alpha == 1){
+                    if (player.texture.key !== "shieldp") {
+                        this.resetShipPos(enemy);
+                        this.explosionSound.play({volume: 0.25});
+                    
+                        if(this.lives > 0){
+                            this.lives -= 1;
+                        }
+                        
+                    
+                        
+                        player.disableBody(true,true);
+
+                var explosion = new Explosion(this, player.x, player.y);
+                this.resetPlayer();
+                this.time.addEvent({
+                    delay: 1000,
+                    callback: this.resetPlayer,
+                    callbackScope: this,
+                    loop: false
+                });
+            
+                }
+            }
+        } 
+        /*else{
+            if(this.player.alpha == 1){
+                if (player.texture.key !== "shieldp") {
+                    this.resetShipPos(enemy);
+                    this.explosionSound.play({volume: 0.25});
+                
+                    if(this.lives > 0){
+                        this.lives -= 0;
+                    }
+                    player.disableBody(true,true);
+                    var explosion = new Explosion(this, player.x, player.y);
+                }
+            }
+        }*/
+    }
+        speedbg(){
+            
+            if(this.speedchange == 0){
+            this.time.addEvent({
+                delay: 100,
+                callback: async () => {
+                    this.bgspeed = 4;
+                    this.speeds1 = 5.5;
+                    this.speeds2 = 6.5;
+                    this.speeds3 = 7.5;
+                },
+                callbackScope: this,
+            });
+            this.speedchange = 1; 
+        } 
+        if(this.speedchange == 1){
+            this.time.addEvent({
+                delay: 200,
+                callback: async () => {
+                    this.bgspeed = 3;
+                    this.speeds1 = 4.5;
+                    this.speeds2 = 5.5;
+                    this.speeds3 = 6.5;
+                
+                },
+                callbackScope: this,
+            });
+            this.speedchange = 2;   
+        }
+        if(this.speedchange == 2){
+            this.time.addEvent({
+                delay: 300,
+                callback: async () => {
+                    this.bgspeed = 2;
+                    this.speeds1 = 3.5;
+                    this.speeds2 = 4.5;
+                    this.speeds3 = 5.5;
+                },
+                callbackScope: this,
+            });  
+            this.speedchange = 3;   
+        }
+        if(this.speedchange == 3){
+            this.time.addEvent({
+                delay: 400,
+                callback: async () => {
+                    this.bgspeed = 1;
+                    this.speeds1 = 2.5;
+                    this.speeds2 = 3.5;
+                    this.speeds3 = 4.5;
+                
+                },
+                callbackScope: this,
+            }); 
+            this.speedchange = 4;   
+        }
+        if(this.speedchange == 4){
+            this.time.addEvent({
+                delay: 800,
+                callback: async () => {
+                    this.bgspeed = 0.5;
+                    this.speeds1 = 2;
+                    this.speeds2 = 3;
+                    this.speeds3 = 4;
+                },
+                callbackScope: this,
+            }); 
+            this.updateShopTimerDelay(50000);
+        }
+        
            
         }
-                
-                shootBeam(){
-                    if (globalBullets > 0) {
-                    var beam = new Beam(this);
-                    this.beamSound.play({volume: 0.25});
-                       globalBullets--;
-                    }
-                    else {
-                        this.ammoSound.play({volume: 1});
-                    }
-                } 
-
+        updateShopTimerDelay(delta) {
+            if(this.shopTimerDelay > 0){
+            this.shopTimerDelay -= delta; 
+            }
+        }
+        shootBeam(){
+            if (globalBullets > 0) {
+            var beam = new Beam(this);
+            this.beamSound.play({volume: 0.25});
+                globalBullets--;
+            }
+            else {
+                this.ammoSound.play({volume: 1});
+            }
+        } 
 
         movePlayerManager(){
-            if(this.cursorKeys.left.isDown){
-                this.player.setVelocityX(-gameSettings.playerSpeed);
-            } else if(this.cursorKeys.right.isDown){
-                this.player.setVelocityX(gameSettings.playerSpeed);
-            } else {
-                this.player.setVelocityX(0);
-            }
-            if(this.cursorKeys.up.isDown){
-                this.player.setVelocityY(-gameSettings.playerSpeed);
-            } else if(this.cursorKeys.down.isDown){
-                this.player.setVelocityY(gameSettings.playerSpeed);
-            } else {
-                this.player.setVelocityY(0);
+            if(this.bgspeed !== 5){
+                if(this.cursorKeys.left.isDown){
+                    this.player.setVelocityX(-gameSettings.playerSpeed);
+                } else if(this.cursorKeys.right.isDown){
+                    this.player.setVelocityX(gameSettings.playerSpeed);
+                } else {
+                    this.player.setVelocityX(0);
+                }
+                if(this.cursorKeys.up.isDown){
+                    this.player.setVelocityY(-gameSettings.playerSpeed);
+                } else if(this.cursorKeys.down.isDown){
+                    this.player.setVelocityY(gameSettings.playerSpeed);
+                } else {
+                    this.player.setVelocityY(0);
+                }
             }
         }
         resetShipPos(ship){
@@ -319,6 +470,20 @@ var config = {
             //enemy.setTexture("explosion");
             //enemy.play("explode");
         }
+        hitEnemy1(player, enemy){
+
+            var explosion = new Explosion(this, enemy.x, enemy.y);
+            
+            this.resetShipPos(enemy);
+            
+            globalScoreFormated = this.zeroPad(this.score, 6);
+            this.scoreLabel.text = "SCORE " + globalScoreFormated;
+            this.explosionSound.play({volume: 0.25});
+           
+           // this.bullets += 1;
+        //enemy.setTexture("explosion");
+        //enemy.play("explode");
+    }
         
         zeroPad(number, size){
             var stringNumber = String(number);
@@ -335,6 +500,29 @@ var config = {
                 this.scene.start("Shop")
             });
         }*/
+        startBoostTimer() {
+            this.boostStartTime = this.time.now;
+            this.time.addEvent({
+                delay: 0,
+                callback: () => {
+                    this.boostActive = true;
+                    this.updateBoostIndicator();
+                },
+                callbackScope: this
+            });
+        }
+        updateBoostIndicator() {
+            if (this.boostActive) {
+                const remainingTime = Math.max(this.boostDuration - (this.time.now - this.boostStartTime), 0);
+                const indicatorWidth = config.width * remainingTime / this.boostDuration;
+    
+                this.boostIndicator.setSize(indicatorWidth, 20);
+                console.log("Boost Indicator Updated: Remaining Time:", remainingTime);
+                if (remainingTime <= 0) {
+                    this.boostIndicator.visible = false;
+                }
+            }
+        }
         startShieldTimer() {
             this.shieldStartTime = this.time.now;
             this.time.addEvent({
@@ -400,4 +588,5 @@ var config = {
                 callbackScope: this
             });
         }
+      
     }

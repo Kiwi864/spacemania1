@@ -42,11 +42,14 @@ var config = {
             this.lives = 3;
             this.nesmrtelnost = 0;
             this.score = 0;
+           
             this.bulletsadder = 0;
             globalScoreFormated = this.zeroPad(this.score, 6);
+           
             
         }
         create(){
+            this.score = 0;
             this.background = this.add.tileSprite(0,0, config.width, config.height, "background");
             this.background.setOrigin(0,0);
             this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
@@ -94,6 +97,7 @@ var config = {
             var graphics = this.add.graphics();
             graphics.fillStyle("Black");
             graphics.fillRect(0,0,config.width,20);
+         
             this.scoreLabel = this.add.bitmapText(10,5, "pixelFont", "SCORE: 000000", 16);
             this.bulletCountLabel = this.add.bitmapText(180,5, "pixelFont", "BULLETS: 5", 16 );
             this.livesLabel = this.add.bitmapText(110,5, "pixelFont", "LIVES: 3", 16 );

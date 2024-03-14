@@ -53,14 +53,17 @@ class Shop extends Phaser.Scene {
         });
         this.lukrat.on('pointerover', () => {
             this.zelezo.destroy();
+            this.textbg = this.add.sprite(205,70, "textbg");
+            this.textbg.setScale(1.4);
+            this.textbg.setAlpha(0.8);
             this.lukrat.setScale(1.1);
             this.ammobox.setScale(1.1);
             this.amoo = this.add.bitmapText(180,20, "pixelFont", "AMMOBOX", 16 );
-            this.amooo = this.add.bitmapText(175,35, "pixelFont", "This item ", 14 );
-            this.amo = this.add.bitmapText(175,50, "pixelFont", "gives you a   ", 14 );
-            this.amom = this.add.bitmapText(170,65, "pixelFont", " bonus of 10  ", 14 );
-            this.mol = this.add.bitmapText(180,80, "pixelFont", " bullets ", 14 );
-            this.a = this.add.bitmapText(165,110, "pixelFont", " COST: 100 points", 14 );
+            this.amooo = this.add.bitmapText(180,35, "pixelFont", "This item ", 14 );
+            this.amo = this.add.bitmapText(180,50, "pixelFont", "gives you a   ", 14 );
+            this.amom = this.add.bitmapText(175,65, "pixelFont", " bonus of 10  ", 14 );
+            this.mol = this.add.bitmapText(185,80, "pixelFont", " bullets ", 14 );
+            this.a = this.add.bitmapText(167,110, "pixelFont", " COST: 100 points", 14 );
         });
         this.lukrat.on('pointerdown', () => {
             if(globalScoreFormated >= 100){
@@ -88,18 +91,23 @@ class Shop extends Phaser.Scene {
         this.lukrat.on('pointerout', () => {
             this.zelezo = this.add.sprite(215,25, "zelezo");
             this.lukrat.setScale(1); 
+            this.textbg.destroy();
             this.ammobox.setScale(1);
             this.amoo.destroy();
             this.amooo.destroy();
             this.amo.destroy();
             this.amom.destroy();
             this.mol.destroy();
-            this.amol.destroy();
+            
             this.a.destroy();
         });
 
         this.lukrat2.on('pointerover', () => {
+            
             this.zelezo.destroy();
+            this.textbg = this.add.sprite(205,70, "textbg");
+            this.textbg.setScale(1.4);
+            this.textbg.setAlpha(0.8);
             this.lukrat2.setScale(1.1);
             this.shield.setScale(1.1);
             this.amoo = this.add.bitmapText(180,20, "pixelFont", "SHIELD", 16 );
@@ -107,14 +115,15 @@ class Shop extends Phaser.Scene {
             this.amo = this.add.bitmapText(175,50, "pixelFont", "gives you an   ", 14 );
             this.amom = this.add.bitmapText(170,65, "pixelFont", " invincibility  ", 14 );
             this.mol = this.add.bitmapText(170,80, "pixelFont", " for 1 0 seconds ", 14 );
-            this.amol = this.add.bitmapText(158,95, "pixelFont", " (activated with T)", 15 );
-            this.a = this.add.bitmapText(165,110, "pixelFont", " COST: 300 points", 14 );
+            this.amol = this.add.bitmapText(160,95, "pixelFont", " (activated by T)", 15 );
+            this.a = this.add.bitmapText(165,115, "pixelFont", " COST: 300 points", 14 );
         });
 
         this.lukrat2.on('pointerdown', () => {
             if(globalScoreFormated >= 300){
                 globalScoreFormated -= 300
                 globalScoreFormated = this.zeroPad(globalScoreFormated, 6);
+                globalShields += 1;
                
             }
             else {
@@ -137,6 +146,7 @@ class Shop extends Phaser.Scene {
             this.zelezo = this.add.sprite(215,25, "zelezo");
             this.lukrat2.setScale(1); 
             this.shield.setScale(1);
+            this.textbg.destroy();
             this.amoo.destroy();
             this.amooo.destroy();
             this.amo.destroy();
@@ -148,21 +158,25 @@ class Shop extends Phaser.Scene {
 
         this.lukrat3.on('pointerover', () => {
             this.zelezo.destroy();
+            this.textbg = this.add.sprite(205,70, "textbg");
+            this.textbg.setScale(1.4);
+            this.textbg.setAlpha(0.8);
             this.lukrat3.setScale(1.1);
             this.boost.setScale(1.1);
             this.amoo = this.add.bitmapText(180,20, "pixelFont", "BOOST", 16 );
             this.amooo = this.add.bitmapText(175,35, "pixelFont", "This item ", 14 );
             this.amo = this.add.bitmapText(175,50, "pixelFont", "gives you an   ", 14 );
             this.amom = this.add.bitmapText(170,65, "pixelFont", " speed boost  ", 14 );
-            this.amomf = this.add.bitmapText(165,80, "pixelFont", "and auto-rockets ", 14 );
+            this.amomf = this.add.bitmapText(162,80, "pixelFont", "and auto-rockets ", 14 );
             this.mol = this.add.bitmapText(170,95, "pixelFont", " for 1 0 seconds ", 14 );
-            this.amol = this.add.bitmapText(158,110, "pixelFont", " (activated with F)", 15 );
+            this.amol = this.add.bitmapText(163,110, "pixelFont", " (activated by F)", 15 );
             this.a = this.add.bitmapText(165,125, "pixelFont", " COST: 1000 points", 14 );
         });
         this.lukrat3.on('pointerdown', () => {
             if(globalScoreFormated >= 1000){
                 globalScoreFormated -= 1000
                 globalScoreFormated = this.zeroPad(globalScoreFormated, 6);
+                globalBoost += 1; 
             }  else {
                 this.tweens.add({
                     targets: [this.lukrat3, this.boost],
@@ -186,6 +200,7 @@ class Shop extends Phaser.Scene {
             this.zelezo = this.add.sprite(215,25, "zelezo");
             this.lukrat3.setScale(1); 
             this.boost.setScale(1);
+            this.textbg.destroy();
             this.amoo.destroy();
             this.amooo.destroy();
             this.amo.destroy();
@@ -252,14 +267,17 @@ class Shop extends Phaser.Scene {
 
         this.lukrat.on('pointerover', () => {
             this.zelezo.destroy();
+            this.textbg = this.add.sprite(205,70, "textbg");
+            this.textbg.setScale(1.4);
+            this.textbg.setAlpha(0.8);
             this.lukrat.setScale(1.1);
             this.ammobox.setScale(1.1);
             this.amoo = this.add.bitmapText(180,20, "pixelFont", "AMMOBOX", 16 );
-            this.amooo = this.add.bitmapText(175,35, "pixelFont", "This item ", 14 );
-            this.amo = this.add.bitmapText(175,50, "pixelFont", "gives you a   ", 14 );
-            this.amom = this.add.bitmapText(170,65, "pixelFont", " bonus of 10  ", 14 );
-            this.mol = this.add.bitmapText(180,80, "pixelFont", " bullets ", 14 );
-            this.a = this.add.bitmapText(165,110, "pixelFont", " COST: 100 points", 14 );
+            this.amooo = this.add.bitmapText(180,35, "pixelFont", "This item ", 14 );
+            this.amo = this.add.bitmapText(180,50, "pixelFont", "gives you a   ", 14 );
+            this.amom = this.add.bitmapText(175,65, "pixelFont", " bonus of 10  ", 14 );
+            this.mol = this.add.bitmapText(185,80, "pixelFont", " bullets ", 14 );
+            this.a = this.add.bitmapText(167,110, "pixelFont", " COST: 100 points", 14 );
         });
         this.lukrat.on('pointerdown', () => {
             if(globalScoreFormated >= 100){
@@ -288,6 +306,7 @@ class Shop extends Phaser.Scene {
 
         this.lukrat.on('pointerout', () => {
             this.zelezo = this.add.sprite(215,25, "zelezo");
+            this.textbg.destroy();
             this.lukrat.setScale(1); 
             this.ammobox.setScale(1);
             this.amoo.destroy();
@@ -295,12 +314,15 @@ class Shop extends Phaser.Scene {
             this.amo.destroy();
             this.amom.destroy();
             this.mol.destroy();
-            this.amol.destroy();
+            
             this.a.destroy();
         });
 
         this.lukrat2.on('pointerover', () => {
             this.zelezo.destroy();
+            this.textbg = this.add.sprite(205,70, "textbg");
+            this.textbg.setScale(1.4);
+            this.textbg.setAlpha(0.8);
             this.lukrat2.setScale(1.1);
             this.shield.setScale(1.1);
             this.amoo = this.add.bitmapText(180,20, "pixelFont", "SHIELD", 16 );
@@ -308,8 +330,8 @@ class Shop extends Phaser.Scene {
             this.amo = this.add.bitmapText(175,50, "pixelFont", "gives you an   ", 14 );
             this.amom = this.add.bitmapText(170,65, "pixelFont", " invincibility  ", 14 );
             this.mol = this.add.bitmapText(170,80, "pixelFont", " for 1 0 seconds ", 14 );
-            this.amol = this.add.bitmapText(158,95, "pixelFont", " (activated with T)", 15 );
-            this.a = this.add.bitmapText(165,110, "pixelFont", " COST: 300 points", 14 );
+            this.amol = this.add.bitmapText(160,95, "pixelFont", " (activated by T)", 15 );
+            this.a = this.add.bitmapText(165,115, "pixelFont", " COST: 300 points", 14 );
         });
         this.lukrat2.on('pointerdown', () => {
             if(globalScoreFormated >= 300){
@@ -339,6 +361,7 @@ class Shop extends Phaser.Scene {
         this.lukrat2.on('pointerout', () => {
             this.zelezo = this.add.sprite(215,25, "zelezo");
             this.lukrat2.setScale(1); 
+            this.textbg.destroy();
             this.shield.setScale(1);
             this.amoo.destroy();
             this.amooo.destroy();
@@ -351,22 +374,25 @@ class Shop extends Phaser.Scene {
 
         this.lukrat3.on('pointerover', () => {
             this.zelezo.destroy();
+            this.textbg = this.add.sprite(205,70, "textbg");
+            this.textbg.setScale(1.4);
+            this.textbg.setAlpha(0.8);
             this.lukrat3.setScale(1.1);
             this.boost.setScale(1.1);
             this.amoo = this.add.bitmapText(180,20, "pixelFont", "BOOST", 16 );
             this.amooo = this.add.bitmapText(175,35, "pixelFont", "This item ", 14 );
             this.amo = this.add.bitmapText(175,50, "pixelFont", "gives you an   ", 14 );
             this.amom = this.add.bitmapText(170,65, "pixelFont", " speed boost  ", 14 );
-            this.amomf = this.add.bitmapText(165,80, "pixelFont", "and auto-rockets ", 14 );
+            this.amomf = this.add.bitmapText(162,80, "pixelFont", "and auto-rockets ", 14 );
             this.mol = this.add.bitmapText(170,95, "pixelFont", " for 1 0 seconds ", 14 );
-            this.amol = this.add.bitmapText(158,110, "pixelFont", " (activated with F)", 15 );
+            this.amol = this.add.bitmapText(163,110, "pixelFont", " (activated by F)", 15 );
             this.a = this.add.bitmapText(165,125, "pixelFont", " COST: 1000 points", 14 );
         });
         this.lukrat3.on('pointerdown', () => {
             if(globalScoreFormated >= 1000){
                 globalScoreFormated -= 1000
                 globalScoreFormated = this.zeroPad(globalScoreFormated, 6);
-                globalBullets += 10;
+                globalBoost += 1;
             }
             else {
                 this.tweens.add({
@@ -391,6 +417,7 @@ class Shop extends Phaser.Scene {
             this.zelezo = this.add.sprite(215,25, "zelezo");
             this.lukrat3.setScale(1); 
             this.boost.setScale(1);
+            this.textbg.destroy();
             this.amoo.destroy();
             this.amooo.destroy();
             this.amo.destroy();

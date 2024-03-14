@@ -33,6 +33,7 @@ class Ending extends Phaser.Scene {
     update(){
         this.finalScoreLabel.text = "SCORE: " + globalScoreFormated; 
         if (Phaser.Input.Keyboard.JustDown(this.ZKey)){
+            this.sound.stopAll();
             this.scene.start("playGame");
             globalHealth = 3;
             globalBullets = 5;

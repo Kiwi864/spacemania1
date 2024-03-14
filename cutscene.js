@@ -89,6 +89,7 @@ class cutscene extends Phaser.Scene {
     }
     update(){
         if (Phaser.Input.Keyboard.JustDown(this.ZKey)){
+            this.sound.stopAll();
             this.scene.start("playGame");
         }
     }
