@@ -13,34 +13,14 @@ var config = {
 
             scene.add.existing(this);
             this.scene = scene;
-            this.speed = 100;
-           
+            this.speed = 200;
+            this.targetEnemyindic = false;
             this.findNearestEnemy();
-        }
-    
-        update() {
            
-            if (this.targetEnemy == this.nearestEnemy) {
-                
-                const directionX = this.targetEnemy.x - this.x;
-                const directionY = this.targetEnemy.y - this.y;
-    
-            
-                const length = Math.sqrt(directionX ** 2 + directionY ** 2);
-                const velocityX = (directionX / length) * this.speed;
-                const velocityY = (directionY / length) * this.speed;
-    
-              
-                this.x += velocityX * this.scene.game.loop.delta / 1000;
-                this.y += velocityY * this.scene.game.loop.delta / 1000;
-            } 
-               
-                this.findNearestEnemy();
+           
             
         }
-    
         findNearestEnemy() {
-           
             let nearestEnemy = null;
             let nearestDistance = Infinity;
             this.scene.enemies.getChildren().forEach(enemy => {
@@ -51,9 +31,36 @@ var config = {
                 }
             });
     
+            this.scene.physics.world.enableBody(this);
+            //this.body.velocity.y = - 250;
            
             this.targetEnemy = nearestEnemy;
+            this.targetEnemyindic = true;
+            const directionX = this.targetEnemy.x - this.x;
+            const directionY = this.targetEnemy.y - this.y;
+
+            
+            const length = Math.sqrt(directionX ** 2 + directionY ** 2);
+            const velocityX = (directionX / length) * this.speed;
+            const velocityY = (directionY / length) * this.speed;
+
+          
+            this.x += velocityX * this.scene.game.loop.delta / 1000;
+            this.y += velocityY * this.scene.game.loop.delta / 1000;
+           
+            this.body.velocity.y = velocityY;
+            this.body.velocity.x = velocityX;
+
         }
+        update() {
+            this.angle += 5;
+            this.findNearestEnemy();
+
+            
+        }
+       
+       
+        
     }
     class Scene4 extends Phaser.Scene {
         constructor(){
@@ -75,6 +82,8 @@ var config = {
             this.shopTimerDelay = 780000;
             this.boostDuration = 10000; 
             this.boostActive = false;
+            this.orolindic = 0;
+            this.p = 0
         }
         create(){
             this.sound.stopAll();
@@ -86,7 +95,8 @@ var config = {
             this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
             this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
             this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
-           
+            this.orol = this.add.sprite(97,390, "orol");
+            this.orol.alpha = 0;
             //this.character = this.add.sprite(config.width/2 + 50, config.height/2, "character1");
 
             
@@ -108,6 +118,7 @@ var config = {
             this.input.on('gameobjectdown', this.destroyShip, this);
 
             this.projectiles = this.add.group();
+            this.valasky = this.add.group();
             this.powerUps = this.physics.add.group();
             
             this.shieldIndicator = this.add.rectangle(0, config.height - 20, config.width, 20, 0x00ff00);
@@ -132,6 +143,9 @@ var config = {
             this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this);
             this.physics.add.overlap(this.player, this.enemies, this.hurtPlayer, null, this);
             this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
+            this.physics.add.overlap(this.valasky, this.enemies, this.destroyEnemy, null, this);
+           
+            
 
             var graphics = this.add.graphics();
             graphics.fillStyle("Black");
@@ -220,7 +234,6 @@ var config = {
            
         }
         update(){
-           
             this.background.tilePositionY -= this.bgspeed;
             this.bulletCountLabel.text = "BULLETS: " + globalBullets;
             this.moveShip(this.ship1, this.speeds1);
@@ -228,18 +241,38 @@ var config = {
             this.moveShip(this.ship3, this.speeds3);
          
             this.movePlayerManager();
-            if (Phaser.Input.Keyboard.JustDown(this.spacebar)){
+            if (Phaser.Input.Keyboard.JustDown(this.spacebar) ){
                 if(this.player.active){
                     console.log("Fire!");
                     this.shootBeam();
                 }
             }
             if (Phaser.Input.Keyboard.JustDown(this.GKey)){
+                this.orol.alpha = 1;
+                this.orolindic += 1;
+                this.player.play("slovakanim");
                 if(this.player.active){
                     console.log("Valaska!");
-                    this.shootValaska();
+                    this.valaska = new Valaska(this, this.player.x, this.player.y);
+                    this.valaska.setScale(0.5);
                 }
+                   
+                   
+                        
+                
             }
+           if(this.valaska) {
+                this.valaska.update();
+               
+               
+            }
+            if(this.orolindic == 1){
+                this.orol.y -= 40;
+            }
+            if(this.orol.y == -80){
+                this.p += 1;
+            }
+
             console.log(this.bgspeed);
             if (globalBoost >= 1){
                 if(this.bgspeed == 0.5){
@@ -294,6 +327,8 @@ var config = {
              var beam = this.projectiles.getChildren()[i];
              beam.update();
             }
+           
+   
 
             this.bulletCountLabel.text = "BULLETS: " + globalBullets;
             this.livesLabel.text = "LIVES: " + this.lives;
@@ -327,6 +362,7 @@ var config = {
              this.sound.stopAll();
              this.scene.start("Shop2");
            }
+          
         }
         hurtPlayer(player, enemy){
             console.log("collision");
@@ -460,8 +496,9 @@ var config = {
         } 
         shootValaska(){
            
-            var valaska = new Valaska(this, this.player.x, this.player.y);
-            valaska.setScale(0.5);
+            // var valaska = new Valaska(this, this.player.x, this.player.y);
+            // valaska.setScale(0.5);
+            // valaska.update();
         } 
 
         movePlayerManager(){
@@ -506,6 +543,17 @@ var config = {
                // this.bullets += 1;
             //enemy.setTexture("explosion");
             //enemy.play("explode");
+        }
+        destroyEnemy(valaska, enemy){
+            var explosion = new Explosion(this, enemy.x, enemy.y);
+            this.resetShipPos(enemy);
+            this.score += 15;
+            globalScoreFormated = this.zeroPad(this.score, 6);
+            this.scoreLabel.text = "SCORE " + globalScoreFormated;
+            this.explosionSound.play({volume: 0.25});
+            if (Phaser.Math.RND.between(0, 1) === 1){
+               globalBullets += 1; 
+            }
         }
         hitEnemy1(player, enemy){
 

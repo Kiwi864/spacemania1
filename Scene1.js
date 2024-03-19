@@ -37,6 +37,10 @@
                 frameWidth: 16,
                 frameHeight: 24
             });
+            this.load.spritesheet("slovak", "assets/spritesheets/slovak.png",{
+                frameWidth: 16,
+                frameHeight: 24
+            });
             this.load.spritesheet("beam", "assets/spritesheets/beam.png",{
                 frameWidth: 16,
                 frameHeight: 16
@@ -185,6 +189,12 @@
         this.anims.create({
             key: "thrust",
             frames: this.anims.generateFrameNumbers("player"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "slovakanim",
+            frames: this.anims.generateFrameNumbers("slovak"),
             frameRate: 20,
             repeat: -1
         });
