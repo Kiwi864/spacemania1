@@ -379,7 +379,10 @@ var config = {
             }
             if(this.g == 1){
                 this.bulletCountLabel.text = "PATRONY: " + globalBullets;
-                this.livesLabel.text = "JEST: " + this.lives;
+                this.livesLabel.x = 96
+                this.livesLabel.y = 6
+                this.livesLabel.setScale(0.93);
+                this.livesLabel.text = "JESTVOVANIE: " + this.lives;
                 this.scoreLabel.text = "GROSE: " + globalScoreFormated;
             }
             if (this.lives === 0){
