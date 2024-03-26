@@ -55,8 +55,8 @@ var config = {
         update() {
             this.angle += 5;
             this.findNearestEnemy();
-
-            
+           
+           
         }
        
        
@@ -84,6 +84,8 @@ var config = {
             this.boostActive = false;
             this.orolindic = 0;
             this.p = 0
+            this.k = 0
+            this.g = 0
         }
         create(){
             this.sound.stopAll();
@@ -241,27 +243,69 @@ var config = {
             this.moveShip(this.ship3, this.speeds3);
          
             this.movePlayerManager();
-            if (Phaser.Input.Keyboard.JustDown(this.spacebar) ){
+            if (Phaser.Input.Keyboard.JustDown(this.spacebar) && this.k == 0){
                 if(this.player.active){
                     console.log("Fire!");
                     this.shootBeam();
                 }
             }
-            if (Phaser.Input.Keyboard.JustDown(this.GKey)){
-                this.orol.alpha = 1;
-                this.orolindic += 1;
-                this.player.play("slovakanim");
-                if(this.player.active){
-                    console.log("Valaska!");
-                    this.valaska = new Valaska(this, this.player.x, this.player.y);
-                    this.valaska.setScale(0.5);
+            
+                if (Phaser.Input.Keyboard.JustDown(this.GKey)){
+                    this.orol.alpha = 1;
+                    this.orolindic = 1;
+                    this.g = 1;
+                    this.p = 0;
+                    this.k = 1;
+                 
+                    this.player.play("slovakanim");
+                    this.music.stop();
+                    this.slovar = this.sound.add("slovar", {volume: 1});
+                    var hudbaConfig = {
+                        mute: false,
+                        volume: 1,
+                        rate: 1,
+                        detune: 0,
+                        seek: 0,
+                        loop: true,
+                        delay: 0
+                    }
+                    this.slovar.play(hudbaConfig);
+                    if(this.player.active){
+                        console.log("Valaska!");
+                        this.valaska = new Valaska(this, this.player.x, this.player.y);
+                        this.valaska.setScale(0.5);
+                        this.physics.add.overlap(this.valaska, this.enemies, this.destroyEnemy, null, this);
+                        this.time.addEvent({
+                            delay: 14000,
+                            callback: async () => {
+                                this.valaska.destroy();
+                                this.player.play("thrust");
+                                this.g = 0;
+                                this.p = 1;
+                                this.k = 0
+                                this.slovar.stop();
+                                this.music.play();
+                                this.orolindic = 0;
+                                this.orol.alpha = 0;
+                                this.orol.x = 97;
+                                this.orol.y = 390;
+                            },
+                            callbackScope: this,
+                        });  
+                    }
                 }
                    
                    
                         
                 
+            
+            if(this.valaska && this.valaska.y < 40 && this.p == 0){
+                this.valaska.destroy();
+                this.valaska = new Valaska(this, this.player.x, this.player.y);
+                this.valaska.setScale(0.5);
+                    this.physics.add.overlap(this.valaska, this.enemies, this.destroyEnemy, null, this);
             }
-           if(this.valaska) {
+           if(this.valaska && this.valaska.y > 40 && this.p == 0) {
                 this.valaska.update();
                
                
@@ -269,9 +313,7 @@ var config = {
             if(this.orolindic == 1){
                 this.orol.y -= 40;
             }
-            if(this.orol.y == -80){
-                this.p += 1;
-            }
+          
 
             console.log(this.bgspeed);
             if (globalBoost >= 1){
@@ -328,12 +370,18 @@ var config = {
              beam.update();
             }
            
+           
    
-
-            this.bulletCountLabel.text = "BULLETS: " + globalBullets;
-            this.livesLabel.text = "LIVES: " + this.lives;
-            this.scoreLabel.text = "SCORE: " + globalScoreFormated;
-
+            if(this.g == 0){
+                this.bulletCountLabel.text = "BULLETS: " + globalBullets;
+                this.livesLabel.text = "LIVES: " + this.lives;
+                this.scoreLabel.text = "SCORE: " + globalScoreFormated;
+            }
+            if(this.g == 1){
+                this.bulletCountLabel.text = "PATRONY: " + globalBullets;
+                this.livesLabel.text = "JEST: " + this.lives;
+                this.scoreLabel.text = "GROSE: " + globalScoreFormated;
+            }
             if (this.lives === 0){
                 this.sound.stopAll();
                 this.scene.start("koniec");
@@ -547,13 +595,13 @@ var config = {
         destroyEnemy(valaska, enemy){
             var explosion = new Explosion(this, enemy.x, enemy.y);
             this.resetShipPos(enemy);
-            this.score += 15;
+            this.score += 4;
+            
             globalScoreFormated = this.zeroPad(this.score, 6);
-            this.scoreLabel.text = "SCORE " + globalScoreFormated;
-            this.explosionSound.play({volume: 0.25});
-            if (Phaser.Math.RND.between(0, 1) === 1){
-               globalBullets += 1; 
-            }
+            
+            this.scoreLabel.text = "GROSE " + globalScoreFormated;
+            
+           
         }
         hitEnemy1(player, enemy){
 
