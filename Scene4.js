@@ -374,6 +374,9 @@ var config = {
    
             if(this.g == 0){
                 this.bulletCountLabel.text = "BULLETS: " + globalBullets;
+                this.livesLabel.x = 110
+                this.livesLabel.y = 5
+                this.livesLabel.setScale(1);
                 this.livesLabel.text = "LIVES: " + this.lives;
                 this.scoreLabel.text = "SCORE: " + globalScoreFormated;
             }
