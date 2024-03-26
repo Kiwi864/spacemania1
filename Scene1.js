@@ -133,7 +133,7 @@
             this.load.audio("emergency", ["assets/sounds/emergency.ogg", "assets/sounds/emergency.mp3"]);
             this.load.audio("dialogb", ["assets/sounds/Dramatic_V2.ogg", "assets/sounds/Dramatic_V2.mp3"]);
             this.load.audio("shopm", ["assets/sounds/shop.ogg", "assets/sounds/shop.mp3"]);
-            this.load.audio("china", ["assets/sounds/china.ogg", "assets/sounds/china.mp3"]);
+            this.load.audio("china", ["assets/sounds/China.ogg", "assets/sounds/China.mp3"]);
             this.load.audio("slovar", ["assets/sounds/slovar.ogg", "assets/sounds/slovar.mp3"]);
             this.load.audio("space", ["assets/sounds/space.ogg", "assets/sounds/space.mp3"]);
         }
