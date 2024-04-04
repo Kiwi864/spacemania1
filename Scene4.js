@@ -75,9 +75,9 @@ var config = {
             this.shieldDuration = 10000;
             this.shieldActive = false;
             this.bgspeed = 0.5;
-            this.speeds1 = 2;
-            this.speeds2 = 3;
-            this.speeds3 = 4;
+            this.speeds1 = 2.5;
+            this.speeds2 = 3.5;
+            this.speeds3 = 4.5;
             this.speedchange = 0;
             this.shopTimerDelay = 780000;
             this.boostDuration = 10000; 
@@ -94,9 +94,9 @@ var config = {
             this.FKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
             this.GKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
             this.background.setOrigin(0,0);
-            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
-            this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
-            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
+            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 - 30, "shipb");
+            this.ship2 = this.add.sprite(config.width/2, config.height/2 - 30, "shipb2");
+            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2 - 30, "shipb3");
             this.orol = this.add.sprite(97,390, "orol");
             this.orol.alpha = 0;
             //this.character = this.add.sprite(config.width/2 + 50, config.height/2, "character1");
@@ -109,9 +109,9 @@ var config = {
             this.enemies.add(this.ship1);
             this.enemies.add(this.ship2);
             this.enemies.add(this.ship3);
-            this.ship1.play("ship1_anim");
-            this.ship2.play("ship2_anim");
-            this.ship3.play("ship3_anim");
+            this.ship1.play("shipb1_anim");
+            this.ship2.play("shipb2_anim");
+            this.ship3.play("shipb3_anim");
            // this.character.play("character_anim");
             this.ship1.setInteractive();
             this.ship2.setInteractive();
@@ -249,52 +249,52 @@ var config = {
                     this.shootBeam();
                 }
             }
-            
-                if (Phaser.Input.Keyboard.JustDown(this.GKey)){
-                    this.orol.alpha = 1;
-                    this.orolindic = 1;
-                    this.g = 1;
-                    this.p = 0;
-                    this.k = 1;
-                 
-                    this.player.play("slovakanim");
-                    this.music.stop();
-                    this.slovar = this.sound.add("slovar", {volume: 1});
-                    var hudbaConfig = {
-                        mute: false,
-                        volume: 1,
-                        rate: 1,
-                        detune: 0,
-                        seek: 0,
-                        loop: true,
-                        delay: 0
+                if(globalHalusky >= 1){
+                    if (Phaser.Input.Keyboard.JustDown(this.GKey)){
+                        this.orol.alpha = 1;
+                        this.orolindic = 1;
+                        this.g = 1;
+                        this.p = 0;
+                        this.k = 1;
+                    
+                        this.player.play("slovakanim");
+                        this.music.stop();
+                        this.slovar = this.sound.add("slovar", {volume: 1});
+                        var hudbaConfig = {
+                            mute: false,
+                            volume: 1,
+                            rate: 1,
+                            detune: 0,
+                            seek: 0,
+                            loop: true,
+                            delay: 0
+                        }
+                        this.slovar.play(hudbaConfig);
+                        if(this.player.active){
+                            console.log("Valaska!");
+                            this.valaska = new Valaska(this, this.player.x, this.player.y);
+                            this.valaska.setScale(0.5);
+                            this.physics.add.overlap(this.valaska, this.enemies, this.destroyEnemy, null, this);
+                            this.time.addEvent({
+                                delay: 14000,
+                                callback: async () => {
+                                    this.valaska.destroy();
+                                    this.player.play("thrust");
+                                    this.g = 0;
+                                    this.p = 1;
+                                    this.k = 0
+                                    this.slovar.stop();
+                                    this.music.play();
+                                    this.orolindic = 0;
+                                    this.orol.alpha = 0;
+                                    this.orol.x = 97;
+                                    this.orol.y = 390;
+                                },
+                                callbackScope: this,
+                            });  
+                        }
                     }
-                    this.slovar.play(hudbaConfig);
-                    if(this.player.active){
-                        console.log("Valaska!");
-                        this.valaska = new Valaska(this, this.player.x, this.player.y);
-                        this.valaska.setScale(0.5);
-                        this.physics.add.overlap(this.valaska, this.enemies, this.destroyEnemy, null, this);
-                        this.time.addEvent({
-                            delay: 14000,
-                            callback: async () => {
-                                this.valaska.destroy();
-                                this.player.play("thrust");
-                                this.g = 0;
-                                this.p = 1;
-                                this.k = 0
-                                this.slovar.stop();
-                                this.music.play();
-                                this.orolindic = 0;
-                                this.orol.alpha = 0;
-                                this.orol.x = 97;
-                                this.orol.y = 390;
-                            },
-                            callbackScope: this,
-                        });  
-                    }
-                }
-                   
+                }   
                    
                         
                 
@@ -522,9 +522,9 @@ var config = {
                 delay: 800,
                 callback: async () => {
                     this.bgspeed = 0.5;
-                    this.speeds1 = 2;
-                    this.speeds2 = 3;
-                    this.speeds3 = 4;
+                    this.speeds1 = 2.5;
+                    this.speeds2 = 3.5;
+                    this.speeds3 = 4.5;
                 },
                 callbackScope: this,
             }); 

@@ -17,11 +17,35 @@
                 frameWidth: 16,
                 frameHeight: 16
             });
+            this.load.spritesheet("shipk", "assets/spritesheets/shipk.png",{
+                frameWidth: 16,
+                frameHeight: 16
+            });
+            this.load.spritesheet("shipb", "assets/spritesheets/shipb.png",{
+                frameWidth: 16,
+                frameHeight: 16
+            });
             this.load.spritesheet("ship2", "assets/spritesheets/ship2.png",{
                 frameWidth: 32,
                 frameHeight: 16
             });
+            this.load.spritesheet("shipb2", "assets/spritesheets/shipb2.png",{
+                frameWidth: 32,
+                frameHeight: 16
+            });
+            this.load.spritesheet("shipk2", "assets/spritesheets/shipk2.png",{
+                frameWidth: 32,
+                frameHeight: 16
+            });
             this.load.spritesheet("ship3", "assets/spritesheets/ship3.png",{
+                frameWidth: 32,
+                frameHeight: 32
+            });
+            this.load.spritesheet("shipb3", "assets/spritesheets/shipb3.png",{
+                frameWidth: 32,
+                frameHeight: 32
+            });
+            this.load.spritesheet("shipk3", "assets/spritesheets/shipk3.png",{
                 frameWidth: 32,
                 frameHeight: 32
             });
@@ -150,14 +174,50 @@
             repeat: -1
         });
         this.anims.create({
+            key: "shipb1_anim",
+            frames: this.anims.generateFrameNumbers("shipb"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "shipk1_anim",
+            frames: this.anims.generateFrameNumbers("shipk"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
             key: "ship2_anim",
             frames: this.anims.generateFrameNumbers("ship2"),
             frameRate: 20,
             repeat: -1
         });
         this.anims.create({
+            key: "shipb2_anim",
+            frames: this.anims.generateFrameNumbers("shipb2"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "shipk2_anim",
+            frames: this.anims.generateFrameNumbers("shipk2"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
             key: "ship3_anim",
             frames: this.anims.generateFrameNumbers("ship3"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "shipb3_anim",
+            frames: this.anims.generateFrameNumbers("shipb3"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "shipk3_anim",
+            frames: this.anims.generateFrameNumbers("shipk3"),
             frameRate: 20,
             repeat: -1
         });

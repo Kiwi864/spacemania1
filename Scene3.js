@@ -59,9 +59,9 @@ var config = {
             this.TKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
             this.FKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
             this.background.setOrigin(0,0);
-            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
-            this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
-            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
+            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 -30, "ship");
+            this.ship2 = this.add.sprite(config.width/2, config.height/2 - 30, "ship2");
+            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2 - 30, "ship3");
             //this.character = this.add.sprite(config.width/2 + 50, config.height/2, "character1");
 
             

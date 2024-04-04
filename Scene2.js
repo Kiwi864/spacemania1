@@ -52,9 +52,9 @@ var config = {
             this.score = 0;
             this.background = this.add.tileSprite(0,0, config.width, config.height, "background");
             this.background.setOrigin(0,0);
-            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
-            this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
-            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
+            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 - 30, "shipk");
+            this.ship2 = this.add.sprite(config.width/2, config.height/2 - 30, "shipk2");
+            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2 - 30, "shipk3");
             //this.character = this.add.sprite(config.width/2 + 50, config.height/2, "character1");
 
             
@@ -65,9 +65,9 @@ var config = {
             this.enemies.add(this.ship1);
             this.enemies.add(this.ship2);
             this.enemies.add(this.ship3);
-            this.ship1.play("ship1_anim");
-            this.ship2.play("ship2_anim");
-            this.ship3.play("ship3_anim");
+            this.ship1.play("shipk1_anim");
+            this.ship2.play("shipk2_anim");
+            this.ship3.play("shipk3_anim");
            // this.character.play("character_anim");
             this.ship1.setInteractive();
             this.ship2.setInteractive();
@@ -183,6 +183,9 @@ var config = {
             
                 if(globalHealth > 0){
                     globalHealth -= 1;
+                    if(globalBullets> 2){
+                        globalBullets -= 2;
+                    }
                 }
                 if(this.player.alpha < 1){
                     globalHealth += 1;
