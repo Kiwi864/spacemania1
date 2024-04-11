@@ -178,7 +178,13 @@ var config = {
                 callbackScope: this,
                 loop: true
             });
-           
+            this.time.addEvent({
+                delay: 120000,
+                callback: this.shop,
+                callbackScope: this,
+                loop: true
+            });
+            
             
            
 
@@ -725,6 +731,14 @@ var config = {
                     this.player.play("thrust"); 
                 },
                 callbackScope: this
+            });
+        }
+        shop(){
+            console.log("shop")
+            this.sound.stopAll()
+            this.cameras.main.fadeOut(1000, 0, 0, 0);
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+                this.scene.start("finale")
             });
         }
       

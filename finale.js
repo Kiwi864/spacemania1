@@ -7,7 +7,7 @@ class finale extends Phaser.Scene {
     constructor(){
         super("finale");
         this.dialogik = 1;
-        
+        this.g = 0;
     }
     create(){
         this.background = this.add.tileSprite(0,0, config.width, config.height, "endingbg");
@@ -25,7 +25,7 @@ class finale extends Phaser.Scene {
             rate: 1,
             detune: 0,
             seek: 0,
-            loop: true,
+            loop: false,
             delay: 0
         }
         this.dialogus.play(musicConfig2);
@@ -42,6 +42,13 @@ class finale extends Phaser.Scene {
             callbackScope: this,
             loop: true
         });
+        this.time.addEvent({
+            delay: 250,
+            callback: this.CharacterAnimation2,
+            callbackScope: this,
+            loop: true
+        });
+        
         this.time.addEvent({
             delay: 250,
             callback: this.moveShip,
@@ -70,8 +77,24 @@ class finale extends Phaser.Scene {
             loop: false,
             
         });
+        this.time.addEvent({
+            delay: 20140,
+            callback: this.dialogue3,
+            callbackScope: this,
+            loop: false,
+            
+        });
+        this.time.addEvent({
+            delay: 23140,
+            callback: this.dialogue4,
+            callbackScope: this,
+            loop: false,
+            
+        });
+       
 
     }
+    
     
     CharacterAnimation(){
         if(this.player.x >= 216){
@@ -109,6 +132,23 @@ class finale extends Phaser.Scene {
             });
         }
     }
+    CharacterAnimation2(){
+        if(this.g == 1){
+            
+                this.characters.children.iterate(function (child) {
+                    switch (child.texture.key) {
+                        case "down":
+                            child.setTexture("up");
+                            break;
+                        case "up":
+                            child.setTexture("down");
+                            break;
+                    }
+                });
+        
+        }
+    }
+
     moveShip(characters, speed){
         if(this.player.x >= 216){
             characters.children.iterate(function (child) {
@@ -352,8 +392,11 @@ class finale extends Phaser.Scene {
     }
     dialogue2(){
         if(this.dialogik = 2){
+            this.admiral.destroy();
             this.phonedialog.destroy();
             this.phonedialog2.destroy();
+            this.admiral = this.add.sprite(40, 60, "mlok");
+            this.admiral.setScale(1);
             this.phonedialog = this.add.bitmapText(82,32, "pixelFont", " ", 19);
             this.phonedialog2 = this.add.bitmapText(100,32, "pixelFont", "", 19);
             this.phonedialog3 = this.add.bitmapText(82,52, "pixelFont", "", 19);
@@ -378,13 +421,142 @@ class finale extends Phaser.Scene {
             this.time.addEvent({
                 delay: 3445,
                 callback: async () => {
-                    this.player.setTexture("shut");
+                    
+                    
+                    this.player.setTexture("load");
+                    this.shuut = this.sound.add("shootend", {volume: 1});
+                    this.shuut.play();
                    
                 },
                 callbackScope: this,
             });
+            this.time.addEvent({
+                delay: 3945,
+                callback: async () => {
+                    
+                    
+                    this.player.setTexture("shut");
+                    this.character3.setTexture("6");
+                   
+                },
+                callbackScope: this,
+            });
+             this.time.addEvent({
+                delay: 4645,
+                callback: async () => {
+                    
+                    
+                    
+                    this.character3.setTexture("5");
+                   
+                },
+                callbackScope: this,
+            });
+            this.time.addEvent({
+                delay: 5345,
+                callback: async () => {
+                    
+                    
+                    
+                    this.character3.setTexture("4");
+                   
+                },
+                callbackScope: this,
+            });
+            this.time.addEvent({
+                delay: 6045,
+                callback: async () => {
+                    
+                    
+                    
+                    this.character3.setTexture("3");
+                   
+                },
+                callbackScope: this,
+            });
+            this.time.addEvent({
+                delay: 6745,
+                callback: async () => {
+                    
+                    
+                    
+                    this.character3.setTexture("1");
+                   
+                },
+                callbackScope: this,
+            });
+            this.time.addEvent({
+                delay: 7445,
+                callback: async () => {
+                    
+                    
+                    
+                    this.character3.setTexture("2");
+                   
+                },
+                callbackScope: this,
+            });
+            this.time.addEvent({
+                delay: 10545,
+                callback: async () => {
+                    
+                    this.character3.setTexture("0");
+                    this.player.setTexture("load");
+                    
+                   
+                },
+                callbackScope: this,
+            });
+            this.dialogik=3;
         }
     }
+    dialogue3(){
+        if(this.dialogik == 3){
+            this.admiral.destroy();
+            this.phonedialog.destroy();
+            this.phonedialog2.destroy();
+            this.phonedialog3.destroy();
+            this.admiral = this.add.sprite(40, 60, "admiralcak");
+            this.admiral.setScale(1);
+            this.phonedialog = this.add.bitmapText(82,32, "pixelFont", " ", 19);
+            this.phonedialog2 = this.add.bitmapText(100,32, "pixelFont", "", 19);
+            this.phonedialog3 = this.add.bitmapText(82,52, "pixelFont", "", 19);
+            this.phonedialog4 = this.add.bitmapText(82,67, "pixelFont", "", 19);
+            this.phonedialog5 = this.add.bitmapText(82,84, "pixelFont", " ", 19);
+            this.time.addEvent({
+                delay: 1000,
+                callback: async () => {
+                    await this.typewriteBitmapText2("Bye Bye ");
+                   
+                },
+                callbackScope: this,
+            });
+            this.dialogik = 4;
+        }
+    }
+    dialogue4(){
+        if(this.dialogik == 4){
+            this.admiral.destroy();
+            this.phonedialog.destroy();
+            this.phonedialog2.destroy();
+            this.phonedialog3.destroy();
+            this.dialog.destroy();
+            this.time.addEvent({
+                delay: 1000,
+                callback: async () => {
+                    this.player.setTexture("down");
+                    this.g = 1;
+                    
+                   
+                },
+                callbackScope: this,
+            });
+          
+        }
+    }
+    
+ 
+
     
     
 }

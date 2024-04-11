@@ -151,8 +151,50 @@
                 frameWidth: 64,
                 frameHeight: 64
             });
-
-            
+            this.load.spritesheet("load", "assets/spritesheets/load.png",{
+                frameWidth: 64,
+                frameHeight: 64
+            });
+            this.load.spritesheet("down", "assets/spritesheets/down6.png",{
+                frameWidth: 64,
+                frameHeight: 64
+            });
+            this.load.spritesheet("up", "assets/spritesheets/down7.png",{
+                frameWidth: 64,
+                frameHeight: 64
+            });
+            this.load.spritesheet("mlok", "assets/spritesheets/mlok.png",{
+                frameWidth: 54,
+                frameHeight: 54
+            });
+            this.load.spritesheet("6", "assets/spritesheets/6.png", {
+                frameWidth: 22,
+                frameHeight: 43
+            });
+            this.load.spritesheet("5", "assets/spritesheets/5.png", {
+                frameWidth: 22,
+                frameHeight: 43
+            });
+            this.load.spritesheet("4", "assets/spritesheets/4.png", {
+                frameWidth: 22,
+                frameHeight: 43
+            });
+            this.load.spritesheet("3", "assets/spritesheets/3.png", {
+                frameWidth: 22,
+                frameHeight: 43
+            });
+            this.load.spritesheet("2", "assets/spritesheets/2.png", {
+                frameWidth: 22,
+                frameHeight: 43
+            });
+            this.load.spritesheet("1", "assets/spritesheets/1.png", {
+                frameWidth: 22,
+                frameHeight: 43
+            });
+            this.load.spritesheet("0", "assets/spritesheets/0.png", {
+                frameWidth: 60,
+                frameHeight: 43
+            });
             
             
             this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
@@ -175,6 +217,7 @@
             this.load.audio("slovar", ["assets/sounds/slovar.ogg", "assets/sounds/slovar.mp3"]);
             this.load.audio("space", ["assets/sounds/space.ogg", "assets/sounds/space.mp3"]);
             this.load.audio("finale", ["assets/sounds/finale.ogg", "assets/sounds/finale.mp3"]);
+            this.load.audio("shootend", ["assets/sounds/shootend.ogg", "assets/sounds/shootend.mp3"]);
         }
 
 
