@@ -13,6 +13,7 @@
             this.load.image("shopijk2", "assets/images/shopgb2.png");
             this.load.image("shop2", "assets/images/secondshop.png");
             this.load.image("space", "assets/images/Space.png");
+            this.load.image("endingbg", "assets/images/endingbg.png");
             this.load.spritesheet("ship", "assets/spritesheets/ship.png",{
                 frameWidth: 16,
                 frameHeight: 16
@@ -138,6 +139,19 @@
                 frameWidth: 100,
                 frameHeight: 100
             });
+            this.load.spritesheet("walk", "assets/spritesheets/walk.png",{
+                frameWidth: 64,
+                frameHeight: 64
+            });
+            this.load.spritesheet("stay", "assets/spritesheets/stay.png",{
+                frameWidth: 64,
+                frameHeight: 64
+            });
+            this.load.spritesheet("shut", "assets/spritesheets/shoot.png",{
+                frameWidth: 64,
+                frameHeight: 64
+            });
+
             
             
             
@@ -160,6 +174,7 @@
             this.load.audio("china", ["assets/sounds/China.ogg", "assets/sounds/China.mp3"]);
             this.load.audio("slovar", ["assets/sounds/slovar.ogg", "assets/sounds/slovar.mp3"]);
             this.load.audio("space", ["assets/sounds/space.ogg", "assets/sounds/space.mp3"]);
+            this.load.audio("finale", ["assets/sounds/finale.ogg", "assets/sounds/finale.mp3"]);
         }
 
 
