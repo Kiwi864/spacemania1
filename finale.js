@@ -3,11 +3,30 @@ var config = {
     height: 272,
     backgroundColor: '#4488aa',
 }
+class Bullet extends Phaser.GameObjects.Sprite{
+    constructor(scene){
+
+        var x = 205;
+        var y = 236;
+    
+        super(scene, x,y, "bullet");
+        scene.add.existing(this);
+        this.play("bullet_anim");
+        scene.physics.world.enableBody(this);
+        this.body.velocity.x = - 250;
+        scene.projectiles.add(this);
+        this.angle = -90
+    }
+    update(){
+        
+    }
+}
 class finale extends Phaser.Scene {
     constructor(){
         super("finale");
         this.dialogik = 1;
         this.g = 0;
+        this.d = 7;
     }
     create(){
         this.background = this.add.tileSprite(0,0, config.width, config.height, "endingbg");
@@ -29,7 +48,10 @@ class finale extends Phaser.Scene {
             delay: 0
         }
         this.dialogus.play(musicConfig2);
-        
+        this.projectiles = this.add.group();
+        this.physics.add.collider(this.projectiles, this.characters1, this.handleCollision, null, this);
+      
+
         this.time.addEvent({
             delay: 250,
             callback: this.CharacterAnimation,
@@ -112,7 +134,7 @@ class finale extends Phaser.Scene {
         }
     }
     CharacterAnimation1(){
-        if(this.player.x >= 216){
+        if(this.player.x >= 216 ){
             this.characters1.children.iterate(function (child) {
                  switch (child.texture.key) {
                     case "character1":
@@ -431,73 +453,80 @@ class finale extends Phaser.Scene {
                 callbackScope: this,
             });
             this.time.addEvent({
-                delay: 3945,
+                delay: 4492,
                 callback: async () => {
                     
                     
                     this.player.setTexture("shut");
-                    this.character3.setTexture("6");
+                    var bullet = new Bullet(this);
+                   
+                },
+                callbackScope: this,
+            });
+            this.time.addEvent({
+                delay: 5192,
+                callback: async () => {
+                    
+                    
+                    this.player.setTexture("shut");
+                    var bullet = new Bullet(this);
                    
                 },
                 callbackScope: this,
             });
              this.time.addEvent({
-                delay: 4645,
+                delay: 5568,
                 callback: async () => {
                     
                     
+                    var bullet = new Bullet(this);
                     
-                    this.character3.setTexture("5");
+                },
+                callbackScope: this,
+            });
+            this.time.addEvent({
+                delay: 5809,
+                callback: async () => {
+                    
+                    
+                    var bullet = new Bullet(this);
+                   
                    
                 },
                 callbackScope: this,
             });
             this.time.addEvent({
-                delay: 5345,
+                delay: 6387 ,
                 callback: async () => {
                     
                     
-                    
-                    this.character3.setTexture("4");
+                    var bullet = new Bullet(this);
                    
                 },
                 callbackScope: this,
             });
             this.time.addEvent({
-                delay: 6045,
+                delay: 6629,
                 callback: async () => {
                     
                     
+                    var bullet = new Bullet(this);
                     
-                    this.character3.setTexture("3");
-                   
                 },
                 callbackScope: this,
             });
             this.time.addEvent({
-                delay: 6745,
+                delay: 6862,
                 callback: async () => {
                     
                     
+                    var bullet = new Bullet(this);
                     
-                    this.character3.setTexture("1");
-                   
                 },
                 callbackScope: this,
             });
             this.time.addEvent({
-                delay: 7445,
-                callback: async () => {
-                    
-                    
-                    
-                    this.character3.setTexture("2");
-                   
-                },
-                callbackScope: this,
-            });
-            this.time.addEvent({
-                delay: 10545,
+                delay: 7092,
                 callback: async () => {
                     
                     this.character3.setTexture("0");
@@ -545,17 +574,60 @@ class finale extends Phaser.Scene {
                 delay: 1000,
                 callback: async () => {
                     this.player.setTexture("down");
+                    this.player.y -= 10 
                     this.g = 1;
                     
                    
                 },
                 callbackScope: this,
             });
-          
+            this.time.addEvent({
+                delay: 3000,
+                callback: async () => {
+                    this.sound.stopAll()
+                    this.cameras.main.fadeOut(1000, 0, 0, 0);
+                    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+                       this.scene.start("credits")
+                    });
+                },
+                callbackScope: this,
+            });
+           
         }
     }
     
  
+    handleCollision(bullet, characters) {
+        this.d -= 1;
+       this.v = 1;
+        bullet.destroy(); 
+    }
+    update(){
+        if(this.d == 6){
+            this.character3.setTexture("6")
+        }
+        if(this.d == 5){
+            this.character3.setTexture("5")
+        }
+        if(this.d == 4){
+            this.character3.setTexture("4")
+        }
+        if(this.d == 3){
+            this.character3.setTexture("3")
+        }
+        if(this.d == 2){
+            this.character3.setTexture("1")
+        }
+        if(this.d == 1){
+            this.character3.setTexture("0")
+        }
+        if(this.d <= 0){
+            this.character3.setTexture("0")
+        }
+        if(this.v == 1){
+            this.character3.x = 20;
+        }
+    }
 
     
     

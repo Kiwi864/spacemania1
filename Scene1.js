@@ -14,6 +14,7 @@
             this.load.image("shop2", "assets/images/secondshop.png");
             this.load.image("space", "assets/images/Space.png");
             this.load.image("endingbg", "assets/images/endingbg.png");
+           
             this.load.spritesheet("ship", "assets/spritesheets/ship.png",{
                 frameWidth: 16,
                 frameHeight: 16
@@ -67,6 +68,10 @@
                 frameHeight: 24
             });
             this.load.spritesheet("beam", "assets/spritesheets/beam.png",{
+                frameWidth: 16,
+                frameHeight: 16
+            });
+            this.load.spritesheet("bullet", "assets/spritesheets/bullet.png",{
                 frameWidth: 16,
                 frameHeight: 16
             });
@@ -195,6 +200,18 @@
                 frameWidth: 60,
                 frameHeight: 43
             });
+            this.load.spritesheet("finalshop", "assets/spritesheets/finaleshop.png", {
+                frameWidth: 256,
+                frameHeight: 272
+            });
+            this.load.spritesheet("sergo", "assets/spritesheets/konec.png", {
+                frameWidth: 256,
+                frameHeight: 272
+            });
+            this.load.spritesheet("strass", "assets/images/strass.png", {
+                frameWidth: 256,
+                frameHeight: 272
+            });
             
             
             this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
@@ -218,6 +235,7 @@
             this.load.audio("space", ["assets/sounds/space.ogg", "assets/sounds/space.mp3"]);
             this.load.audio("finale", ["assets/sounds/finale.ogg", "assets/sounds/finale.mp3"]);
             this.load.audio("shootend", ["assets/sounds/shootend.ogg", "assets/sounds/shootend.mp3"]);
+            this.load.audio("credits", ["assets/sounds/credits.ogg", "assets/sounds/credits.mp3"]);
         }
 
 
@@ -325,6 +343,12 @@
         this.anims.create({
             key: "beam_anim",
             frames: this.anims.generateFrameNumbers("beam"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "bullet_anim",
+            frames: this.anims.generateFrameNumbers("bullet"),
             frameRate: 20,
             repeat: -1
         });

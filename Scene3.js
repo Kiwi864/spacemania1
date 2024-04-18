@@ -41,7 +41,7 @@ var config = {
            
             this.lives = 3;
             this.nesmrtelnost = 0;
-            this.score = 0;
+            this.score = globalScoreFormated;
             this.bulletsadder = 0;
             this.shieldDuration = 10000;
             this.shieldActive = false;

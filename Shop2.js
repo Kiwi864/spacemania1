@@ -106,7 +106,7 @@ class Shop2 extends Phaser.Scene {
             this.amom = this.add.bitmapText(177,65, "pixelFont", "into a proud ", 14 );
             this.amomf = this.add.bitmapText(180,80, "pixelFont", "Slovak man", 14 );
             this.mol = this.add.bitmapText(170,95, "pixelFont", "  ", 14 );
-            this.amol = this.add.bitmapText(163,110, "pixelFont", "Activated by B", 15 );
+            this.amol = this.add.bitmapText(163,110, "pixelFont", "Activated by G", 15 );
             this.a = this.add.bitmapText(170,95, "pixelFont", " COST: 1000 points", 14 );
         });
         this.lukrat3.on('pointerdown', () => {
