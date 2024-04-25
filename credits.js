@@ -70,19 +70,16 @@ class Credits extends Phaser.Scene {
                 this.shop.destroy();
                 this.phonedialog = this.add.bitmapText(20,96, "pixelFont", "SPACE MANIA", 50);
                 this.phonedialog2 = this.add.bitmapText(56,130, "pixelFont", "Thanks for playing!", 20);
-                this.phonedialog3 = this.add.bitmapText(26,280, "pixelFont", "MADE BY: Samuel Tamas", 20);
-                this.phonedialog4 = this.add.bitmapText(26,305, "pixelFont", "CODE: Samuel Tamas", 20);
-                this.phonedialog5 = this.add.bitmapText(26,330, "pixelFont", "DESIGN: Samuel Tamas, Ansimuz", 20);
-                this.phonedialog6 = this.add.bitmapText(26,355, "pixelFont", "IDEA: Samuel Tamas, Ansimuz ", 20);
-                this.phonedialog7 = this.add.bitmapText(26,380, "pixelFont", "MUSIC: Caretaker, Toby Fox, Lotus Blossoms ", 20);
+                this.phonedialog3 = this.add.bitmapText(20,294, "pixelFont", "MADE BY: Samuel Tamas\nCODE: Samuel Tamas\nDESIGN: Samuel Tamas, Ansimuz\nIDEA: Samuel Tamas, Ansimuz\nMUSIC:\n    LIBET'S DELAY\n     By Caretaker\n \n    THE HINDSIGHT\n     By Jorn Lavoll\n \n  ", 20);
+                this.phonedialog4 = this.add.bitmapText(56,328, "pixelFont", "", 20);
                 this.text = this.physics.add.group();
                 this.text.add(this.phonedialog);
                 this.text.add(this.phonedialog2);
                 this.text.add(this.phonedialog3);
                 this.text.add(this.phonedialog4);
-                this.text.add(this.phonedialog5);
+               /* this.text.add(this.phonedialog5);
                 this.text.add(this.phonedialog6); 
-                this.text.add(this.phonedialog7); 
+                this.text.add(this.phonedialog7); */
             },
             callbackScope: this,
         });
@@ -93,9 +90,9 @@ class Credits extends Phaser.Scene {
                this.moveText(this.phonedialog2, 1);
                this.moveText(this.phonedialog3, 0.5);
                this.moveText(this.phonedialog4, 0.5);
-               this.moveText(this.phonedialog5, 0.5);
+               /*this.moveText(this.phonedialog5, 0.5);
                this.moveText(this.phonedialog6, 0.5);
-               this.moveText(this.phonedialog7, 0.5);
+               this.moveText(this.phonedialog7, 0.5);*/
             },
             callbackScope: this,
         });

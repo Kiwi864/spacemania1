@@ -68,7 +68,7 @@ var config = {
              
             this.gameConfig = config;
            
-            this.lives = 3;
+            this.lives = globalHealth;
             this.nesmrtelnost = 0;
             this.score = 0;
             this.bulletsadder = 0;
@@ -86,6 +86,10 @@ var config = {
             this.p = 0
             this.k = 0
             this.g = 0
+            this.d = 0;
+            this.graphics = null;
+            this.bossindic = 0;
+            this.bossHealth = 10;
         }
         create(){
             this.sound.stopAll();
@@ -146,12 +150,15 @@ var config = {
             this.physics.add.overlap(this.player, this.enemies, this.hurtPlayer, null, this);
             this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
             this.physics.add.overlap(this.valasky, this.enemies, this.destroyEnemy, null, this);
-           
+            this.physics.add.collider(this.projectiles, this.boss, this.hitEnemy3, null, this);
+            console.log("peterjebochnik")
+            
             
 
-            var graphics = this.add.graphics();
-            graphics.fillStyle("Black");
-            graphics.fillRect(0,0,config.width,20);
+            this.graphics = this.add.graphics();
+            this.graphics.fillStyle("Black");
+            this.graphics.fillRect(0,0,config.width,20);
+            this.graphics.alpha = 0.7;
             this.scoreLabel = this.add.bitmapText(10,5, "pixelFont", "SCORE: 000000", 16);
             this.bulletCountLabel = this.add.bitmapText(180,5, "pixelFont", "BULLETS: ", 16 );
             this.livesLabel = this.add.bitmapText(110,5, "pixelFont", "LIVES: 3", 16 );
@@ -179,10 +186,10 @@ var config = {
                 loop: true
             });
             this.time.addEvent({
-                delay: 120000,
+                delay: 1200,
                 callback: this.shop,
                 callbackScope: this,
-                loop: true
+                loop: false
             });
             
             
@@ -208,7 +215,7 @@ var config = {
             powerUp.disableBody(true, true);
             this.pickupSound.play({volume: 0.25});
            if (powerUp.type === "red"){
-            this.lives += 1;
+            globalHealth += 1;
            }
            if (powerUp.type === "gray"){
            globalBullets += 1;
@@ -217,37 +224,71 @@ var config = {
         resetPlayer(){
             var x = config.width / 2 - 8;
             var y = config.height + 64;
-            this.player.enableBody(true, x, y, true, true);
-
+        
+                this.player.enableBody(true, x, y, true, true);
+            
             this.player.alpha = 0.5;
-            var tween = this.tweens.add({
-                targets: this.player,
-                y: config.height - 64,
-                ease: 'Power1',
-                duration: 1500,
-                repeat: 0,
-                onComplete: function(){
-                    this.player.alpha = 1;
-                },
-                callbackScope: this
-            });
+            if(this.bossindic == 0){
+                var tween = this.tweens.add({
+                    targets: this.player,
+                    y: config.height - 64,
+                    ease: 'Power1',
+                    duration: 1500,
+                    repeat: 0,
+                    onComplete: function(){
+                        this.player.alpha = 1;
+                    },
+                    callbackScope: this
+                });
+            }
+            else{
+                this.time.addEvent({
+                    delay: 1500,
+                    callback: async () => {
+                       this.player.alpha = 1;
+                    },
+                    callbackScope: this,
+                });
+            }
         }
        
 
         moveShip(ship, speed){
-            ship.y += speed;
+            if(this.bossindic <= 1){
+                ship.y += speed;
+            }
+            if(this.bossindic == 2){
+                ship.x += speed;
+            }
             if (ship.y > config.height){
                 this.resetShipPos(ship);
             }
            
         }
         update(){
+            
             this.background.tilePositionY -= this.bgspeed;
-            this.bulletCountLabel.text = "BULLETS: " + globalBullets;
+            if(this.bossindic == 0){
+                this.bulletCountLabel.text = "BULLETS: " + globalBullets;
+            }
             this.moveShip(this.ship1, this.speeds1);
             this.moveShip(this.ship2, this.speeds2);
             this.moveShip(this.ship3, this.speeds3);
-         
+            if(this.ship4){
+                this.moveShip(this.ship4, this.speeds3);
+            }
+            if(this.ship5){
+                this.moveShip(this.ship5, this.speeds3);
+            }
+            if(this.ship6){
+                this.moveShip(this.ship6, this.speeds3);
+            }
+            if(this.ship7){
+                this.moveShip(this.ship7, this.speeds3);
+                this.moveShip(this.ship8, this.speeds3);
+                this.moveShip(this.ship9, this.speeds3);
+            }
+           
             this.movePlayerManager();
             if (Phaser.Input.Keyboard.JustDown(this.spacebar) && this.k == 0){
                 if(this.player.active){
@@ -319,9 +360,22 @@ var config = {
             if(this.orolindic == 1){
                 this.orol.y -= 40;
             }
+            if(this.bossindic == 1 && this.boss && this.d == 0){
+                this.boss.y += 10;
+            }
+          
+            if(this.d == 1){
+                this.boss.y += 10;
+            } 
+            if(this.d == 1 && this.boss.y >= 80){
+                this.d = 2;
+                this.boss.y += 0;
+            }
+                   
+            
           
 
-            console.log(this.bgspeed);
+           
             if (globalBoost >= 1){
                 if(this.bgspeed == 0.5){
                     if(Phaser.Input.Keyboard.JustDown(this.FKey)){
@@ -378,23 +432,28 @@ var config = {
            
            
    
-            if(this.g == 0){
+            if(this.g == 0 && this.bossindic !== 1 && this.bossindic !== 2){
                 this.bulletCountLabel.text = "BULLETS: " + globalBullets;
                 this.livesLabel.x = 110
                 this.livesLabel.y = 5
                 this.livesLabel.setScale(1);
-                this.livesLabel.text = "LIVES: " + this.lives;
+                this.livesLabel.text = "LIVES: " + globalHealth;
                 this.scoreLabel.text = "SCORE: " + globalScoreFormated;
+            }
+            if(this.bossindic >= 1){
+                this.livesLabel.x = 10
+                this.livesLabel.text = "LIVES: " + globalHealth;
+                this.bossHealthLabel.text = "BOSS: " + this.bossHealth;
             }
             if(this.g == 1){
                 this.bulletCountLabel.text = "PATRONY: " + globalBullets;
                 this.livesLabel.x = 96
                 this.livesLabel.y = 6
                 this.livesLabel.setScale(0.93);
-                this.livesLabel.text = "JESTVOVANIE: " + this.lives;
+                this.livesLabel.text = "JESTVOVANIE: " + globalHealth;
                 this.scoreLabel.text = "GROSE: " + globalScoreFormated;
             }
-            if (this.lives === 0){
+            if (globalHealth === 0){
                 this.sound.stopAll();
                 this.scene.start("koniec");
                 console.log("koniec");
@@ -432,23 +491,23 @@ var config = {
                         this.resetShipPos(enemy);
                         this.explosionSound.play({volume: 0.25});
                     
-                        if(this.lives > 0){
-                            this.lives -= 1;
+                        if(globalHealth > 0){
+                            globalHealth -= 1;
                         }
                         
                     
-                        
-                        player.disableBody(true,true);
-
-                var explosion = new Explosion(this, player.x, player.y);
-                this.resetPlayer();
-                this.time.addEvent({
-                    delay: 1000,
-                    callback: this.resetPlayer,
-                    callbackScope: this,
-                    loop: false
-                });
-            
+                        if(this.bossindic == 0){
+                            player.disableBody(true,true);
+                        }
+                    var explosion = new Explosion(this, player.x, player.y);
+                    this.resetPlayer();
+                    /*this.time.addEvent({
+                        delay: 1000,
+                        callback: this.resetPlayer,
+                        callbackScope: this,
+                        loop: false
+                    });*/
+                
                 }
             }
         } 
@@ -580,9 +639,11 @@ var config = {
             }
         }
         resetShipPos(ship){
+            if(this.bossindic == 0){
             ship.y = 0;
             var randomX = Phaser.Math.Between(0, config.width);
             ship.x = randomX;
+            }
         }
         destroyShip(pointer,gameObject){
             gameObject.setTexture("explosion");
@@ -603,6 +664,13 @@ var config = {
                // this.bullets += 1;
             //enemy.setTexture("explosion");
             //enemy.play("explode");
+        }
+        hitEnemy3(projectile, enemy){
+            
+            this.bossHealth -= 1;
+            projectile.destroy();
+            this.bossHealthLabel.text = "BOSS: " + this.bossHealth;
+            
         }
         destroyEnemy(valaska, enemy){
             var explosion = new Explosion(this, enemy.x, enemy.y);
@@ -734,12 +802,234 @@ var config = {
             });
         }
         shop(){
-            console.log("shop")
+           /* console.log("shop")
             this.sound.stopAll()
             this.cameras.main.fadeOut(1000, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
                 this.scene.start("finale")
+            });*/
+            this.tweens.add({
+                targets: this.music,
+                volume: 0,
+                duration: 1000, 
+                onComplete: () => {
+                    this.sound.stopAll(); 
+                    this.hudba = this.sound.add("bossfight",{volume: 0.25, loop: true});
+                    this.hudba.play();
+                }
             });
+            this.bossindic = 1;
+            this.boss = this.add.sprite(128,-20, "boss");
+            this.boss.angle = 180;
+            this.boss.setScale(2);
+            this.ship1.destroy();
+            this.ship2.destroy();
+            this.ship3.destroy();
+            this.graphics.destroy();
+            this.scoreLabel.destroy();
+            this.bulletCountLabel.destroy();
+           // this.livesLabel.destroy();
+            this.livesLabel.x = 10;
+            this.livesLabel.setScale(1.25);
+            this.bossHealthLabel = this.add.bitmapText(180,5, "pixelFont", "BOSS: ", 16 );
+            this.bossHealthLabel.setScale(1.25);
+            
+            globalBoost = 0;
+            globalHalusky = 0;
+            globalBullets = 0;
+            globalShields = 0;
+            globalHealth = 10;
+            this.time.addEvent({
+                delay: 500,
+                callback: async () => {
+                    this.speeds1 = 3;
+                    this.boss.destroy();
+                    this.speeds2 = 3;
+                    this.speeds3 = 3;
+                    this.ship1 = this.add.sprite(85, 25, "shipb3");
+                    this.ship1.play("shipb3_anim");
+                    this.ship2 = this.add.sprite(10, 25, "shipb3");
+                    this.ship2.play("shipb3_anim");
+                    this.ship3 = this.add.sprite(35, 25, "shipb3");
+                    this.ship3.play("shipb3_anim");
+                    this.ship4 = this.add.sprite(60, 25, "shipb3");
+                    this.ship4.play("shipb3_anim");
+                    this.ship5 = this.add.sprite(110, 25, "shipb3");
+                    this.ship5.play("shipb3_anim");
+                    this.ship6 = this.add.sprite(170, 25, "shipb3");
+                    this.ship6.play("shipb3_anim");
+                    this.ship7 = this.add.sprite(195, 25, "shipb3");
+                    this.ship7.play("shipb3_anim");
+                    this.ship8 = this.add.sprite(220, 25, "shipb3");
+                    this.ship8.play("shipb3_anim");
+                    this.ship9 = this.add.sprite(245, 25, "shipb3");
+                    this.ship9.play("shipb3_anim");
+                    this.enemies.add(this.ship4);
+                    this.enemies.add(this.ship5);
+                    this.enemies.add(this.ship6);
+                    this.enemies.add(this.ship7);
+                    this.enemies.add(this.ship8);
+                    this.enemies.add(this.ship9);
+                },
+                callbackScope: this,
+            });
+           /* this.time.addEvent({
+                delay: 2000,
+                callback: async () => {
+                    this.speeds1 = 3;
+                    this.speeds2 = 3;
+                    this.speeds3 = 3;
+                    this.ship1 = this.add.sprite(85, 20, "shipb3");
+                    this.ship1.play("shipb3_anim");
+                    this.ship2 = this.add.sprite(10, 20, "shipb3");
+                    this.ship2.play("shipb3_anim");
+                    this.ship3 = this.add.sprite(35, 20, "shipb3");
+                    this.ship3.play("shipb3_anim");
+                    this.ship4 = this.add.sprite(60, 20, "shipb3");
+                    this.ship4.play("shipb3_anim");
+                    this.ship5 = this.add.sprite(110, 20, "shipb3");
+                    this.ship5.play("shipb3_anim");
+                    this.ship6 = this.add.sprite(135, 20, "shipb3");
+                    this.ship6.play("shipb3_anim");
+                    this.ship7 = this.add.sprite(195, 20, "shipb3");
+                    this.ship7.play("shipb3_anim");
+                    this.ship8 = this.add.sprite(220, 20, "shipb3");
+                    this.ship8.play("shipb3_anim");
+                    this.ship9 = this.add.sprite(245, 20, "shipb3");
+                    this.ship9.play("shipb3_anim");
+                    this.enemies.add(this.ship4);
+                    this.enemies.add(this.ship5);
+                    this.enemies.add(this.ship6);
+                    this.enemies.add(this.ship7);
+                    this.enemies.add(this.ship8);
+                    this.enemies.add(this.ship9);
+                },
+                callbackScope: this,
+            });
+            this.time.addEvent({
+                delay: 4000,
+                callback: async () => {
+                    this.speeds1 = 3;
+                    this.speeds2 = 3;
+                    this.speeds3 = 3;
+                    this.ship1 = this.add.sprite(90, 20, "shipb3");
+                    this.ship1.play("shipb3_anim");
+                    this.ship2 = this.add.sprite(10, 20, "shipb3");
+                    this.ship2.play("shipb3_anim");
+                    this.ship3 = this.add.sprite(35, 20, "shipb3");
+                    this.ship3.play("shipb3_anim");
+                    this.ship4 = this.add.sprite(240, 20, "shipb3");
+                    this.ship4.play("shipb3_anim");
+                    this.ship5 = this.add.sprite(115, 20, "shipb3");
+                    this.ship5.play("shipb3_anim");
+                    this.ship6 = this.add.sprite(140, 20, "shipb3");
+                    this.ship6.play("shipb3_anim");
+                    this.ship7 = this.add.sprite(165, 20, "shipb3");
+                    this.ship7.play("shipb3_anim");
+                    this.ship8 = this.add.sprite(190, 20, "shipb3");
+                    this.ship8.play("shipb3_anim");
+                    this.ship9 = this.add.sprite(215, 20, "shipb3");
+                    this.ship9.play("shipb3_anim");
+                    this.enemies.add(this.ship4);
+                    this.enemies.add(this.ship5);
+                    this.enemies.add(this.ship6);
+                    this.enemies.add(this.ship7);
+                    this.enemies.add(this.ship8);
+                    this.enemies.add(this.ship9);
+                },
+                callbackScope: this,
+            });
+            this.time.addEvent({
+                delay: 6000,
+                callback: async () => {
+                    this.speeds1 = 3;
+                    this.speeds2 = 3;
+                    this.speeds3 = 3;
+                    this.ship1 = this.add.sprite(85, 20, "shipb3");
+                    this.ship1.play("shipb3_anim");
+                    this.ship2 = this.add.sprite(10, 20, "shipb3");
+                    this.ship2.play("shipb3_anim");
+                    this.ship3 = this.add.sprite(35, 20, "shipb3");
+                    this.ship3.play("shipb3_anim");
+                    this.ship4 = this.add.sprite(60, 20, "shipb3");
+                    this.ship4.play("shipb3_anim");
+                    this.ship5 = this.add.sprite(110, 20, "shipb3");
+                    this.ship5.play("shipb3_anim");
+                    this.ship6 = this.add.sprite(135, 20, "shipb3");
+                    this.ship6.play("shipb3_anim");
+                    this.ship7 = this.add.sprite(190, 20, "shipb3");
+                    this.ship7.play("shipb3_anim");
+                    this.ship8 = this.add.sprite(215, 20, "shipb3");
+                    this.ship8.play("shipb3_anim");
+                    this.ship9 = this.add.sprite(240, 20, "shipb3");
+                    this.ship9.play("shipb3_anim");
+                    this.enemies.add(this.ship4);
+                    this.enemies.add(this.ship5);
+                    this.enemies.add(this.ship6);
+                    this.enemies.add(this.ship7);
+                    this.enemies.add(this.ship8);
+                    this.enemies.add(this.ship9);
+                },
+                callbackScope: this,
+            });*/
+            this.time.addEvent({
+                delay: 2000,
+                callback: async () => {
+                    this.d = 1;
+                   
+                    this.boss = this.add.sprite(128,-20, "boss");
+                    this.boss.angle = 180;
+                    this.boss.setScale(2);
+                    
+                    globalBullets += 3;
+                    
+                },
+                callbackScope: this,
+            });
+          /*  this.time.addEvent({
+                delay: 10000,
+                callback: async () => {
+                    this.bossindic = 2;
+                    this.speeds1 = 1.5;
+                    this.speeds2 = 1.5;
+                    this.speeds3 = 1.5;
+                    this.ship1 = this.add.sprite(10, 20, "shipb3");
+                    this.ship1.play("shipb3_anim");
+                    this.ship2 = this.add.sprite(10, 45, "shipb3");
+                    this.ship2.play("shipb3_anim");
+                    this.ship3 = this.add.sprite(10, 70, "shipb3");
+                    this.ship3.play("shipb3_anim");
+                    this.ship4 = this.add.sprite(10, 95, "shipb3");
+                    this.ship4.play("shipb3_anim");
+                    this.ship5 = this.add.sprite(10, 120, "shipb3");
+                    this.ship5.play("shipb3_anim");
+                    this.ship6 = this.add.sprite(10, 145, "shipb3");
+                    this.ship6.play("shipb3_anim");
+                    this.ship7 = this.add.sprite(10, 215, "shipb3");
+                    this.ship7.play("shipb3_anim");
+                    this.ship8 = this.add.sprite(10, 240, "shipb3");
+                    this.ship8.play("shipb3_anim");
+                    this.ship9 = this.add.sprite(10, 265, "shipb3");
+                    this.ship9.play("shipb3_anim");
+                    this.ship1.angle = 270
+                    this.ship2.angle = 270
+                    this.ship3.angle = 270
+                    this.ship4.angle = 270
+                    this.ship5.angle = 270
+                    this.ship6.angle = 270
+                    this.ship7.angle = 270
+                    this.ship8.angle = 270
+                    this.ship9.angle = 270
+                    this.enemies.add(this.ship4);
+                    this.enemies.add(this.ship5);
+                    this.enemies.add(this.ship6);
+                    this.enemies.add(this.ship7);
+                    this.enemies.add(this.ship8);
+                    this.enemies.add(this.ship9);
+                },
+                callbackScope: this,
+            });*/
+            
         }
       
-    }
+}

@@ -38,7 +38,7 @@ class Start extends Phaser.Scene {
     }
     update(){
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)){
-            this.scene.start("credits");
+            this.scene.start("level3");
             this.sound.stopAll();
         }
         

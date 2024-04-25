@@ -39,7 +39,7 @@ var config = {
              
             this.gameConfig = config;
            
-            this.lives = 3;
+            this.lives = globalHealth;
             this.nesmrtelnost = 0;
             this.score = globalScoreFormated;
             this.bulletsadder = 0;
@@ -53,6 +53,7 @@ var config = {
             this.shopTimerDelay = 780000;
             this.boostDuration = 10000; 
             this.boostActive = false;
+            this.graphics = null
         }
         create(){
             this.background = this.add.tileSprite(0,0, config.width, config.height, "background2");
@@ -108,9 +109,10 @@ var config = {
             this.physics.add.overlap(this.player, this.enemies, this.hurtPlayer, null, this);
             this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
 
-            var graphics = this.add.graphics();
-            graphics.fillStyle("Black");
-            graphics.fillRect(0,0,config.width,20);
+            this.graphics = this.add.graphics();
+            this.graphics.fillStyle("Black");
+            this.graphics.fillRect(0,0,config.width,20);
+            this.graphics.alpha = 0.7;
             this.scoreLabel = this.add.bitmapText(10,5, "pixelFont", "SCORE: 000000", 16);
             this.bulletCountLabel = this.add.bitmapText(180,5, "pixelFont", "BULLETS: ", 16 );
             this.livesLabel = this.add.bitmapText(110,5, "pixelFont", "LIVES: 3", 16 );

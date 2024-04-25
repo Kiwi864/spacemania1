@@ -39,7 +39,7 @@ var config = {
              
             this.gameConfig = config;
             this.bullets = globalBullets;
-            this.lives = 3;
+            this.lives = globalHealth;
             this.nesmrtelnost = 0;
             this.score = 0;
            

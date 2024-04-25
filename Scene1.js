@@ -236,6 +236,7 @@
             this.load.audio("finale", ["assets/sounds/finale.ogg", "assets/sounds/finale.mp3"]);
             this.load.audio("shootend", ["assets/sounds/shootend.ogg", "assets/sounds/shootend.mp3"]);
             this.load.audio("credits", ["assets/sounds/credits.ogg", "assets/sounds/credits.mp3"]);
+            this.load.audio("bossfight", ["assets/sounds/bossfight.ogg", "assets/sounds/bossfight.mp3"]);
         }
 
 
