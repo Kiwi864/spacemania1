@@ -24,6 +24,7 @@ var config = {
             if(this.y < 32) {
                 this.destroy();
             }
+          
         }
     }
     class Explosion extends Phaser.GameObjects.Sprite{
@@ -127,7 +128,7 @@ var config = {
            
             
             this.time.addEvent({
-                delay: 120000,
+                delay: 1200,
                 callback: this.shop,
                 callbackScope: this,
                 loop: true
@@ -140,7 +141,7 @@ var config = {
                 this.powerUps.add(powerUp);
                 powerUp.setRandomPosition(0,0, config.width, config.height);
 
-                powerUp.type = Phaser.Math.RND.pick([ "gray", "gray"]);
+                powerUp.type = Phaser.Math.RND.pick([ "gray", "gray", "red"]);
                 powerUp.play(powerUp.type)
                 powerUp.setVelocity(100, 100);
                 powerUp.setCollideWorldBounds(true);
@@ -183,9 +184,7 @@ var config = {
             
                 if(globalHealth > 0){
                     globalHealth -= 1;
-                    if(globalBullets> 2){
-                        globalBullets -= 2;
-                    }
+                   
                 }
                 if(this.player.alpha < 1){
                     globalHealth += 1;
@@ -286,7 +285,7 @@ var config = {
                 var explosion = new Explosion(this, enemy.x, enemy.y);
                 projectile.destroy();
                 this.resetShipPos(enemy);
-                this.score += 15;
+                this.score += 25;
                 globalScoreFormated = this.zeroPad(this.score, 6);
                 this.scoreLabel.text = "SCORE " + globalScoreFormated;
                 this.explosionSound.play({volume: 0.25});

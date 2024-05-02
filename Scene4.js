@@ -87,9 +87,12 @@ var config = {
             this.k = 0
             this.g = 0
             this.d = 0;
+            this.c = 0;
+            this.b = 0;
             this.graphics = null;
             this.bossindic = 0;
             this.bossHealth = 10;
+            this.wave2indic = 0
         }
         create(){
             this.sound.stopAll();
@@ -126,7 +129,7 @@ var config = {
             this.projectiles = this.add.group();
             this.valasky = this.add.group();
             this.powerUps = this.physics.add.group();
-            
+            this.bosses = this.physics.add.group();
             this.shieldIndicator = this.add.rectangle(0, config.height - 20, config.width, 20, 0x00ff00);
             this.shieldIndicator.setOrigin(0, 0);
             this.shieldIndicator.setDepth(1);
@@ -150,8 +153,8 @@ var config = {
             this.physics.add.overlap(this.player, this.enemies, this.hurtPlayer, null, this);
             this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
             this.physics.add.overlap(this.valasky, this.enemies, this.destroyEnemy, null, this);
-            this.physics.add.collider(this.projectiles, this.boss, this.hitEnemy3, null, this);
-            console.log("peterjebochnik")
+           
+   
             
             
 
@@ -186,31 +189,30 @@ var config = {
                 loop: true
             });
             this.time.addEvent({
-                delay: 1200,
+                delay: 12000,
                 callback: this.shop,
                 callbackScope: this,
                 loop: false
             });
             
+            this.time.addEvent({
+                delay: 2100,
+                callback: this.wave2,
+                callbackScope: this,
+                loop: true
+            });
+            this.time.addEvent({
+                delay: 2100,
+                callback: this.wave3,
+                callbackScope: this,
+                loop: true
+            });
             
            
 
           
         }
-       /* spawnPowerUp(){
-            
-                var powerUp = this.physics.add.sprite(16, 16, "power-up");
-                this.powerUps.add(powerUp);
-                powerUp.setRandomPosition(0,0, config.width, config.height);
-
-                powerUp.type = Phaser.Math.RND.pick([ "gray", "gray"]);
-                powerUp.play(powerUp.type)
-                powerUp.setVelocity(100, 100);
-                powerUp.setCollideWorldBounds(true);
-                powerUp.setBounce(1);
-            
-            
-        }*/
+      
         pickPowerUp(player, powerUp){
             powerUp.disableBody(true, true);
             this.pickupSound.play({volume: 0.25});
@@ -257,9 +259,16 @@ var config = {
             if(this.bossindic <= 1){
                 ship.y += speed;
             }
-            if(this.bossindic == 2){
+            if(this.b == 0){
+                if(this.bossindic == 2){
+                    ship.x += speed;
+                }
+            }
+            if(this.b ==1){
                 ship.x += speed;
             }
+            
+            
             if (ship.y > config.height){
                 this.resetShipPos(ship);
             }
@@ -287,8 +296,15 @@ var config = {
                 this.moveShip(this.ship7, this.speeds3);
                 this.moveShip(this.ship8, this.speeds3);
                 this.moveShip(this.ship9, this.speeds3);
+                
             }
-           
+            if(this.ship10){
+                this.moveShip(this.ship10, this.speeds3);
+            }
+            if(this.b == 1){
+                this.moveShip(this.boss, 3);
+            }
+            
             this.movePlayerManager();
             if (Phaser.Input.Keyboard.JustDown(this.spacebar) && this.k == 0){
                 if(this.player.active){
@@ -345,7 +361,7 @@ var config = {
                    
                         
                 
-            
+        
             if(this.valaska && this.valaska.y < 40 && this.p == 0){
                 this.valaska.destroy();
                 this.valaska = new Valaska(this, this.player.x, this.player.y);
@@ -363,15 +379,38 @@ var config = {
             if(this.bossindic == 1 && this.boss && this.d == 0){
                 this.boss.y += 10;
             }
-          
-            if(this.d == 1){
+        
+               
+                if(this.d == 1){
+                    this.boss.y += 10;
+                } 
+                if(this.d == 3){
+                    this.boss.y += 10;
+                } 
+                
+                if(this.d == 1 && this.boss.y >= 80){
+                    if(this.wave2indic == 1){
+                        this.d = 2;
+                    }
+                    this.boss.y += 0;
+                }
+            
+            /*if(this.bossindic == 1 && this.boss && this.c == 0){
+                this.boss.y += 10;
+            }*/
+            if(this.c == 1){
                 this.boss.y += 10;
             } 
-            if(this.d == 1 && this.boss.y >= 80){
-                this.d = 2;
+            if(this.c == 3){
+                this.boss.y += 10;
+            } 
+            if(this.c == 1 && this.boss.y >= 80){
+                if(this.wave2indic == 2){
+                    this.c = 2;
+                }
                 this.boss.y += 0;
             }
-                   
+            
             
           
 
@@ -501,30 +540,12 @@ var config = {
                         }
                     var explosion = new Explosion(this, player.x, player.y);
                     this.resetPlayer();
-                    /*this.time.addEvent({
-                        delay: 1000,
-                        callback: this.resetPlayer,
-                        callbackScope: this,
-                        loop: false
-                    });*/
+                    
                 
                 }
             }
         } 
-        /*else{
-            if(this.player.alpha == 1){
-                if (player.texture.key !== "shieldp") {
-                    this.resetShipPos(enemy);
-                    this.explosionSound.play({volume: 0.25});
-                
-                    if(this.lives > 0){
-                        this.lives -= 0;
-                    }
-                    player.disableBody(true,true);
-                    var explosion = new Explosion(this, player.x, player.y);
-                }
-            }
-        }*/
+       
     }
         speedbg(){
             
@@ -621,20 +642,22 @@ var config = {
         } 
 
         movePlayerManager(){
-            if(this.bgspeed !== 5){
-                if(this.cursorKeys.left.isDown){
-                    this.player.setVelocityX(-gameSettings.playerSpeed);
-                } else if(this.cursorKeys.right.isDown){
-                    this.player.setVelocityX(gameSettings.playerSpeed);
-                } else {
-                    this.player.setVelocityX(0);
-                }
-                if(this.cursorKeys.up.isDown){
-                    this.player.setVelocityY(-gameSettings.playerSpeed);
-                } else if(this.cursorKeys.down.isDown){
-                    this.player.setVelocityY(gameSettings.playerSpeed);
-                } else {
-                    this.player.setVelocityY(0);
+            if(this.b == 0){
+                if(this.bgspeed !== 5) {
+                    if(this.cursorKeys.left.isDown){
+                        this.player.setVelocityX(-gameSettings.playerSpeed);
+                    } else if(this.cursorKeys.right.isDown){
+                        this.player.setVelocityX(gameSettings.playerSpeed);
+                    } else {
+                        this.player.setVelocityX(0);
+                    }
+                    if(this.cursorKeys.up.isDown){
+                        this.player.setVelocityY(-gameSettings.playerSpeed);
+                    } else if(this.cursorKeys.down.isDown){
+                        this.player.setVelocityY(gameSettings.playerSpeed);
+                    } else {
+                        this.player.setVelocityY(0);
+                    }
                 }
             }
         }
@@ -654,20 +677,23 @@ var config = {
                 var explosion = new Explosion(this, enemy.x, enemy.y);
                 projectile.destroy();
                 this.resetShipPos(enemy);
-                this.score += 15;
+
+                this.score = globalScoreFormated;
+                const intNumber = parseInt(this.score);
+                this.score = intNumber;
+                this.score += 25;
+
                 globalScoreFormated = this.zeroPad(this.score, 6);
                 this.scoreLabel.text = "SCORE " + globalScoreFormated;
                 this.explosionSound.play({volume: 0.25});
                 if (Phaser.Math.RND.between(0, 1) === 1){
                    globalBullets += 1; 
                 }
-               // this.bullets += 1;
-            //enemy.setTexture("explosion");
-            //enemy.play("explode");
+               
         }
         hitEnemy3(projectile, enemy){
             
-            this.bossHealth -= 1;
+            this.bossHealth -= 0.5;
             projectile.destroy();
             this.bossHealthLabel.text = "BOSS: " + this.bossHealth;
             
@@ -675,6 +701,9 @@ var config = {
         destroyEnemy(valaska, enemy){
             var explosion = new Explosion(this, enemy.x, enemy.y);
             this.resetShipPos(enemy);
+            this.score = globalScoreFormated;
+            const intNumber = parseInt(this.score);
+            this.score = intNumber;
             this.score += 4;
             
             globalScoreFormated = this.zeroPad(this.score, 6);
@@ -693,9 +722,7 @@ var config = {
             this.scoreLabel.text = "SCORE " + globalScoreFormated;
             this.explosionSound.play({volume: 0.25});
            
-           // this.bullets += 1;
-        //enemy.setTexture("explosion");
-        //enemy.play("explode");
+          
     }
         
         zeroPad(number, size){
@@ -802,12 +829,7 @@ var config = {
             });
         }
         shop(){
-           /* console.log("shop")
-            this.sound.stopAll()
-            this.cameras.main.fadeOut(1000, 0, 0, 0);
-            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-                this.scene.start("finale")
-            });*/
+        
             this.tweens.add({
                 targets: this.music,
                 volume: 0,
@@ -822,13 +844,14 @@ var config = {
             this.boss = this.add.sprite(128,-20, "boss");
             this.boss.angle = 180;
             this.boss.setScale(2);
+           
             this.ship1.destroy();
             this.ship2.destroy();
             this.ship3.destroy();
             this.graphics.destroy();
             this.scoreLabel.destroy();
             this.bulletCountLabel.destroy();
-           // this.livesLabel.destroy();
+         
             this.livesLabel.x = 10;
             this.livesLabel.setScale(1.25);
             this.bossHealthLabel = this.add.bitmapText(180,5, "pixelFont", "BOSS: ", 16 );
@@ -873,7 +896,7 @@ var config = {
                 },
                 callbackScope: this,
             });
-           /* this.time.addEvent({
+            this.time.addEvent({
                 delay: 2000,
                 callback: async () => {
                     this.speeds1 = 3;
@@ -909,6 +932,7 @@ var config = {
             this.time.addEvent({
                 delay: 4000,
                 callback: async () => {
+                    
                     this.speeds1 = 3;
                     this.speeds2 = 3;
                     this.speeds3 = 3;
@@ -971,65 +995,491 @@ var config = {
                     this.enemies.add(this.ship9);
                 },
                 callbackScope: this,
-            });*/
+            });
             this.time.addEvent({
-                delay: 2000,
+                delay: 8000,
                 callback: async () => {
+
                     this.d = 1;
-                   
+                    
                     this.boss = this.add.sprite(128,-20, "boss");
                     this.boss.angle = 180;
                     this.boss.setScale(2);
-                    
+                    this.bosses.add(this.boss);
+                    this.physics.add.overlap(this.projectiles, this.bosses, this.hitEnemy3, this.hitEnemy3, this);
                     globalBullets += 3;
-                    
+                    this.wave2indic = 1;
                 },
                 callbackScope: this,
             });
-          /*  this.time.addEvent({
-                delay: 10000,
-                callback: async () => {
-                    this.bossindic = 2;
-                    this.speeds1 = 1.5;
-                    this.speeds2 = 1.5;
-                    this.speeds3 = 1.5;
-                    this.ship1 = this.add.sprite(10, 20, "shipb3");
-                    this.ship1.play("shipb3_anim");
-                    this.ship2 = this.add.sprite(10, 45, "shipb3");
-                    this.ship2.play("shipb3_anim");
-                    this.ship3 = this.add.sprite(10, 70, "shipb3");
-                    this.ship3.play("shipb3_anim");
-                    this.ship4 = this.add.sprite(10, 95, "shipb3");
-                    this.ship4.play("shipb3_anim");
-                    this.ship5 = this.add.sprite(10, 120, "shipb3");
-                    this.ship5.play("shipb3_anim");
-                    this.ship6 = this.add.sprite(10, 145, "shipb3");
-                    this.ship6.play("shipb3_anim");
-                    this.ship7 = this.add.sprite(10, 215, "shipb3");
-                    this.ship7.play("shipb3_anim");
-                    this.ship8 = this.add.sprite(10, 240, "shipb3");
-                    this.ship8.play("shipb3_anim");
-                    this.ship9 = this.add.sprite(10, 265, "shipb3");
-                    this.ship9.play("shipb3_anim");
-                    this.ship1.angle = 270
-                    this.ship2.angle = 270
-                    this.ship3.angle = 270
-                    this.ship4.angle = 270
-                    this.ship5.angle = 270
-                    this.ship6.angle = 270
-                    this.ship7.angle = 270
-                    this.ship8.angle = 270
-                    this.ship9.angle = 270
-                    this.enemies.add(this.ship4);
-                    this.enemies.add(this.ship5);
-                    this.enemies.add(this.ship6);
-                    this.enemies.add(this.ship7);
-                    this.enemies.add(this.ship8);
-                    this.enemies.add(this.ship9);
-                },
-                callbackScope: this,
-            });*/
+           
+                
+            
             
         }
+        wave2(){
+            
+            if((this.bossHealth <= 8.5 &&this.wave2indic == 1) || (this.globalBullets == 0  && this.wave2indic == 1)){
+
+                this.time.addEvent({
+                    delay: 200,
+                    callback: async () => {
+                        this.d = 3;
+                    },
+                    callbackScope: this,
+                });
+                
+                this.time.addEvent({
+                    delay: 2000,
+                    callback: async () => {
+                        this.player.angle = -90
+                        this.wave2indic = 0;
+                        this.boss.destroy();
+                      
+                        this.bossindic = 2;
+                        this.speeds1 = 1.5;
+                        this.speeds2 = 1.5;
+                        this.speeds3 = 1.5;
+                        this.ship1 = this.add.sprite(10, 20, "shipb3");
+                        this.ship1.play("shipb3_anim");
+                        this.ship2 = this.add.sprite(10, 45, "shipb3");
+                        this.ship2.play("shipb3_anim");
+                        this.ship3 = this.add.sprite(10, 70, "shipb3");
+                        this.ship3.play("shipb3_anim");
+                        this.ship4 = this.add.sprite(10, 95, "shipb3");
+                        this.ship4.play("shipb3_anim");
+                        this.ship5 = this.add.sprite(10, 120, "shipb3");
+                        this.ship5.play("shipb3_anim");
+                        this.ship6 = this.add.sprite(10, 145, "shipb3");
+                        this.ship6.play("shipb3_anim");
+                        this.ship7 = this.add.sprite(10, 215, "shipb3");
+                        this.ship7.play("shipb3_anim");
+                        this.ship8 = this.add.sprite(10, 240, "shipb3");
+                        this.ship8.play("shipb3_anim");
+                        this.ship9 = this.add.sprite(10, 265, "shipb3");
+                        this.ship9.play("shipb3_anim");
+                        this.ship1.angle = 270
+                        this.ship2.angle = 270
+                        this.ship3.angle = 270
+                        this.ship4.angle = 270
+                        this.ship5.angle = 270
+                        this.ship6.angle = 270
+                        this.ship7.angle = 270
+                        this.ship8.angle = 270
+                        this.ship9.angle = 270
+                        this.enemies.add(this.ship4);
+                        this.enemies.add(this.ship5);
+                        this.enemies.add(this.ship6);
+                        this.enemies.add(this.ship7);
+                        this.enemies.add(this.ship8);
+                        this.enemies.add(this.ship9);
+                      
+                    },
+                    callbackScope: this,
+                });
+                this.time.addEvent({
+                    delay: 5000,
+                    callback: async () => {
+                        this.player.angle = -90
+                        this.wave2indic = 0;
+                       
+                        this.bossindic = 2;
+                        this.speeds1 = 1.5;
+                        this.speeds2 = 1.5;
+                        this.speeds3 = 1.5;
+                        this.ship1 = this.add.sprite(10, 20, "shipb3");
+                        this.ship1.play("shipb3_anim");
+                        this.ship2 = this.add.sprite(10, 45, "shipb3");
+                        this.ship2.play("shipb3_anim");
+                        this.ship3 = this.add.sprite(10, 70, "shipb3");
+                        this.ship3.play("shipb3_anim");
+                        this.ship4 = this.add.sprite(10, 140, "shipb3");
+                        this.ship4.play("shipb3_anim");
+                        this.ship5 = this.add.sprite(10, 165, "shipb3");
+                        this.ship5.play("shipb3_anim");
+                        this.ship6 = this.add.sprite(10, 190, "shipb3");
+                        this.ship6.play("shipb3_anim");
+                        this.ship7 = this.add.sprite(10, 215, "shipb3");
+                        this.ship7.play("shipb3_anim");
+                        this.ship8 = this.add.sprite(10, 240, "shipb3");
+                        this.ship8.play("shipb3_anim");
+                        this.ship9 = this.add.sprite(10, 265, "shipb3");
+                        this.ship9.play("shipb3_anim");
+                        this.ship1.angle = 270
+                        this.ship2.angle = 270
+                        this.ship3.angle = 270
+                        this.ship4.angle = 270
+                        this.ship5.angle = 270
+                        this.ship6.angle = 270
+                        this.ship7.angle = 270
+                        this.ship8.angle = 270
+                        this.ship9.angle = 270
+                        this.enemies.add(this.ship4);
+                        this.enemies.add(this.ship5);
+                        this.enemies.add(this.ship6);
+                        this.enemies.add(this.ship7);
+                        this.enemies.add(this.ship8);
+                        this.enemies.add(this.ship9);
+                      
+                    },
+                    callbackScope: this,
+                });
+                this.time.addEvent({
+                    delay: 8000,
+                    callback: async () => {
+                        this.player.angle = -90
+                        this.wave2indic = 0;
+                       
+                        this.bossindic = 2;
+                        this.speeds1 = 1.5;
+                        this.speeds2 = 1.5;
+                        this.speeds3 = 1.5;
+                        this.ship1 = this.add.sprite(10, 20, "shipb3");
+                        this.ship1.play("shipb3_anim");
+                        this.ship2 = this.add.sprite(10, 45, "shipb3");
+                        this.ship2.play("shipb3_anim");
+                        this.ship3 = this.add.sprite(10, 70, "shipb3");
+                        this.ship3.play("shipb3_anim");
+                        this.ship4 = this.add.sprite(10, 140, "shipb3");
+                        this.ship4.play("shipb3_anim");
+                        this.ship5 = this.add.sprite(10, 165, "shipb3");
+                        this.ship5.play("shipb3_anim");
+                        this.ship6 = this.add.sprite(10, 190, "shipb3");
+                        this.ship6.play("shipb3_anim");
+                        this.ship7 = this.add.sprite(10, 215, "shipb3");
+                        this.ship7.play("shipb3_anim");
+                        this.ship8 = this.add.sprite(10, 240, "shipb3");
+                        this.ship8.play("shipb3_anim");
+                        this.ship9 = this.add.sprite(10, 265, "shipb3");
+                        this.ship9.play("shipb3_anim");
+                        this.ship1.angle = 270
+                        this.ship2.angle = 270
+                        this.ship3.angle = 270
+                        this.ship4.angle = 270
+                        this.ship5.angle = 270
+                        this.ship6.angle = 270
+                        this.ship7.angle = 270
+                        this.ship8.angle = 270
+                        this.ship9.angle = 270
+                        this.enemies.add(this.ship4);
+                        this.enemies.add(this.ship5);
+                        this.enemies.add(this.ship6);
+                        this.enemies.add(this.ship7);
+                        this.enemies.add(this.ship8);
+                        this.enemies.add(this.ship9);
+                      
+                    },
+                    callbackScope: this,
+                });
+                this.time.addEvent({
+                    delay: 11000,
+                    callback: async () => {
+                        this.player.angle = -90
+                        this.wave2indic = 0;
+                       
+                        this.bossindic = 2;
+                        this.speeds1 = 1.5;
+                        this.speeds2 = 1.5;
+                        this.speeds3 = 1.5;
+                        this.ship1 = this.add.sprite(10, 20, "shipb3");
+                        this.ship1.play("shipb3_anim");
+                        this.ship2 = this.add.sprite(10, 45, "shipb3");
+                        this.ship2.play("shipb3_anim");
+                        this.ship3 = this.add.sprite(10, 70, "shipb3");
+                        this.ship3.play("shipb3_anim");
+                        this.ship4 = this.add.sprite(10, 95, "shipb3");
+                        this.ship4.play("shipb3_anim");
+                        this.ship5 = this.add.sprite(10, 120, "shipb3");
+                        this.ship5.play("shipb3_anim");
+                        this.ship6 = this.add.sprite(10, 145, "shipb3");
+                        this.ship6.play("shipb3_anim");
+                        this.ship7 = this.add.sprite(10, 170, "shipb3");
+                        this.ship7.play("shipb3_anim");
+                        this.ship8 = this.add.sprite(10, 240, "shipb3");
+                        this.ship8.play("shipb3_anim");
+                        this.ship9 = this.add.sprite(10, 265, "shipb3");
+                        this.ship9.play("shipb3_anim");
+                        this.ship1.angle = 270
+                        this.ship2.angle = 270
+                        this.ship3.angle = 270
+                        this.ship4.angle = 270
+                        this.ship5.angle = 270
+                        this.ship6.angle = 270
+                        this.ship7.angle = 270
+                        this.ship8.angle = 270
+                        this.ship9.angle = 270
+                        this.enemies.add(this.ship4);
+                        this.enemies.add(this.ship5);
+                        this.enemies.add(this.ship6);
+                        this.enemies.add(this.ship7);
+                        this.enemies.add(this.ship8);
+                        this.enemies.add(this.ship9);
+                      
+                    },
+                    callbackScope: this,
+                });
+                this.time.addEvent({
+                    delay: 14000,
+                    callback: async () => {
+                        this.d = 4;
+                        this.c = 1;
+                       this.wave2indic = 2;
+                        this.boss = this.add.sprite(128,-20, "boss");
+                        this.boss.angle = 180;
+                        this.boss.setScale(2);
+                        this.bosses.add(this.boss);
+                        this.physics.add.overlap(this.projectiles, this.bosses, this.hitEnemy3, this.hitEnemy3, this);
+                        globalBullets += 3;
+                        this.player.angle = 0;
+                    },
+                    callbackScope: this,
+                });
+            }
+            
+        }
+        wave3(){
+            
+            
+                if((this.bossHealth <= 4 &&this.wave2indic == 2) || (this.globalBullets == 0  && this.wave2indic == 2) ){
+    
+                    this.time.addEvent({
+                        delay: 200,
+                        callback: async () => {
+                            this.c = 3;
+                        },
+                        callbackScope: this,
+                    });
+                    
+                    this.time.addEvent({
+                        delay: 2000,
+                        callback: async () => {
+                            this.player.angle = -90
+                            this.wave2indic = 0;
+                            this.boss.destroy();
+                            
+                            this.bossindic = 2;
+                            this.speeds1 = 1.5;
+                            this.speeds2 = 1.5;
+                            this.speeds3 = 1.5;
+                            this.ship1 = this.add.sprite(10, 20, "shipb3");
+                            this.ship1.play("shipb3_anim");
+                            this.ship2 = this.add.sprite(10, 45, "shipb3");
+                            this.ship2.play("shipb3_anim");
+                            this.ship3 = this.add.sprite(10, 70, "shipb3");
+                            this.ship3.play("shipb3_anim");
+                            this.ship4 = this.add.sprite(10, 95, "shipb3");
+                            this.ship4.play("shipb3_anim");
+                            this.ship5 = this.add.sprite(10, 120, "shipb3");
+                            this.ship5.play("shipb3_anim");
+                            this.ship6 = this.add.sprite(10, 145, "shipb3");
+                            this.ship6.play("shipb3_anim");
+                            this.ship7 = this.add.sprite(10, 215, "shipb3");
+                            this.ship7.play("shipb3_anim");
+                            this.ship8 = this.add.sprite(10, 240, "shipb3");
+                            this.ship8.play("shipb3_anim");
+                            this.ship9 = this.add.sprite(10, 265, "shipb3");
+                            this.ship9.play("shipb3_anim");
+                            this.ship1.angle = 270
+                            this.ship2.angle = 270
+                            this.ship3.angle = 270
+                            this.ship4.angle = 270
+                            this.ship5.angle = 270
+                            this.ship6.angle = 270
+                            this.ship7.angle = 270
+                            this.ship8.angle = 270
+                            this.ship9.angle = 270
+                            this.enemies.add(this.ship4);
+                            this.enemies.add(this.ship5);
+                            this.enemies.add(this.ship6);
+                            this.enemies.add(this.ship7);
+                            this.enemies.add(this.ship8);
+                            this.enemies.add(this.ship9);
+                          
+                        },
+                        callbackScope: this,
+                    });
+                    this.time.addEvent({
+                        delay: 6000,
+                        callback: async () => {
+                            this.player.angle = 0;
+                            this.bossindic = 1;
+                            this.speeds1 = 1;
+                            this.speeds2 = 1;
+                            this.speeds3 = 1;
+                            this.ship1 = this.add.sprite(85, 20, "shipb3");
+                            this.ship1.play("shipb3_anim");
+                            this.ship2 = this.add.sprite(10, 20, "shipb3");
+                            this.ship2.play("shipb3_anim");
+                            this.ship3 = this.add.sprite(35, 20, "shipb3");
+                            this.ship3.play("shipb3_anim");
+                            this.ship4 = this.add.sprite(60, 20, "shipb3");
+                            this.ship4.play("shipb3_anim");
+                            this.ship5 = this.add.sprite(110, 20, "shipb3");
+                            this.ship5.play("shipb3_anim");
+                            this.ship6 = this.add.sprite(135, 20, "shipb3");
+                            this.ship6.play("shipb3_anim");
+                            this.ship7 = this.add.sprite(160, 20, "shipb3");
+                            this.ship7.play("shipb3_anim");
+                            this.ship8 = this.add.sprite(185, 20, "shipb3");
+                            this.ship8.play("shipb3_anim");
+                            this.ship9 = this.add.sprite(210, 20, "shipb3");
+                            this.ship9.play("shipb3_anim");
+                            this.ship10 = this.add.sprite(235, 20, "shipb3");
+                            this.ship10.play("shipb3_anim");
+                            this.enemies.add(this.ship4);
+                            this.enemies.add(this.ship5);
+                            this.enemies.add(this.ship6);
+                            this.enemies.add(this.ship7);
+                            this.enemies.add(this.ship8);
+                            this.enemies.add(this.ship9);
+                            this.enemies.add(this.ship10);
+                        },
+                        callbackScope: this,
+                    });
+                    this.time.addEvent({
+                        delay: 8000,
+                        callback: async () => {
+                            this.player.angle = -90
+                            this.wave2indic = 0;
+                           
+                            this.bossindic = 2;
+                            this.speeds1 = 1.5;
+                            this.speeds2 = 1.5;
+                            this.speeds3 = 1.5;
+                            this.ship1 = this.add.sprite(10, 20, "shipb3");
+                            this.ship1.play("shipb3_anim");
+                            this.ship2 = this.add.sprite(10, 45, "shipb3");
+                            this.ship2.play("shipb3_anim");
+                            this.ship3 = this.add.sprite(10, 70, "shipb3");
+                            this.ship3.play("shipb3_anim");
+                            this.ship4 = this.add.sprite(10, 140, "shipb3");
+                            this.ship4.play("shipb3_anim");
+                            this.ship5 = this.add.sprite(10, 165, "shipb3");
+                            this.ship5.play("shipb3_anim");
+                            this.ship6 = this.add.sprite(10, 190, "shipb3");
+                            this.ship6.play("shipb3_anim");
+                            this.ship7 = this.add.sprite(10, 215, "shipb3");
+                            this.ship7.play("shipb3_anim");
+                            this.ship8 = this.add.sprite(10, 240, "shipb3");
+                            this.ship8.play("shipb3_anim");
+                            this.ship9 = this.add.sprite(10, 265, "shipb3");
+                            this.ship9.play("shipb3_anim");
+                            this.ship1.angle = 270
+                            this.ship2.angle = 270
+                            this.ship3.angle = 270
+                            this.ship4.angle = 270
+                            this.ship5.angle = 270
+                            this.ship6.angle = 270
+                            this.ship7.angle = 270
+                            this.ship8.angle = 270
+                            this.ship9.angle = 270
+                            this.enemies.add(this.ship4);
+                            this.enemies.add(this.ship5);
+                            this.enemies.add(this.ship6);
+                            this.enemies.add(this.ship7);
+                            this.enemies.add(this.ship8);
+                            this.enemies.add(this.ship9);
+                          
+                        },
+                        callbackScope: this,
+                    });
+                    this.time.addEvent({
+                        delay: 11000,
+                        callback: async () => {
+                            this.player.angle = -90
+                            this.wave2indic = 0;
+                           
+                            this.bossindic = 2;
+                            this.speeds1 = 1.5;
+                            this.speeds2 = 1.5;
+                            this.speeds3 = 1.5;
+                            this.ship1 = this.add.sprite(10, 20, "shipb3");
+                            this.ship1.play("shipb3_anim");
+                            this.ship2 = this.add.sprite(10, 45, "shipb3");
+                            this.ship2.play("shipb3_anim");
+                            this.ship3 = this.add.sprite(10, 70, "shipb3");
+                            this.ship3.play("shipb3_anim");
+                            this.ship4 = this.add.sprite(10, 95, "shipb3");
+                            this.ship4.play("shipb3_anim");
+                            this.ship5 = this.add.sprite(10, 120, "shipb3");
+                            this.ship5.play("shipb3_anim");
+                            this.ship6 = this.add.sprite(10, 145, "shipb3");
+                            this.ship6.play("shipb3_anim");
+                            this.ship7 = this.add.sprite(10, 170, "shipb3");
+                            this.ship7.play("shipb3_anim");
+                            this.ship8 = this.add.sprite(10, 240, "shipb3");
+                            this.ship8.play("shipb3_anim");
+                            this.ship9 = this.add.sprite(10, 265, "shipb3");
+                            this.ship9.play("shipb3_anim");
+                            this.ship1.angle = 270
+                            this.ship2.angle = 270
+                            this.ship3.angle = 270
+                            this.ship4.angle = 270
+                            this.ship5.angle = 270
+                            this.ship6.angle = 270
+                            this.ship7.angle = 270
+                            this.ship8.angle = 270
+                            this.ship9.angle = 270
+                            this.enemies.add(this.ship4);
+                            this.enemies.add(this.ship5);
+                            this.enemies.add(this.ship6);
+                            this.enemies.add(this.ship7);
+                            this.enemies.add(this.ship8);
+                            this.enemies.add(this.ship9);
+                          
+                        },
+                        callbackScope: this,
+                    });
+                    this.time.addEvent({
+                        delay: 14000,
+                        callback: async () => {
+                            this.ship1.destroy();
+                            this.boss.destroy();
+                            this.ship2.destroy();
+                            this.ship3.destroy();
+                            this.ship4.destroy();
+                            this.ship5.destroy();
+                            this.ship6.destroy();
+                            this.ship7.destroy();
+                            this.ship8.destroy();
+                            this.ship9.destroy();
+                            this.ship10.destroy();
+                            this.c = 1;
+                            this.wave4();
+                        },
+                        callbackScope: this,
+                    });
+                }
+        }
+        wave4(){
+            this.time.addEvent({
+                delay: 2000,
+                callback: async () => {
+                this.c = 5;
+                this.player.angle = 270;
+                
+                this.boss = this.add.sprite(20,200, "boss");
+                this.boss.angle = 90;
+                this.boss.setScale(2);
+                this.bosses.add(this.boss);
+                this.physics.add.overlap(this.projectiles, this.bosses, this.hitEnemy3, this.hitEnemy3, this);
+                this.b = 1;
+               
+                }
+            });
+            this.time.addEvent({
+                delay: 3000,
+                callback: async () => {
+                    this.sound.stopAll();
+                    this.cameras.main.fadeOut(1000, 0, 0, 0);
+                    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+                        this.scene.start("finale")
+                    });
+               
+                }
+            });
+            
+        }
+
       
-}
+    }

@@ -22,8 +22,8 @@ class Shop extends Phaser.Scene {
         this.boost = this.add.sprite(215,240, "boost");
        this.score = this.add.bitmapText(5,5,"pixelFont3", "SCORE: ", 20);
        this.zelezo = this.add.sprite(215,25, "zelezo").setInteractive();
-    
-
+       this.zelezos = this.physics.add.group();
+       this.zelezos.add(this.zelezo);
         this.shopbg.setOrigin(0,0);
         this.musik = this.sound.add("shopm", {volume: 0.25});
         var musicConfig = {
@@ -89,7 +89,8 @@ class Shop extends Phaser.Scene {
 
 
         this.lukrat.on('pointerout', () => {
-            this.zelezo = this.add.sprite(215,25, "zelezo");
+            this.zelezo = this.add.sprite(215,25, "zelezo").setInteractive();
+            this.setupZelezoListeners();
             this.lukrat.setScale(1); 
             this.textbg.destroy();
             this.ammobox.setScale(1);
@@ -143,7 +144,8 @@ class Shop extends Phaser.Scene {
         });
 
         this.lukrat2.on('pointerout', () => {
-            this.zelezo = this.add.sprite(215,25, "zelezo");
+            this.zelezo = this.add.sprite(215,25, "zelezo").setInteractive();
+            this.setupZelezoListeners();
             this.lukrat2.setScale(1); 
             this.shield.setScale(1);
             this.textbg.destroy();
@@ -197,7 +199,8 @@ class Shop extends Phaser.Scene {
 
 
         this.lukrat3.on('pointerout', () => {
-            this.zelezo = this.add.sprite(215,25, "zelezo");
+            this.zelezo = this.add.sprite(215,25, "zelezo").setInteractive();
+            this.setupZelezoListeners();
             this.lukrat3.setScale(1); 
             this.boost.setScale(1);
             this.textbg.destroy();
@@ -210,17 +213,12 @@ class Shop extends Phaser.Scene {
             this.a.destroy();
             this.amomf.destroy();
         });
-        this.zelezo.on('pointerdown', () => {
-            this.sound.stopAll();
-            this.cameras.main.fadeOut(1000, 0, 0, 0);
-            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-                this.scene.start("level2");
-            });
-        });
+        this.setupZelezoListeners();
       
     }
     update(){
         this.score.text = "SCORE: " + globalScoreFormated;  
+        
     }
 
     backgroundchange(){
@@ -231,7 +229,16 @@ class Shop extends Phaser.Scene {
         
         this.shopbg.setTexture("shopijk")
     }
-   
+    setupZelezoListeners() {
+        this.zelezo.on('pointerdown', () => {
+            this.sound.stopAll();
+            this.cameras.main.fadeOut(1000, 0, 0, 0);
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+                this.scene.start("level2");
+            });
+        });
+    }
+
    
     zeroPad(number, size){
         var stringNumber = String(number);

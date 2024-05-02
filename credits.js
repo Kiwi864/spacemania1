@@ -31,7 +31,7 @@ class Credits extends Phaser.Scene {
         this.phonedialog2 = this.add.bitmapText(35,222, "pixelFont", "lady Paka sold her shop to ", 19);
         this.phonedialog3 = this.add.bitmapText(20,242, "pixelFont", "experience life for the first time ", 19);
         this.time.addEvent({
-            delay: 100,
+            delay: 10000,
             callback: async () => {
                 this.phonedialog.destroy();
                 this.phonedialog2.destroy();
@@ -46,7 +46,7 @@ class Credits extends Phaser.Scene {
             callbackScope: this,
         });
         this.time.addEvent({
-            delay: 200,
+            delay: 20000,
             callback: async () => {
                 this.phonedialog.destroy();
                 this.phonedialog2.destroy();
@@ -62,7 +62,7 @@ class Credits extends Phaser.Scene {
             callbackScope: this,
         });
         this.time.addEvent({
-            delay: 300,
+            delay: 30000,
             callback: async () => {
                 this.phonedialog.destroy();
                 this.phonedialog2.destroy();
@@ -84,7 +84,7 @@ class Credits extends Phaser.Scene {
             callbackScope: this,
         });
         this.time.addEvent({
-            delay: 2000,
+            delay: 35000,
             callback: async () => {
                this.moveText(this.phonedialog, 1);
                this.moveText(this.phonedialog2, 1);

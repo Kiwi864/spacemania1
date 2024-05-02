@@ -41,7 +41,8 @@ var config = {
            
             this.lives = globalHealth;
             this.nesmrtelnost = 0;
-            this.score = globalScoreFormated;
+            this.score = 0;
+            
             this.bulletsadder = 0;
             this.shieldDuration = 10000;
             this.shieldActive = false;
@@ -50,7 +51,7 @@ var config = {
             this.speeds2 = 3;
             this.speeds3 = 4;
             this.speedchange = 0;
-            this.shopTimerDelay = 780000;
+            
             this.boostDuration = 10000; 
             this.boostActive = false;
             this.graphics = null
@@ -139,26 +140,19 @@ var config = {
                 callbackScope: this,
                 loop: true
             });
+            this.timee = this.time.addEvent({
+                delay: 12000,
+                callback: this.shop,
+                callbackScope: this,
+                loop: true
+            });
            
             
            
 
           
         }
-       /* spawnPowerUp(){
-            
-                var powerUp = this.physics.add.sprite(16, 16, "power-up");
-                this.powerUps.add(powerUp);
-                powerUp.setRandomPosition(0,0, config.width, config.height);
-
-                powerUp.type = Phaser.Math.RND.pick([ "gray", "gray"]);
-                powerUp.play(powerUp.type)
-                powerUp.setVelocity(100, 100);
-                powerUp.setCollideWorldBounds(true);
-                powerUp.setBounce(1);
-            
-            
-        }*/
+      
         pickPowerUp(player, powerUp){
             powerUp.disableBody(true, true);
             this.pickupSound.play({volume: 0.25});
@@ -211,7 +205,7 @@ var config = {
                     this.shootBeam();
                 }
             }
-            console.log(this.bgspeed);
+            
             if (globalBoost >= 1){
                 if(this.bgspeed == 0.5){
                     if(Phaser.Input.Keyboard.JustDown(this.FKey)){
@@ -293,10 +287,7 @@ var config = {
                 
                 this.hitEnemy1(this.player, this.ship3);
             }
-           if(this.shopTimerDelay == 0){
-             this.sound.stopAll();
-             this.scene.start("Shop2");
-           }
+           
         }
         hurtPlayer(player, enemy){
             console.log("collision");
@@ -408,16 +399,12 @@ var config = {
                 },
                 callbackScope: this,
             }); 
-            this.updateShopTimerDelay(50000);
+           
         }
         
            
         }
-        updateShopTimerDelay(delta) {
-            if(this.shopTimerDelay > 0){
-            this.shopTimerDelay -= delta; 
-            }
-        }
+        
         shootBeam(){
             if (globalBullets > 0) {
             var beam = new Beam(this);
@@ -461,8 +448,13 @@ var config = {
                 var explosion = new Explosion(this, enemy.x, enemy.y);
                 projectile.destroy();
                 this.resetShipPos(enemy);
-                this.score += 15;
-                globalScoreFormated = this.zeroPad(this.score, 6);
+               
+                this.score = globalScoreFormated;
+                const intNumber = parseInt(this.score);
+                this.score = intNumber;
+                this.score += 25;
+                
+                globalScoreFormated = this.zeroPad(this.score , 6);
                 this.scoreLabel.text = "SCORE " + globalScoreFormated;
                 this.explosionSound.play({volume: 0.25});
                 if (Phaser.Math.RND.between(0, 1) === 1){
@@ -590,5 +582,13 @@ var config = {
                 callbackScope: this
             });
         }
-      
+        shop(){
+            
+            this.sound.stopAll();
+            this.cameras.main.fadeOut(1000, 0, 0, 0);
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+                this.scene.start("Shop2")
+            });
+            
+        }
     }
