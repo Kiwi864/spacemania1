@@ -2,7 +2,7 @@ var globalScoreFormated = "";
 var globalBullets = 10;
 var globalShields = 0;
 var globalHealth = 5;
-var globalHalusky = 1;
+var globalHalusky = 0;
 var globalBoost = 0;
 
 window.onload = function(){

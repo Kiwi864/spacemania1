@@ -312,63 +312,64 @@ var config = {
                     this.shootBeam();
                 }
             }
-                if(globalHalusky >= 1){
-                    if (Phaser.Input.Keyboard.JustDown(this.GKey)){
-                        this.orol.alpha = 1;
-                        this.orolindic = 1;
-                        this.g = 1;
-                        this.p = 0;
-                        this.k = 1;
-                    
-                        this.player.play("slovakanim");
-                        this.music.stop();
-                        this.slovar = this.sound.add("slovar", {volume: 1});
-                        var hudbaConfig = {
-                            mute: false,
-                            volume: 1,
-                            rate: 1,
-                            detune: 0,
-                            seek: 0,
-                            loop: true,
-                            delay: 0
+                if(this.g == 0){
+                    if(globalHalusky >= 1 && this.bossindic == 0){
+                        if (Phaser.Input.Keyboard.JustDown(this.GKey)){
+                            this.orol.alpha = 1;
+                            this.orolindic = 1;
+                            this.g = 1;
+                            this.p = 0;
+                            this.k = 1;
+                            globalHalusky -= 1;
+                            this.player.play("slovakanim");
+                            this.music.stop();
+                            this.slovar = this.sound.add("slovar", {volume: 1});
+                            var hudbaConfig = {
+                                mute: false,
+                                volume: 1,
+                                rate: 1,
+                                detune: 0,
+                                seek: 0,
+                                loop: true,
+                                delay: 0
+                            }
+                            this.slovar.play(hudbaConfig);
+                            if(this.player.active){
+                                console.log("Valaska!");
+                                this.valaska = new Valaska(this, this.player.x, this.player.y);
+                                this.valaska.setScale(0.5);
+                                this.physics.add.overlap(this.valaska, this.enemies, this.destroyEnemy, null, this);
+                                this.time.addEvent({
+                                    delay: 14000,
+                                    callback: async () => {
+                                        this.valaska.destroy();
+                                        this.player.play("thrust");
+                                        this.g = 0;
+                                        this.p = 1;
+                                        this.k = 0
+                                        this.slovar.stop();
+                                        this.music.play();
+                                        this.orolindic = 0;
+                                        this.orol.alpha = 0;
+                                        this.orol.x = 97;
+                                        this.orol.y = 390;
+                                    },
+                                    callbackScope: this,
+                                });  
+                            }
                         }
-                        this.slovar.play(hudbaConfig);
-                        if(this.player.active){
-                            console.log("Valaska!");
-                            this.valaska = new Valaska(this, this.player.x, this.player.y);
-                            this.valaska.setScale(0.5);
-                            this.physics.add.overlap(this.valaska, this.enemies, this.destroyEnemy, null, this);
-                            this.time.addEvent({
-                                delay: 14000,
-                                callback: async () => {
-                                    this.valaska.destroy();
-                                    this.player.play("thrust");
-                                    this.g = 0;
-                                    this.p = 1;
-                                    this.k = 0
-                                    this.slovar.stop();
-                                    this.music.play();
-                                    this.orolindic = 0;
-                                    this.orol.alpha = 0;
-                                    this.orol.x = 97;
-                                    this.orol.y = 390;
-                                },
-                                callbackScope: this,
-                            });  
-                        }
-                    }
-                }   
-                   
+                    }   
+                }  
                         
                 
         
-            if(this.valaska && this.valaska.y < 40 && this.p == 0){
+            if(this.valaska && this.valaska.y < 40 && this.p == 0 && this.bossindic == 0){
                 this.valaska.destroy();
                 this.valaska = new Valaska(this, this.player.x, this.player.y);
                 this.valaska.setScale(0.5);
                     this.physics.add.overlap(this.valaska, this.enemies, this.destroyEnemy, null, this);
             }
-           if(this.valaska && this.valaska.y > 40 && this.p == 0) {
+           if(this.valaska && this.valaska.y > 40 && this.p == 0 && this.bossindic == 0) {
                 this.valaska.update();
                
                
@@ -484,7 +485,7 @@ var config = {
                 this.livesLabel.text = "LIVES: " + globalHealth;
                 this.bossHealthLabel.text = "BOSS: " + this.bossHealth;
             }
-            if(this.g == 1){
+            if(this.g == 1 && this.bossindic == 0){
                 this.bulletCountLabel.text = "PATRONY: " + globalBullets;
                 this.livesLabel.x = 96
                 this.livesLabel.y = 6
@@ -699,17 +700,18 @@ var config = {
             
         }
         destroyEnemy(valaska, enemy){
-            var explosion = new Explosion(this, enemy.x, enemy.y);
-            this.resetShipPos(enemy);
-            this.score = globalScoreFormated;
-            const intNumber = parseInt(this.score);
-            this.score = intNumber;
-            this.score += 4;
-            
-            globalScoreFormated = this.zeroPad(this.score, 6);
-            
-            this.scoreLabel.text = "GROSE " + globalScoreFormated;
-            
+            if(this.bossindic == 0){
+                var explosion = new Explosion(this, enemy.x, enemy.y);
+                this.resetShipPos(enemy);
+                this.score = globalScoreFormated;
+                const intNumber = parseInt(this.score);
+                this.score = intNumber;
+                this.score += 4;
+                
+                globalScoreFormated = this.zeroPad(this.score, 6);
+                
+                this.scoreLabel.text = "GROSE " + globalScoreFormated;
+            }
            
         }
         hitEnemy1(player, enemy){
@@ -844,14 +846,15 @@ var config = {
             this.boss = this.add.sprite(128,-20, "boss");
             this.boss.angle = 180;
             this.boss.setScale(2);
-           
+            this.player.setTexture("player");
+            this.player.play("thrust")
             this.ship1.destroy();
             this.ship2.destroy();
             this.ship3.destroy();
             this.graphics.destroy();
             this.scoreLabel.destroy();
             this.bulletCountLabel.destroy();
-         
+            this.livesLabel.text = "LIVES: " + globalHealth;
             this.livesLabel.x = 10;
             this.livesLabel.setScale(1.25);
             this.bossHealthLabel = this.add.bitmapText(180,5, "pixelFont", "BOSS: ", 16 );
@@ -1256,7 +1259,7 @@ var config = {
                             this.player.angle = -90
                             this.wave2indic = 0;
                             this.boss.destroy();
-                            
+                          
                             this.bossindic = 2;
                             this.speeds1 = 1.5;
                             this.speeds2 = 1.5;

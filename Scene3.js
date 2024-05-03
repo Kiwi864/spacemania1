@@ -141,7 +141,7 @@ var config = {
                 loop: true
             });
             this.timee = this.time.addEvent({
-                delay: 12000,
+                delay: 120000,
                 callback: this.shop,
                 callbackScope: this,
                 loop: true
