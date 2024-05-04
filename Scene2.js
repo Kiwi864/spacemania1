@@ -156,7 +156,7 @@ var config = {
             globalHealth += 1;
            }
            if (powerUp.type === "gray"){
-               globalBullets += 1;
+               globalBullets += 2;
            }
         }
         resetPlayer(){
