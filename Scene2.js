@@ -287,6 +287,7 @@ var config = {
                 this.resetShipPos(enemy);
                 this.score += 25;
                 globalScoreFormated = this.zeroPad(this.score, 6);
+                globalScoreFull += 25;
                 this.scoreLabel.text = "SCORE " + globalScoreFormated;
                 this.explosionSound.play({volume: 0.25});
                 if (Phaser.Math.RND.between(0, 1) === 1){

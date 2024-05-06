@@ -453,7 +453,7 @@ var config = {
                 const intNumber = parseInt(this.score);
                 this.score = intNumber;
                 this.score += 25;
-                
+                globalScoreFull += 25;
                 globalScoreFormated = this.zeroPad(this.score , 6);
                 this.scoreLabel.text = "SCORE " + globalScoreFormated;
                 this.explosionSound.play({volume: 0.25});
