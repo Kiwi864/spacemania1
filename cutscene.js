@@ -467,14 +467,17 @@ class cutscene extends Phaser.Scene {
             this.phonedialog9.destroy();
             this.dialog.destroy();
             this.skip.destroy();
-            this.gameStart = this.add.bitmapText(20,96, "pixelFont", "SPACE MANIA", 50);
+            this.gameStart = this.add.bitmapText(20,96, "pixelFont", "STELLAR TALE", 50);
             this.dialogik = 5;
         }
     }
     dialogue5(){
         if(this.dialogik === 5){
             this.sound.stopAll();
-            this.scene.start("playGame");
+            this.cameras.main.fadeOut(1000, 0, 0, 0);
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+                this.scene.start("playGame")
+            });
         }
     }
 }

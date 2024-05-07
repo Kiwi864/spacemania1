@@ -15,7 +15,7 @@ class Start extends Phaser.Scene {
    // }
     create(){
         
-        this.gameStart = this.add.bitmapText(60,96, "pixelFont", "SPACE MANIA", 30);
+        this.gameStart = this.add.bitmapText(57,96, "pixelFont", "STELLAR TALE", 30);
         this.startinstruciton = this.add.bitmapText(45,126, "pixelFont", "PRESS SPACE TO CONTINUE ", 18);
         this.movement = this.add.bitmapText(10,256, "pixelFont", "MOVEMENT - ARROWS ", 18);
         this.shooting = this.add.bitmapText(10,236, "pixelFont", "SHOOTING - SPACE ", 18);

@@ -68,7 +68,7 @@ class Credits extends Phaser.Scene {
                 this.phonedialog2.destroy();
                 this.phonedialog3.destroy();
                 this.shop.destroy();
-                this.phonedialog = this.add.bitmapText(20,96, "pixelFont", "SPACE MANIA", 50);
+                this.phonedialog = this.add.bitmapText(20,96, "pixelFont", "STELLAR TALE", 50);
                 this.phonedialog2 = this.add.bitmapText(56,130, "pixelFont", "Thanks for playing!", 20);
                 this.finalScoreLabel = this.add.bitmapText(75,150, "pixelFont", "TOTAL SCORE: ", 20);
                 this.phonedialog3 = this.add.bitmapText(20,294, "pixelFont", "MADE BY: Samuel Tamas\nCODE: Samuel Tamas, Ansimuz\n   BACKGROUND DESIGN:\n             Ansimuz\n             Toby Fox\n             Samuel Tamas\nSHOP DESIGN: ???\nIDEA: Samuel Tamas, Ansimuz\nDIALOGUES: Samuel Tamas\nCHARACTERS: Samuel Tamas\n MADE WITH: Phaser Engine \nMUSIC:\n    LIBET'S DELAY\n     By Caretaker\n \n    THE HINDSIGHT\n     By Jorn Lavoll\n \n    GET UP N' Fight!\n      By Nexsard"  , 20);
