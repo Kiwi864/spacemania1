@@ -43,7 +43,13 @@ var config = {
             this.lives = globalHealth;
             this.nesmrtelnost = 0;
             this.score = 0;
-           
+            globalScoreFormated = "";
+            globalScoreFull = 0;
+            globalBullets = 10;
+            globalShields = 0;
+            globalHealth = 10;
+            globalHalusky = 0;
+            globalBoost = 0;
             this.bulletsadder = 0;
             globalScoreFormated = this.zeroPad(this.score, 6);
            
@@ -100,8 +106,8 @@ var config = {
             graphics.fillRect(0,0,config.width,20);
          
             this.scoreLabel = this.add.bitmapText(10,5, "pixelFont", "SCORE: 000000", 16);
-            this.bulletCountLabel = this.add.bitmapText(180,5, "pixelFont", "BULLETS: 5", 16 );
-            this.livesLabel = this.add.bitmapText(110,5, "pixelFont", "LIVES: 3", 16 );
+            this.bulletCountLabel = this.add.bitmapText(180,5, "pixelFont", "BULLETS: ", 16 );
+            this.livesLabel = this.add.bitmapText(110,5, "pixelFont", "LIVES: ", 16 );
             this.beamSound = this.sound.add("audio_beam");
             this.explosionSound = this.sound.add("audio_explosion");
             this.pickupSound = this.sound.add("audio_pickup");

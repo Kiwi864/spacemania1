@@ -31,7 +31,7 @@ class Credits extends Phaser.Scene {
         this.phonedialog2 = this.add.bitmapText(35,222, "pixelFont", "lady Paka sold her shop to ", 19);
         this.phonedialog3 = this.add.bitmapText(20,242, "pixelFont", "experience life for the first time ", 19);
         this.time.addEvent({
-            delay: 100,
+            delay: 10000,
             callback: async () => {
                 this.phonedialog.destroy();
                 this.phonedialog2.destroy();
@@ -46,7 +46,7 @@ class Credits extends Phaser.Scene {
             callbackScope: this,
         });
         this.time.addEvent({
-            delay: 200,
+            delay: 20000,
             callback: async () => {
                 this.phonedialog.destroy();
                 this.phonedialog2.destroy();
@@ -62,7 +62,7 @@ class Credits extends Phaser.Scene {
             callbackScope: this,
         });
         this.time.addEvent({
-            delay: 300,
+            delay: 30000,
             callback: async () => {
                 this.phonedialog.destroy();
                 this.phonedialog2.destroy();
@@ -71,8 +71,8 @@ class Credits extends Phaser.Scene {
                 this.phonedialog = this.add.bitmapText(20,96, "pixelFont", "SPACE MANIA", 50);
                 this.phonedialog2 = this.add.bitmapText(56,130, "pixelFont", "Thanks for playing!", 20);
                 this.finalScoreLabel = this.add.bitmapText(75,150, "pixelFont", "TOTAL SCORE: ", 20);
-                this.phonedialog3 = this.add.bitmapText(20,294, "pixelFont", "MADE BY: Samuel Tamas\nCODE: Samuel Tamas, Ansimuz\n   BACKGROUND DESIGN:\n             Ansimuz\n             Toby Fox\n\nSHOP DESIGN: ???\nIDEA: Samuel Tamas, Ansimuz\nDIALOGUES: Samuel Tamas\n \nMUSIC:\n    LIBET'S DELAY\n     By Caretaker\n \n    THE HINDSIGHT\n     By Jorn Lavoll\n \n    GET UP N' Fight!\n      By Nexsard"  , 20);
-                this.phonedialog4 = this.add.bitmapText(20,640, "pixelFont", "    DRAMATIC_V2\n     By Wolfgang_\n \n    SMILES AND TEARS\n   From EarthBound\n \n    DETERMINATION\n     By Toby Fox\n \n    CHINESE SHOP\n     By Derek Fiechter\n \n    IN DREAMS\n     By Scott Buckley\n \n    SCI-FI_PLATFORMER12\n     By PASCAL BELISLE\n \n    ELEVATOR JAM\n     By LSplash\n \n    V SLOVENSKYCH DOLINACH\n     By Karol Duchon\n\n     INSPIRATION:\n Game Timelles Travels\n\n     SPECIAL THANKS\n Ansimuz,", 20);
+                this.phonedialog3 = this.add.bitmapText(20,294, "pixelFont", "MADE BY: Samuel Tamas\nCODE: Samuel Tamas, Ansimuz\n   BACKGROUND DESIGN:\n             Ansimuz\n             Toby Fox\n             Samuel Tamas\nSHOP DESIGN: ???\nIDEA: Samuel Tamas, Ansimuz\nDIALOGUES: Samuel Tamas\nCHARACTERS: Samuel Tamas\n MADE WITH: Phaser Engine \nMUSIC:\n    LIBET'S DELAY\n     By Caretaker\n \n    THE HINDSIGHT\n     By Jorn Lavoll\n \n    GET UP N' Fight!\n      By Nexsard"  , 20);
+                this.phonedialog4 = this.add.bitmapText(20,660, "pixelFont", "    DRAMATIC_V2\n     By Wolfgang_\n \n    SMILES AND TEARS\n   From EarthBound\n \n    DETERMINATION\n     By Toby Fox\n \n    CHINESE SHOP\n     By Derek Fiechter\n \n    IN DREAMS\n     By Scott Buckley\n \n    SCI-FI_PLATFORMER12\n     By PASCAL BELISLE\n \n    ELEVATOR JAM\n     By LSplash\n \n    V SLOVENSKYCH DOLINACH\n     By Karol Duchon\n\n     INSPIRATION:\n Game Timelles Travels\n\n     SPECIAL THANKS\n Ansimuz       Deep-Fold\n Peter Harcar       Marek\n      Katarina Liskova\n          Karci Duchci\n\n\n   -SCHODIKY-", 20);
                 this.text = this.physics.add.group();
                 this.text.add(this.phonedialog);
                 this.text.add(this.phonedialog2);
@@ -85,7 +85,7 @@ class Credits extends Phaser.Scene {
             callbackScope: this,
         });
         this.time.addEvent({
-            delay: 350,
+            delay: 350000,
             callback: async () => {
                this.moveText(this.phonedialog, 1);
                this.moveText(this.finalScoreLabel, 1)
@@ -104,7 +104,9 @@ class Credits extends Phaser.Scene {
     }
     update(){
         let formattedScore = String(globalScoreFull).padStart(6, '0');
-        this.finalScoreLabel.text = "SCORE: " + formattedScore; 
+        if(this.finalScoreLabel){
+            this.finalScoreLabel.text = "SCORE: " + formattedScore;
+        } 
     }
     moveText(text, speed){
         this.time.addEvent({

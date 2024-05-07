@@ -511,7 +511,7 @@ var config = {
                 const indicatorWidth = config.width * remainingTime / this.boostDuration;
     
                 this.boostIndicator.setSize(indicatorWidth, 20);
-                console.log("Boost Indicator Updated: Remaining Time:", remainingTime);
+                
                 if (remainingTime <= 0) {
                     this.boostIndicator.visible = false;
                 }
@@ -534,10 +534,7 @@ var config = {
              
                 const remainingTime = Math.max(this.shieldDuration + 5000 - (this.time.now - this.shieldStartTime), 0);
                 const indicatorWidth = config.width * remainingTime / (this.shieldDuration + 5000);
-        
-              
                 this.shieldIndicator.setSize(indicatorWidth, 20);
-                console.log("Shield Indicator Updated: Remaining Time:", remainingTime);
                 if (remainingTime <= 0) {
                     this.shieldIndicator.visible = false;
                 }
