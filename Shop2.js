@@ -40,7 +40,7 @@ class Shop2 extends Phaser.Scene {
        
       
         this.lukrat.on('pointerover', () => {
-            this.zelezo.visible = false;
+            this.zelezo.destroy();
             this.textbg = this.add.sprite(205,70, "textbg");
             this.textbg.setScale(1.4);
             this.textbg.setAlpha(0.8);
@@ -77,7 +77,8 @@ class Shop2 extends Phaser.Scene {
 
 
         this.lukrat.on('pointerout', () => {
-            
+            this.zelezo = this.add.sprite(215,25, "zelezo").setInteractive();
+            this.setupZelezoListeners();
             this.lukrat.setScale(1); 
             this.textbg.destroy();
             this.ammobox.setScale(1);
@@ -94,7 +95,7 @@ class Shop2 extends Phaser.Scene {
        
 
         this.lukrat3.on('pointerover', () => {
-            this.zelezo.visible = false;
+            this.zelezo.destroy();
             this.textbg = this.add.sprite(205,70, "textbg");
             this.textbg.setScale(1.4);
             this.textbg.setAlpha(0.8);
@@ -134,7 +135,8 @@ class Shop2 extends Phaser.Scene {
 
 
         this.lukrat3.on('pointerout', () => {   
-           
+            this.zelezo = this.add.sprite(215,25, "zelezo").setInteractive();
+            this.setupZelezoListeners();
             this.lukrat3.setScale(1); 
             this.boost.setScale(1);
             this.textbg.destroy();
@@ -146,8 +148,8 @@ class Shop2 extends Phaser.Scene {
             this.amol.destroy();
             this.a.destroy();
             this.amomf.destroy();
-            this.zelezo.visible = true; 
         });
+       this.setupZelezoListeners();
       
       
     }
@@ -163,21 +165,18 @@ class Shop2 extends Phaser.Scene {
             this.boost.destroy();
 
         }
-        this.zelezo.on('pointerdown', () => {
-           this.nextlevel();
-        });
+       
         
     }
-    nextlevel(){
-        this.sound.stopAll();
-        this.cameras.main.fadeOut(1000, 0, 0, 0);
-        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-            this.scene.start("level3");
+    setupZelezoListeners() {
+        this.zelezo.on('pointerdown', () => {
+            this.sound.stopAll();
+            this.cameras.main.fadeOut(1000, 0, 0, 0);
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+                this.scene.start("level3");
+            });
         });
     }
-
-     
-    
     zeroPad(number, size){
         var stringNumber = String(number);
         while(stringNumber.length < (size || 2)){
