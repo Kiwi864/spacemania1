@@ -101,9 +101,9 @@ var config = {
             this.FKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
             this.GKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
             this.background.setOrigin(0,0);
-            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 - 30, "shipb");
-            this.ship2 = this.add.sprite(config.width/2, config.height/2 - 30, "shipb2");
-            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2 - 30, "shipb3");
+            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 - 100, "shipb");
+            this.ship2 = this.add.sprite(config.width/2, config.height/2 - 100, "shipb2");
+            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2 - 100, "shipb3");
             this.orol = this.add.sprite(97,390, "orol");
             this.orol.alpha = 0;
             //this.character = this.add.sprite(config.width/2 + 50, config.height/2, "character1");
@@ -1443,7 +1443,6 @@ var config = {
                         this.scene.start("finale")
                     });
                 }
-            });
-            
+            }); 
         }
     }

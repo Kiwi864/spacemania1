@@ -61,9 +61,9 @@ var config = {
             this.TKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
             this.FKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
             this.background.setOrigin(0,0);
-            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 -30, "ship");
-            this.ship2 = this.add.sprite(config.width/2, config.height/2 - 30, "ship2");
-            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2 - 30, "ship3");
+            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 -70, "ship");
+            this.ship2 = this.add.sprite(config.width/2, config.height/2 - 70, "ship2");
+            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2 - 70, "ship3");
             //this.character = this.add.sprite(config.width/2 + 50, config.height/2, "character1");
 
             
@@ -167,7 +167,6 @@ var config = {
             var x = config.width / 2 - 8;
             var y = config.height + 64;
             this.player.enableBody(true, x, y, true, true);
-
             this.player.alpha = 0.5;
             var tween = this.tweens.add({
                 targets: this.player,
@@ -307,12 +306,7 @@ var config = {
 
                 var explosion = new Explosion(this, player.x, player.y);
                 this.resetPlayer();
-                this.time.addEvent({
-                    delay: 1000,
-                    callback: this.resetPlayer,
-                    callbackScope: this,
-                    loop: false
-                });
+                
             
                 }
             }

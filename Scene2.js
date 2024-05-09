@@ -45,10 +45,10 @@ var config = {
             this.score = 0;
             globalScoreFormated = "";
             globalScoreFull = 0;
-            globalBullets = 10;
+            globalBullets = 120;
             globalShields = 0;
             globalHealth = 10;
-            globalHalusky = 0;
+            globalHalusky = 2;
             globalBoost = 0;
             this.bulletsadder = 0;
             globalScoreFormated = this.zeroPad(this.score, 6);
@@ -59,9 +59,9 @@ var config = {
             this.score = 0;
             this.background = this.add.tileSprite(0,0, config.width, config.height, "background");
             this.background.setOrigin(0,0);
-            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 - 30, "shipk");
-            this.ship2 = this.add.sprite(config.width/2, config.height/2 - 30, "shipk2");
-            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2 - 30, "shipk3");
+            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 - 70, "shipk");
+            this.ship2 = this.add.sprite(config.width/2, config.height/2 - 70, "shipk2");
+            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2 - 70, "shipk3");
             //this.character = this.add.sprite(config.width/2 + 50, config.height/2, "character1");
 
             
@@ -199,12 +199,6 @@ var config = {
 
            var explosion = new Explosion(this, player.x, player.y);
            this.resetPlayer();
-           this.time.addEvent({
-            delay: 1000,
-            callback: this.resetPlayer,
-            callbackScope: this,
-            loop: false
-           });
            
         }
        
