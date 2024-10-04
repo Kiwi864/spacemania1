@@ -56,7 +56,7 @@ var config = {
             
         }
         create(){
-            this.score = 0;
+            this.score = 1000;
             this.background = this.add.tileSprite(0,0, config.width, config.height, "background");
             this.background.setOrigin(0,0);
             this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 - 70, "shipk");
@@ -86,7 +86,8 @@ var config = {
             this.powerUps = this.physics.add.group();
             
 
-            
+           
+
            
             this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 64, "player");
             this.player.play("thrust");

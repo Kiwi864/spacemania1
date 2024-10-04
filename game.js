@@ -1,5 +1,5 @@
 var globalScoreFormated = "";
-var globalScoreFull = 0;
+var globalScoreFull = 1000;
 var globalBullets = 10;
 var globalShields = 0;
 var globalHealth = 10;

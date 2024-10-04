@@ -7,7 +7,7 @@ class Shop2 extends Phaser.Scene {
         this.boostindicator = 0;
     }
     create(){
-      
+        globalScoreFormated += 10000;
         this.shopbg = this.add.tileSprite(0,0, config.width, config.height, "shop2");
         var graphics = this.add.graphics();
         
