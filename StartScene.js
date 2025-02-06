@@ -15,7 +15,6 @@ class Start extends Phaser.Scene {
     //    this.load.audio("intro", ["assets/sounds/intro.ogg", "assets/sounds/intro.mp3"]);
    // }
     create(){
-        
         this.gameStart = this.add.bitmapText(57,96, "pixelFont", "STELLAR TALE", 30);
         this.startinstruciton = this.add.bitmapText(45,126, "pixelFont", "PRESS SPACE TO CONTINUE ", 18);
         this.movement = this.add.bitmapText(10,256, "pixelFont", "MOVEMENT - ARROWS ", 18);
