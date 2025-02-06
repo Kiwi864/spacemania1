@@ -241,8 +241,8 @@
 
 
     create() {
-        this.add.text(20,20, "Loading game...");
-        this.scene.start("start");
+        this.score = this.add.bitmapText(5,5,"pixelFont3", "Loading... ", 20);
+        this.scene.start("level3");
 
         this.anims.create({
             key: "ship1_anim",

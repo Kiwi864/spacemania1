@@ -93,6 +93,8 @@ var config = {
             this.bossindic = 0;
             this.bossHealth = 10;
             this.wave2indic = 0
+            globalHalusky = 1;
+            this.canShoot = true;
         }
         create(){
             this.sound.stopAll();
@@ -189,7 +191,7 @@ var config = {
                 loop: true
             });
             this.time.addEvent({
-                delay: 120000,
+                delay: 12000,
                 callback: this.shop,
                 callbackScope: this,
                 loop: false
@@ -610,14 +612,17 @@ var config = {
         }
        
         shootBeam(){
-            if (globalBullets > 0) {
-            var beam = new Beam(this);
-            this.beamSound.play({volume: 0.25});
-                globalBullets--;
+            if(this.canShoot == true){
+                if (globalBullets > 0) {
+                    var beam = new Beam(this);
+                    this.beamSound.play({volume: 0.25});
+                    globalBullets--;
+                }
+                else {
+                    this.ammoSound.play({volume: 1});
+                }
             }
-            else {
-                this.ammoSound.play({volume: 1});
-            }
+           
         } 
         shootValaska(){
            
@@ -818,6 +823,7 @@ var config = {
                     this.hudba.play();
                 }
             });
+            this.canShoot = false;
             this.bossindic = 1;
             this.boss = this.add.sprite(128,-20, "boss");
             this.boss.angle = 180;
@@ -980,7 +986,7 @@ var config = {
                 callback: async () => {
 
                     this.d = 1;
-                    
+                    this.canShoot = true;
                     this.boss = this.add.sprite(128,-20, "boss");
                     this.boss.angle = 180;
                     this.boss.setScale(2);
@@ -1014,7 +1020,7 @@ var config = {
                         this.player.angle = -90
                         this.wave2indic = 0;
                         this.boss.destroy();
-                      
+                        this.canShoot = false;
                         this.bossindic = 2;
                         this.speeds1 = 1.5;
                         this.speeds2 = 1.5;
@@ -1208,6 +1214,7 @@ var config = {
                         this.bosses.add(this.boss);
                         this.physics.add.overlap(this.projectiles, this.bosses, this.hitEnemy3, this.hitEnemy3, this);
                         globalBullets += 3;
+                        this.canShoot = true;
                         this.player.angle = 0;
                     },
                     callbackScope: this,
@@ -1229,6 +1236,7 @@ var config = {
                     callback: async () => {
                         this.player.angle = -90
                         this.wave2indic = 0;
+                        this.canShoot = false;
                         this.boss.destroy();
                         this.bossindic = 2;
                         this.speeds1 = 1.5;
@@ -1431,6 +1439,7 @@ var config = {
                 this.boss.setScale(2);
                 this.bosses.add(this.boss);
                 this.physics.add.overlap(this.projectiles, this.bosses, this.hitEnemy3, this.hitEnemy3, this);
+                this.canShoot = true;
                 this.b = 1;
                 }
             });

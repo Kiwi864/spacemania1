@@ -59,9 +59,9 @@ var config = {
             this.score = 1000;
             this.background = this.add.tileSprite(0,0, config.width, config.height, "background");
             this.background.setOrigin(0,0);
-            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 - 70, "shipk");
-            this.ship2 = this.add.sprite(config.width/2, config.height/2 - 70, "shipk2");
-            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2 - 70, "shipk3");
+            this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2 - 120, "shipk");
+            this.ship2 = this.add.sprite(config.width/2, config.height/2 - 120, "shipk2");
+            this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2 - 120, "shipk3");
             //this.character = this.add.sprite(config.width/2 + 50, config.height/2, "character1");
 
             
@@ -231,7 +231,7 @@ var config = {
             this.livesLabel.text = "LIVES: " + globalHealth;
             this.scoreLabel.text = "SCORE: " + globalScoreFormated;
 
-            if (globalHealth === 0){
+            if (globalHealth == 0){
                 this.sound.stopAll();
                 this.scene.start("koniec");
                 console.log("koniec");
