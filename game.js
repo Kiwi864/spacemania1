@@ -26,7 +26,11 @@ window.onload = function(){
         fps:{
             target: 60,
              forceSetTimeOut: true
-         }
+         },
+        scale: {
+            mode: Phaser.Scale.FIT, 
+            autoCenter: Phaser.Scale.CENTER_BOTH
+        },
     }
     var game = new Phaser.Game(config);
 }
