@@ -424,7 +424,7 @@ class cutscene extends Phaser.Scene {
             this.time.addEvent({
                 delay: 1400,
                 callback: async () => {
-                    this.typewriteBitmapText7( "suply to the station ");
+                    this.typewriteBitmapText7( "supply to the station ");
                 
                 },
                 callbackScope: this,
